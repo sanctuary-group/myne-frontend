@@ -1568,24 +1568,20 @@ body {
 .tag-selection-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
 }
 
 .tag-checkbox-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px;
-  background: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
+  padding: 5px 0;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .tag-checkbox-item:hover {
-  background: #f8f9fa;
-  border-color: #00b900;
+  opacity: 0.8;
 }
 
 .tag-checkbox-item input[type="checkbox"] {
@@ -1868,9 +1864,9 @@ body {
 .tag-selection-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 1px;
   padding: 16px;
-  background: #f8f9fa;
+  background: #ffffff;
   border-radius: 8px;
   min-height: 80px;
 }
