@@ -1920,7 +1920,8 @@ body {
 }
 
 .datetime-inputs input[type="date"],
-.datetime-inputs input[type="time"] {
+.datetime-inputs input[type="time"],
+input[type="datetime-local"] {
   flex: 1;
   padding: 10px 12px;
   border: 1px solid #ddd;
@@ -1930,7 +1931,8 @@ body {
 }
 
 .datetime-inputs input[type="date"]:focus,
-.datetime-inputs input[type="time"]:focus {
+.datetime-inputs input[type="time"]:focus,
+input[type="datetime-local"]:focus {
   outline: none;
   border-color: #06c755;
   box-shadow: 0 0 0 3px rgba(6, 199, 85, 0.1);
@@ -2399,6 +2401,57 @@ body {
 .timing-preview span {
   color: #00b900;
   font-weight: 600;
+}
+
+/* Timing Preview with Inline Input */
+.timing-preview-input {
+  background: #f8f9fa;
+  padding: 16px 20px;
+  border-radius: 6px;
+  border-left: 4px solid #00b900;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.inline-number-input {
+  width: 70px;
+  padding: 6px 10px;
+  border: 2px solid #00b900;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  color: #00b900;
+  background: white;
+  transition: all 0.2s;
+}
+
+.inline-number-input:focus {
+  outline: none;
+  border-color: #00b900;
+  box-shadow: 0 0 0 3px rgba(0, 185, 0, 0.1);
+}
+
+.inline-time-input {
+  padding: 6px 10px;
+  border: 2px solid #00b900;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #00b900;
+  background: white;
+  transition: all 0.2s;
+}
+
+.inline-time-input:focus {
+  outline: none;
+  border-color: #00b900;
+  box-shadow: 0 0 0 3px rgba(0, 185, 0, 0.1);
 }
 
 /* Responsive styles for timing inputs */

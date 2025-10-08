@@ -297,10 +297,29 @@
                 </div>
 
                 <div id="scheduled-datetime-group" class="form-group" style="display: none;">
-                  <label class="form-label">配信日時</label>
-                  <div class="datetime-inputs">
-                    <input type="date" id="delivery-date" class="form-input" />
-                    <input type="time" id="delivery-time" class="form-input" />
+                  <div class="timing-preview-input">
+                    メッセージ登録から
+                    <input
+                      type="number"
+                      id="broadcast-days"
+                      class="inline-number-input"
+                      min="0"
+                      max="365"
+                      value="0"
+                      placeholder="0"
+                    />
+                    日後の
+                    <input
+                      type="time"
+                      id="broadcast-time"
+                      class="inline-time-input"
+                      value="09:00"
+                    />
+                    に配信する
+                  </div>
+
+                  <div class="form-description" style="font-size: 13px; color: #666; margin-top: 8px;">
+                    ※メッセージ登録当日に送信する場合は「0日後」を選択してください
                   </div>
                 </div>
               </div>
