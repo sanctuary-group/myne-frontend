@@ -2283,10 +2283,10 @@ function renderTagManagementList() {
       </div>
       <div class="tag-actions">
         <button class="btn-icon btn-edit-tag" data-tag-id="${tag.id}" title="編集">
-          ✏️
+          <i class="fa-solid fa-pen"></i>
         </button>
         <button class="btn-icon btn-delete-tag" data-tag-id="${tag.id}" title="削除">
-          🗑️
+          <i class="fa-solid fa-trash"></i>
         </button>
       </div>
     </div>
