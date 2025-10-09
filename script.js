@@ -3786,3 +3786,235 @@ function updateStepTimingPreview() {
     previewTime.textContent = time;
   }
 }
+
+// ===== Broadcast Management Functions =====
+
+// Mock broadcast data
+const MOCK_BROADCASTS = [
+  { id: 1, title: '新商品のお知らせ', target: 'all', targetText: '全員', deliveryTiming: 'immediate', message: 'いつもご利用ありがとうございます。新商品が入荷しました！', createdAt: '2024-01-15', status: '配信完了' },
+  { id: 2, title: 'セール情報', target: 'tags', targetText: 'VIP顧客', selectedTags: [1], deliveryTiming: 'scheduled', days: 1, time: '10:00', message: 'VIPメンバー限定セールのお知らせです', createdAt: '2024-01-10', status: '配信予約中' }
+];
+
+// Initialize mock broadcast data
+function initializeBroadcastData() {
+  if (!localStorage.getItem('mockBroadcasts')) {
+    localStorage.setItem('mockBroadcasts', JSON.stringify(MOCK_BROADCASTS));
+  }
+}
+
+function getMockBroadcasts() {
+  return JSON.parse(localStorage.getItem('mockBroadcasts') || '[]');
+}
+
+function saveMockBroadcasts(broadcasts) {
+  localStorage.setItem('mockBroadcasts', JSON.stringify(broadcasts));
+}
+
+// Current broadcast being edited
+let currentBroadcastId = null;
+let broadcastListInitialized = false;
+
+// Initialize broadcast list page
+function initializeBroadcastListPage() {
+  if (broadcastListInitialized) return;
+  broadcastListInitialized = true;
+
+  const newBtn = document.getElementById('broadcast-new-btn');
+  if (newBtn) {
+    newBtn.addEventListener('click', createNewBroadcast);
+  }
+
+  renderBroadcastList();
+}
+
+// Render broadcast list
+function renderBroadcastList() {
+  const tbody = document.getElementById('broadcasts-tbody');
+  if (!tbody) return;
+
+  const broadcasts = getMockBroadcasts();
+
+  if (broadcasts.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">一斉配信がまだ作成されていません<br>「新規作成」ボタンから作成してください</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = broadcasts.map(broadcast => {
+    const timingText = broadcast.deliveryTiming === 'immediate' ? 'すぐに配信' : broadcast.days + '日後 ' + broadcast.time;
+    const statusClass = broadcast.status === '配信完了' ? 'status-active' : 'status-progress';
+    return '<tr data-broadcast-id="' + broadcast.id + '"><td>' + (broadcast.title || '(タイトルなし)') + '</td><td>' + broadcast.targetText + '</td><td>' + timingText + '</td><td><span class="status-badge ' + statusClass + '">' + broadcast.status + '</span></td><td>' + broadcast.createdAt + '</td><td><button class="btn btn-outline btn-sm broadcast-edit-btn" onclick="editBroadcast(' + broadcast.id + ')">編集</button><button class="btn btn-secondary btn-sm" onclick="deleteBroadcast(' + broadcast.id + ')">削除</button></td></tr>';
+  }).join('');
+}
+
+// Create new broadcast
+function createNewBroadcast() {
+  currentBroadcastId = null;
+  navigateToPage('broadcast-detail');
+  document.getElementById('broadcast-detail-title').textContent = '一斉配信を作成';
+  document.getElementById('broadcast-title').value = '';
+  document.getElementById('broadcast-message').value = '';
+  document.querySelector('input[name="target"][value="all"]').checked = true;
+  document.querySelector('input[name="deliveryTiming"][value="immediate"]').checked = true;
+  document.getElementById('tag-selection-area').style.display = 'none';
+  document.getElementById('scheduled-datetime-group').style.display = 'none';
+  selectedBroadcastTags.clear();
+}
+
+// Edit broadcast
+function editBroadcast(id) {
+  const broadcasts = getMockBroadcasts();
+  const broadcast = broadcasts.find(b => b.id === id);
+  if (!broadcast) return;
+  currentBroadcastId = id;
+  navigateToPage('broadcast-detail');
+  document.getElementById('broadcast-detail-title').textContent = '一斉配信を編集';
+  document.getElementById('broadcast-title').value = broadcast.title || '';
+  document.getElementById('broadcast-message').value = broadcast.message || '';
+  document.querySelector('input[name="target"][value="' + broadcast.target + '"]').checked = true;
+  if (broadcast.target === 'tags') {
+    document.getElementById('tag-selection-area').style.display = 'block';
+    if (broadcast.selectedTags) {
+      selectedBroadcastTags = new Set(broadcast.selectedTags);
+      initializeBroadcastTagSelection();
+    }
+  }
+  document.querySelector('input[name="deliveryTiming"][value="' + broadcast.deliveryTiming + '"]').checked = true;
+  if (broadcast.deliveryTiming === 'scheduled') {
+    document.getElementById('scheduled-datetime-group').style.display = 'block';
+    document.getElementById('broadcast-days').value = broadcast.days || 0;
+    document.getElementById('broadcast-time').value = broadcast.time || '09:00';
+  }
+}
+
+// Delete broadcast
+function deleteBroadcast(id) {
+  if (!confirm('この一斉配信を削除しますか?')) return;
+  let broadcasts = getMockBroadcasts();
+  broadcasts = broadcasts.filter(b => b.id !== id);
+  saveMockBroadcasts(broadcasts);
+  renderBroadcastList();
+}
+
+// Initialize broadcast detail page
+let broadcastDetailInitialized = false;
+
+function initializeBroadcastDetailPage() {
+  if (broadcastDetailInitialized) return;
+  broadcastDetailInitialized = true;
+  const backBtn = document.getElementById('broadcast-back-btn');
+  if (backBtn) {
+    backBtn.addEventListener('click', () => { navigateToPage('broadcast'); });
+  }
+  const previewBtn = document.getElementById('broadcast-preview-btn');
+  if (previewBtn) {
+    previewBtn.addEventListener('click', showBroadcastPreview);
+  }
+  const saveBtn = document.getElementById('broadcast-save-btn');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', saveBroadcast);
+  }
+  initializeBroadcastForm();
+}
+
+// Save broadcast
+function saveBroadcast() {
+  const title = document.getElementById('broadcast-title').value;
+  const message = document.getElementById('broadcast-message').value;
+  if (!message.trim()) {
+    alert('メッセージ内容を入力してください');
+    return;
+  }
+  const target = document.querySelector('input[name="target"]:checked').value;
+  const deliveryTiming = document.querySelector('input[name="deliveryTiming"]:checked').value;
+  let targetText = target === 'all' ? '全員' : 'タグ絞り込み';
+  if (target === 'tags' && selectedBroadcastTags.size > 0) {
+    const allTags = getAllTags();
+    const selectedTagNames = Array.from(selectedBroadcastTags).map(tagId => allTags.find(t => t.id === tagId)?.name).filter(Boolean);
+    targetText = selectedTagNames.join(', ');
+  }
+  const broadcastData = {
+    title: title || '(タイトルなし)',
+    target,
+    targetText,
+    selectedTags: target === 'tags' ? Array.from(selectedBroadcastTags) : [],
+    deliveryTiming,
+    days: deliveryTiming === 'scheduled' ? parseInt(document.getElementById('broadcast-days').value) : 0,
+    time: deliveryTiming === 'scheduled' ? document.getElementById('broadcast-time').value : '09:00',
+    message,
+    createdAt: new Date().toISOString().split('T')[0],
+    status: deliveryTiming === 'immediate' ? '配信完了' : '配信予約中'
+  };
+  let broadcasts = getMockBroadcasts();
+  if (currentBroadcastId) {
+    broadcasts = broadcasts.map(b => b.id === currentBroadcastId ? { ...b, ...broadcastData } : b);
+  } else {
+    const newId = broadcasts.length > 0 ? Math.max(...broadcasts.map(b => b.id)) + 1 : 1;
+    broadcasts.push({ id: newId, ...broadcastData });
+  }
+  saveMockBroadcasts(broadcasts);
+  alert('一斉配信を保存しました');
+  navigateToPage('broadcast');
+  renderBroadcastList();
+}
+
+// ===== Broadcast Preview Functions =====
+
+let broadcastPreviewInitialized = false;
+
+function initializeBroadcastPreviewModal() {
+  if (broadcastPreviewInitialized) return;
+  broadcastPreviewInitialized = true;
+  const modal = document.getElementById('broadcast-preview-modal');
+  const closeBtn = document.getElementById('broadcast-preview-close-btn');
+  const backBtn = document.getElementById('broadcast-preview-back-btn');
+  const confirmBtn = document.getElementById('broadcast-preview-confirm-btn');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+  }
+  if (backBtn) {
+    backBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+  }
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', () => { modal.style.display = 'none'; saveBroadcast(); });
+  }
+  modal.addEventListener('click', (e) => { if (e.target === modal) { modal.style.display = 'none'; } });
+}
+
+// Show broadcast preview
+function showBroadcastPreview() {
+  const title = document.getElementById('broadcast-title').value;
+  const message = document.getElementById('broadcast-message').value;
+  const target = document.querySelector('input[name="target"]:checked').value;
+  const deliveryTiming = document.querySelector('input[name="deliveryTiming"]:checked').value;
+  let targetText = target === 'all' ? '友だち全員' : 'タグで絞り込み';
+  if (target === 'tags' && selectedBroadcastTags.size > 0) {
+    const allTags = getAllTags();
+    const selectedTagNames = Array.from(selectedBroadcastTags).map(tagId => allTags.find(t => t.id === tagId)?.name).filter(Boolean);
+    targetText = 'タグで絞り込み (' + selectedTagNames.join(', ') + ')';
+  }
+  let timingText = deliveryTiming === 'immediate' ? 'メッセージ登録後すぐに配信' : 'メッセージ登録から' + document.getElementById('broadcast-days').value + '日後の' + document.getElementById('broadcast-time').value + 'に配信';
+  document.getElementById('preview-title').textContent = title || '(タイトルなし)';
+  document.getElementById('preview-target').textContent = targetText;
+  document.getElementById('preview-timing').textContent = timingText;
+  document.getElementById('preview-message-text').textContent = message || 'メッセージが入力されていません';
+  initializeBroadcastPreviewModal();
+  document.getElementById('broadcast-preview-modal').style.display = 'flex';
+}
+
+// Override navigateToPage to initialize broadcast pages
+const originalNavigateToPageForBroadcast = navigateToPage;
+navigateToPage = function(pageId) {
+  originalNavigateToPageForBroadcast(pageId);
+  if (pageId === 'broadcast') {
+    initializeBroadcastListPage();
+  } else if (pageId === 'broadcast-detail') {
+    initializeBroadcastDetailPage();
+  }
+};
+
+// Initialize on load - ensure this runs after DOM is loaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeBroadcastData);
+} else {
+  initializeBroadcastData();
+}

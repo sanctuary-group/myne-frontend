@@ -214,149 +214,178 @@
           </div>
         </div>
 
-        <!-- Broadcast Page -->
+        <!-- Broadcast Page (List) -->
+        <div id="broadcast-page" class="page-container page" style="display: none">
+          <h1 class="page-title">一斉配信</h1>
+
+          <div class="card">
+            <button class="btn btn-primary" id="broadcast-new-btn" style="margin-bottom: 20px;">新規作成</button>
+            <div class="table-container">
+              <table class="table" id="broadcasts-table">
+                <thead>
+                  <tr>
+                    <th>管理用タイトル</th>
+                    <th>配信対象</th>
+                    <th>配信日時</th>
+                    <th>ステータス</th>
+                    <th>作成日</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="broadcasts-tbody">
+                  <!-- 一斉配信リストが動的に生成される -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Broadcast Detail Page (Create/Edit) -->
         <div
-          id="broadcast-page"
+          id="broadcast-detail-page"
           class="page-container page"
           style="display: none"
         >
           <div class="page-header">
-            <h1 class="page-title">一斉配信</h1>
-            <button class="btn btn-outline" data-navigate="dashboard">
-              ダッシュボードに戻る
-            </button>
+            <h1 class="page-title" id="broadcast-detail-title">一斉配信を作成</h1>
+            <div class="header-actions">
+              <button class="btn btn-outline" id="broadcast-back-btn">一覧に戻る</button>
+            </div>
           </div>
 
-          <div class="broadcast-form">
-            <div class="broadcast-section">
-              <h2 class="broadcast-section-title">管理用タイトル(任意)</h2>
-              <div class="card">
-                <div class="form-group">
-                  <input
-                    type="text"
-                    id="broadcast-title"
-                    class="form-input"
-                    placeholder="例: 新商品のお知らせ"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="broadcast-section">
-              <h2 class="broadcast-section-title">配信先設定</h2>
-              <div class="card">
-                <div class="form-group">
-                  <label class="form-label">配信対象 *</label>
-                  <div class="radio-group">
-                    <label class="radio-item">
-                      <input type="radio" name="target" value="all" checked />
-                      友だち全員に配信する
-                    </label>
-                    <label class="radio-item">
-                      <input type="radio" name="target" value="tags" />
-                      タグで絞り込んで配信する
-                    </label>
+          <div class="broadcast-detail-content">
+            <div class="broadcast-form">
+              <div class="broadcast-section">
+                <h2 class="broadcast-section-title">管理用タイトル(任意)</h2>
+                <div class="card">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      id="broadcast-title"
+                      class="form-input"
+                      placeholder="例: 新商品のお知らせ"
+                    />
                   </div>
                 </div>
+              </div>
 
-                <!-- タグ選択エリア（タグで絞り込み選択時に表示） -->
-                <div
-                  id="tag-selection-area"
-                  class="form-group"
-                  style="display: none"
-                >
-                  <label class="form-label">配信先タグを選択</label>
-                  <div class="tag-selection-container">
-                    <div class="tag-selection-list" id="broadcast-tag-selection-list">
-                      <!-- タグリストがここに動的に生成される -->
-                    </div>
-
-                    <div class="tag-selection-count" id="tag-selection-count" style="display: none;">
-                      選択したタグの該当人数: <span id="tagged-friends-count">0</span> 人
+              <div class="broadcast-section">
+                <h2 class="broadcast-section-title">配信先設定</h2>
+                <div class="card">
+                  <div class="form-group">
+                    <label class="form-label">配信対象 *</label>
+                    <div class="radio-group">
+                      <label class="radio-item">
+                        <input type="radio" name="target" value="all" checked />
+                        友だち全員に配信する
+                      </label>
+                      <label class="radio-item">
+                        <input type="radio" name="target" value="tags" />
+                        タグで絞り込んで配信する
+                      </label>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
 
-            <div class="broadcast-section">
-              <h2 class="broadcast-section-title">配信日時設定</h2>
-              <div class="card">
-                <div class="form-group">
-                  <label class="form-label">配信タイミング *</label>
-                  <div class="radio-group">
-                    <label class="radio-item">
-                      <input type="radio" name="deliveryTiming" value="immediate" checked />
-                      メッセージ登録後すぐに配信
-                    </label>
-                    <label class="radio-item">
-                      <input type="radio" name="deliveryTiming" value="scheduled" />
-                      日時で指定
-                    </label>
-                  </div>
-                </div>
+                  <!-- タグ選択エリア（タグで絞り込み選択時に表示） -->
+                  <div
+                    id="tag-selection-area"
+                    class="form-group"
+                    style="display: none"
+                  >
+                    <label class="form-label">配信先タグを選択</label>
+                    <div class="tag-selection-container">
+                      <div class="tag-selection-list" id="broadcast-tag-selection-list">
+                        <!-- タグリストがここに動的に生成される -->
+                      </div>
 
-                <div id="scheduled-datetime-group" class="form-group" style="display: none;">
-                  <div class="timing-preview-input">
-                    メッセージ登録から
-                    <input
-                      type="number"
-                      id="broadcast-days"
-                      class="inline-number-input"
-                      min="0"
-                      max="365"
-                      value="0"
-                      placeholder="0"
-                    />
-                    日後の
-                    <input
-                      type="time"
-                      id="broadcast-time"
-                      class="inline-time-input"
-                      value="09:00"
-                    />
-                    に配信する
-                  </div>
-
-                  <div class="form-description" style="font-size: 13px; color: #666; margin-top: 8px;">
-                    ※メッセージ登録当日に送信する場合は「0日後」を選択してください
+                      <div class="tag-selection-count" id="tag-selection-count" style="display: none;">
+                        選択したタグの該当人数: <span id="tagged-friends-count">0</span> 人
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="broadcast-section">
-              <h2 class="broadcast-section-title">メッセージ内容</h2>
-              <div class="card">
-                <div class="form-group">
-                  <label class="form-label">メッセージタイプ</label>
-                  <div class="radio-group">
-                    <label class="radio-item">
+              <div class="broadcast-section">
+                <h2 class="broadcast-section-title">配信日時設定</h2>
+                <div class="card">
+                  <div class="form-group">
+                    <label class="form-label">配信タイミング *</label>
+                    <div class="radio-group">
+                      <label class="radio-item">
+                        <input type="radio" name="deliveryTiming" value="immediate" checked />
+                        メッセージ登録後すぐに配信
+                      </label>
+                      <label class="radio-item">
+                        <input type="radio" name="deliveryTiming" value="scheduled" />
+                        日時で指定
+                      </label>
+                    </div>
+                  </div>
+
+                  <div id="scheduled-datetime-group" class="form-group" style="display: none;">
+                    <div class="timing-preview-input">
+                      メッセージ登録から
                       <input
-                        type="radio"
-                        name="messageType"
-                        value="text"
-                        checked
+                        type="number"
+                        id="broadcast-days"
+                        class="inline-number-input"
+                        min="0"
+                        max="365"
+                        value="0"
+                        placeholder="0"
                       />
-                      テキストメッセージ
-                    </label>
+                      日後の
+                      <input
+                        type="time"
+                        id="broadcast-time"
+                        class="inline-time-input"
+                        value="09:00"
+                      />
+                      に配信する
+                    </div>
+
+                    <div class="form-description" style="font-size: 13px; color: #666; margin-top: 8px;">
+                      ※メッセージ登録当日に送信する場合は「0日後」を選択してください
+                    </div>
                   </div>
                 </div>
+              </div>
 
-                <div class="form-group">
-                  <label class="form-label">メッセージ内容 *</label>
-                  <textarea
-                    id="broadcast-message"
-                    class="form-textarea"
-                    placeholder="メッセージを入力してください"
-                    rows="4"
-                  ></textarea>
+              <div class="broadcast-section">
+                <h2 class="broadcast-section-title">メッセージ内容</h2>
+                <div class="card">
+                  <div class="form-group">
+                    <label class="form-label">メッセージタイプ</label>
+                    <div class="radio-group">
+                      <label class="radio-item">
+                        <input
+                          type="radio"
+                          name="messageType"
+                          value="text"
+                          checked
+                        />
+                        テキストメッセージ
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">メッセージ内容 *</label>
+                    <textarea
+                      id="broadcast-message"
+                      class="form-textarea"
+                      placeholder="メッセージを入力してください"
+                      rows="4"
+                    ></textarea>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="form-actions">
-              <button id="broadcast-send-btn" class="btn btn-primary btn-large">確認画面へ進む</button>
+              <div class="form-actions">
+                <button id="broadcast-preview-btn" class="btn btn-outline btn-large">プレビュー</button>
+                <button id="broadcast-save-btn" class="btn btn-primary btn-large">保存して配信</button>
+              </div>
             </div>
           </div>
         </div>
@@ -1163,6 +1192,58 @@
           </button>
           <button class="btn btn-primary" id="message-add-btn">
             追加
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Broadcast Preview Modal -->
+    <div id="broadcast-preview-modal" class="modal" style="display: none">
+      <div class="modal-content modal-preview-size">
+        <div class="modal-header">
+          <h2>配信内容プレビュー</h2>
+          <button class="modal-close-btn" id="broadcast-preview-close-btn">×</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="card">
+            <h3 class="card-title">配信情報</h3>
+            <div class="preview-info">
+              <div class="preview-info-item">
+                <span class="preview-info-label">管理用タイトル:</span>
+                <span class="preview-info-value" id="preview-title">-</span>
+              </div>
+              <div class="preview-info-item">
+                <span class="preview-info-label">配信対象:</span>
+                <span class="preview-info-value" id="preview-target">-</span>
+              </div>
+              <div class="preview-info-item">
+                <span class="preview-info-label">配信日時:</span>
+                <span class="preview-info-value" id="preview-timing">-</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">メッセージプレビュー</h3>
+            <div class="message-preview-container">
+              <div class="message-preview-chat">
+                <div class="message message-sent">
+                  <div class="message-content">
+                    <div class="message-text" id="preview-message-text">メッセージが入力されていません</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="broadcast-preview-back-btn">
+            戻る
+          </button>
+          <button class="btn btn-primary" id="broadcast-preview-confirm-btn">
+            この内容で配信
           </button>
         </div>
       </div>
