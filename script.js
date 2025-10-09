@@ -578,6 +578,8 @@ navigateToPage = function (pageId) {
       initializeBroadcastForm();
       break;
     case "step":
+      loadScenariosFromLocalStorage();
+      renderScenarioList();
       initializeScenarioModal();
       initializeScenarioEditModal();
       break;
@@ -881,6 +883,76 @@ function escapeHtml(text) {
 // Scenario Management
 let currentScenario = null;
 let scenarios = [];
+let scenarioHasUnsavedChanges = false;
+
+// LocalStorage functions for scenarios
+function saveScenariosToLocalStorage() {
+  localStorage.setItem('scenarios', JSON.stringify(scenarios));
+  console.log('Scenarios saved to LocalStorage:', scenarios);
+}
+
+function loadScenariosFromLocalStorage() {
+  const saved = localStorage.getItem('scenarios');
+  if (saved) {
+    scenarios = JSON.parse(saved);
+    console.log('Scenarios loaded from LocalStorage:', scenarios);
+  }
+  return scenarios;
+}
+
+function updateScenarioInLocalStorage(scenario) {
+  const index = scenarios.findIndex(s => s.id === scenario.id);
+  if (index !== -1) {
+    scenarios[index] = scenario;
+  } else {
+    scenarios.push(scenario);
+  }
+  saveScenariosToLocalStorage();
+  console.log('Scenario updated in LocalStorage:', scenario);
+}
+
+// Render scenario list in table
+function renderScenarioList() {
+  const tbody = document.getElementById('scenarios-tbody');
+  if (!tbody) return;
+
+  if (scenarios.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 30px; color: #999;">シナリオがまだ作成されていません</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = scenarios.map(scenario => {
+    const statusClass = 'status-active';
+    const stepCount = scenario.steps ? scenario.steps.length : 0;
+    return `
+      <tr data-scenario-id="${scenario.id}" data-scenario-name="${scenario.name}">
+        <td>${scenario.name}</td>
+        <td><span class="status-badge ${statusClass}">配信中</span></td>
+        <td>${scenario.createdAt}</td>
+        <td>
+          <button class="btn btn-outline btn-sm scenario-edit-btn" onclick="openScenarioFromList(${scenario.id})">編集</button>
+          <button class="btn btn-secondary btn-sm" onclick="deleteScenario(${scenario.id})">削除</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// Open scenario from list
+function openScenarioFromList(id) {
+  const scenario = scenarios.find(s => s.id === id);
+  if (scenario) {
+    showScenarioDetailPage(scenario);
+  }
+}
+
+// Delete scenario
+function deleteScenario(id) {
+  if (!confirm('このシナリオを削除しますか？')) return;
+  scenarios = scenarios.filter(s => s.id !== id);
+  saveScenariosToLocalStorage();
+  renderScenarioList();
+}
 
 // New Scenario Creation Modal functionality
 let scenarioModalInitialized = false;
@@ -956,6 +1028,9 @@ function handleScenarioCreation() {
   currentScenario = newScenario;
 
   console.log("Creating new scenario:", newScenario);
+
+  // Save to LocalStorage
+  saveScenariosToLocalStorage();
 
   // Close modal
   closeScenarioModal();
@@ -3203,6 +3278,9 @@ function showScenarioDetailPage(scenario) {
   // Set current scenario
   currentScenario = scenario;
 
+  // Reset unsaved changes flag (starting fresh or opening existing)
+  scenarioHasUnsavedChanges = false;
+
   // Hide all pages
   document.querySelectorAll('.page').forEach(page => {
     page.classList.remove('active');
@@ -3248,6 +3326,17 @@ function initializeScenarioDetailPage() {
 
     newBackBtn.addEventListener('click', () => {
       console.log('Back button clicked');
+
+      // Check if there are unsaved changes
+      if (scenarioHasUnsavedChanges) {
+        const confirmed = confirm('このサイトを離れますか？\n行った変更が保存されない可能性があります。');
+        if (!confirmed) {
+          return; // Cancel navigation
+        }
+      }
+
+      // Reset unsaved changes flag
+      scenarioHasUnsavedChanges = false;
       navigateToPage('step');
     });
   }
@@ -3378,9 +3467,16 @@ function enableScenarioNameEdit() {
 }
 
 function renderStepsList(steps) {
+  console.log('renderStepsList called with steps:', steps);
   const stepsList = document.getElementById('steps-list');
 
+  if (!stepsList) {
+    console.error('steps-list element not found!');
+    return;
+  }
+
   if (steps.length === 0) {
+    console.log('No steps, showing empty state');
     stepsList.innerHTML = `
       <div class="empty-state-small">
         <p>配信タイミングがまだ追加されていません</p>
@@ -3390,6 +3486,7 @@ function renderStepsList(steps) {
     return;
   }
 
+  console.log('Rendering', steps.length, 'steps');
   stepsList.innerHTML = steps.map((step, index) => `
     <div class="step-item">
       <div class="step-header">
@@ -3437,12 +3534,30 @@ function renderStepsList(steps) {
 }
 
 function deleteStep(index) {
-  if (!currentScenario) return;
+  console.log('deleteStep called with index:', index);
+  console.log('currentScenario:', currentScenario);
+
+  if (!currentScenario) {
+    console.error('currentScenario is null!');
+    return;
+  }
+
+  console.log('Steps before delete:', currentScenario.steps);
 
   if (confirm(`ステップ ${index + 1} を削除しますか？`)) {
     currentScenario.steps.splice(index, 1);
-    document.getElementById('detail-scenario-steps').textContent = currentScenario.steps.length;
+    console.log('Steps after delete:', currentScenario.steps);
+
+    updateScenarioInLocalStorage(currentScenario);
+    scenarioHasUnsavedChanges = false;
+
+    const stepsCountElement = document.getElementById('detail-scenario-steps');
+    if (stepsCountElement) {
+      stepsCountElement.textContent = currentScenario.steps.length;
+    }
+
     renderStepsList(currentScenario.steps);
+    console.log('Step deleted successfully');
   }
 }
 
@@ -3575,6 +3690,12 @@ function handleMessageAdd() {
 
   console.log('Message added/updated:', { stepIndex: currentStepIndex, content });
 
+  // Auto-save to LocalStorage
+  updateScenarioInLocalStorage(currentScenario);
+
+  // Reset unsaved changes flag after saving
+  scenarioHasUnsavedChanges = false;
+
   // Update UI
   renderStepsList(currentScenario.steps);
 
@@ -3616,6 +3737,8 @@ function deleteMessage(stepIndex, messageIndex) {
 
   if (confirm('このメッセージを削除しますか？')) {
     currentScenario.steps[stepIndex].messages.splice(messageIndex, 1);
+    updateScenarioInLocalStorage(currentScenario);
+    scenarioHasUnsavedChanges = false;
     renderStepsList(currentScenario.steps);
   }
 }
@@ -3760,6 +3883,12 @@ function handleStepAdd() {
 
     console.log('Adding step:', newStep);
   }
+
+  // Auto-save to LocalStorage
+  updateScenarioInLocalStorage(currentScenario);
+
+  // Reset unsaved changes flag after saving
+  scenarioHasUnsavedChanges = false;
 
   // Update UI
   const stepsCountElement = document.getElementById('detail-scenario-steps');
