@@ -1480,6 +1480,49 @@ body {
   font-size: 12px;
 }
 
+.url-info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.url-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.url-info-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+}
+
+.url-info-value {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+.url-info-value a {
+  color: #00b900;
+  text-decoration: none;
+  word-break: break-all;
+  flex: 1;
+}
+
+.url-info-value a:hover {
+  text-decoration: underline;
+}
+
+.short-url-text {
+  color: #00b900;
+  font-weight: 500;
+  flex: 1;
+}
+
 /* Step Delivery List */
 .step-delivery-list {
   display: flex;
@@ -2710,5 +2753,104 @@ input[type="datetime-local"]:focus {
 
   .message-preview-container {
     padding: 15px;
+  }
+}
+
+/* History Detail Page Styles */
+.history-detail-content {
+  max-width: 900px;
+}
+
+.history-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.history-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #00b900;
+}
+
+.history-info-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.history-info-value {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.history-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.history-stat-card {
+  background: #f8f9fa;
+  padding: 24px;
+  border-radius: 8px;
+  text-align: center;
+  border: 2px solid #e0e0e0;
+  transition: all 0.2s;
+}
+
+.history-stat-card:hover {
+  border-color: #00b900;
+  box-shadow: 0 4px 12px rgba(0, 185, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.history-stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.history-stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #00b900;
+  margin-bottom: 8px;
+}
+
+.history-stat-rate {
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+}
+
+/* Responsive styles for history detail */
+@media (max-width: 768px) {
+  .history-info-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .history-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .history-stat-card {
+    padding: 20px;
+  }
+
+  .history-stat-value {
+    font-size: 28px;
   }
 }

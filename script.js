@@ -422,6 +422,17 @@ function initializeHistoryPage() {
     });
   }
 
+  // Initialize detail buttons
+  const detailButtons = document.querySelectorAll(".history-detail-btn");
+  detailButtons.forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      const row = this.closest("tr");
+      const historyId = row.getAttribute("data-history-id");
+      showHistoryDetail(historyId);
+    });
+  });
+
   // Initialize action buttons
   const actionButtons = document.querySelectorAll("#history-table .btn");
   actionButtons.forEach((btn) => {
@@ -434,6 +445,14 @@ function initializeHistoryPage() {
       handleHistoryAction(action, title, row);
     });
   });
+
+  // History back button
+  const historyBackBtn = document.getElementById("history-back-btn");
+  if (historyBackBtn) {
+    historyBackBtn.addEventListener("click", function () {
+      showPage("history");
+    });
+  }
 }
 
 function filterHistoryTable() {
@@ -472,12 +491,83 @@ function filterHistoryTable() {
   }
 }
 
+// Show history detail page
+function showHistoryDetail(historyId) {
+  // Sample data (in production, this would come from API)
+  const historyData = {
+    1: {
+      title: "新商品のお知らせ",
+      date: "2024-01-15 10:00",
+      target: "友だち全員",
+      status: "配信完了",
+      sent: "12,453",
+      opened: "9,234",
+      openRate: "74.1%",
+      clicked: "4,567",
+      clickRate: "36.6%",
+      message: "こんにちは！\n\n新商品のお知らせです。\n本日より新しい商品の販売を開始しました。\n\nぜひチェックしてみてください！",
+    },
+    2: {
+      title: "ウェルカムメッセージ",
+      date: "2024-01-14 09:00",
+      target: "新規登録者",
+      status: "進行中",
+      sent: "234",
+      opened: "145",
+      openRate: "62.0%",
+      clicked: "67",
+      clickRate: "28.6%",
+      message: "ご登録ありがとうございます！\n\nこれから役立つ情報をお届けしていきます。",
+    },
+    3: {
+      title: "キャンペーン情報",
+      date: "2024-01-13 14:30",
+      target: "友だち全員",
+      status: "配信完了",
+      sent: "11,892",
+      opened: "8,543",
+      openRate: "71.8%",
+      clicked: "3,234",
+      clickRate: "27.2%",
+      message: "期間限定キャンペーン開催中！\n\n今だけお得な特典をご用意しています。",
+    },
+  };
+
+  const data = historyData[historyId] || historyData[1];
+
+  // Update detail page content
+  document.getElementById("history-detail-title").textContent = data.title;
+  document.getElementById("history-detail-date").textContent = data.date;
+  document.getElementById("history-detail-target").textContent = data.target;
+
+  const statusElement = document.getElementById("history-detail-status");
+  statusElement.innerHTML = `<span class="status-badge ${
+    data.status === "配信完了"
+      ? "status-active"
+      : data.status === "進行中"
+      ? "status-progress"
+      : "status-error"
+  }">${data.status}</span>`;
+
+  document.getElementById("history-stat-sent").textContent = data.sent;
+  document.getElementById("history-stat-opened").textContent = data.opened;
+  document.getElementById("history-stat-open-rate").textContent =
+    data.openRate;
+  document.getElementById("history-stat-clicked").textContent = data.clicked;
+  document.getElementById("history-stat-click-rate").textContent =
+    data.clickRate;
+  document.getElementById("history-detail-message").textContent = data.message;
+
+  // Show detail page
+  showPage("history-detail");
+}
+
 function handleHistoryAction(action, title, row) {
   switch (action) {
     case "詳細":
       // Show delivery details modal or navigate to details page
-      console.log("詳細表示:", title);
-      alert(`${title} の詳細を表示します（実装予定）`);
+      const historyId = row.getAttribute("data-history-id");
+      showHistoryDetail(historyId);
       break;
     case "停止":
       // Stop ongoing delivery
@@ -585,6 +675,9 @@ navigateToPage = function (pageId) {
       break;
     case "data-management":
       initializeTagManagement();
+      break;
+    case "url-management":
+      initializeUrlManagement();
       break;
     case "individual":
       initializeIndividualSupport();
@@ -2341,6 +2434,9 @@ function initializeTagManagement() {
 
   // Initial render
   renderTagManagementList();
+
+  // Initialize tag edit modal
+  initializeTagEditModal();
 }
 
 // Render tag management list
@@ -2389,9 +2485,12 @@ function renderTagManagementList() {
   });
 
   // Add edit event listeners
-  tagList.querySelectorAll('.btn-edit-tag').forEach(btn => {
+  const editButtons = tagList.querySelectorAll('.btn-edit-tag');
+  console.log('Found edit buttons:', editButtons.length);
+  editButtons.forEach(btn => {
     btn.addEventListener('click', function() {
       const tagId = this.getAttribute('data-tag-id');
+      console.log('Edit button clicked for tag:', tagId);
       editTag(tagId);
     });
   });
@@ -2405,18 +2504,107 @@ function deleteTag(tagId) {
   renderTagManagementList();
 }
 
-// Edit tag (simple implementation - can be enhanced)
-function editTag(tagId) {
-  const tags = getAllTags();
-  const tag = tags.find(t => t.id === tagId);
-  if (!tag) return;
+// Edit tag
+let currentEditingTagId = null;
 
-  const newName = prompt('新しいタグ名を入力してください:', tag.name);
-  if (newName && newName.trim()) {
-    tag.name = newName.trim();
-    saveTags(tags);
-    renderTagManagementList();
+function editTag(tagId) {
+  console.log('editTag called with tagId:', tagId, 'type:', typeof tagId);
+  const tags = getAllTags();
+  console.log('All tags:', tags);
+  const tag = tags.find(t => t.id == tagId); // Use loose equality to handle string/number mismatch
+  if (!tag) {
+    console.log('Tag not found');
+    return;
   }
+
+  currentEditingTagId = tagId;
+
+  // Fill modal with current tag data
+  const modal = document.getElementById('tag-edit-modal');
+  const nameInput = document.getElementById('tag-edit-name-input');
+  const colorInput = document.getElementById('tag-edit-color-input');
+
+  console.log('Modal element:', modal);
+  console.log('Name input:', nameInput);
+  console.log('Color input:', colorInput);
+
+  if (nameInput) nameInput.value = tag.name;
+  if (colorInput) colorInput.value = tag.color || 'transparent';
+
+  if (modal) {
+    modal.style.display = 'flex';
+    console.log('Modal display set to flex');
+  } else {
+    console.error('Modal element not found!');
+  }
+}
+
+// Initialize tag edit modal
+let tagEditModalInitialized = false;
+
+function initializeTagEditModal() {
+  if (tagEditModalInitialized) return;
+  tagEditModalInitialized = true;
+
+  const modal = document.getElementById('tag-edit-modal');
+  const closeBtn = document.getElementById('tag-edit-close-btn');
+  const cancelBtn = document.getElementById('tag-edit-cancel-btn');
+  const saveBtn = document.getElementById('tag-edit-save-btn');
+
+  // Close button
+  if (closeBtn) {
+    closeBtn.onclick = function() {
+      modal.style.display = 'none';
+      currentEditingTagId = null;
+    };
+  }
+
+  // Cancel button
+  if (cancelBtn) {
+    cancelBtn.onclick = function() {
+      modal.style.display = 'none';
+      currentEditingTagId = null;
+    };
+  }
+
+  // Save button
+  if (saveBtn) {
+    saveBtn.onclick = function() {
+      if (!currentEditingTagId) return;
+
+      const nameInput = document.getElementById('tag-edit-name-input');
+      const colorInput = document.getElementById('tag-edit-color-input');
+
+      const newName = nameInput.value.trim();
+      const newColor = colorInput.value;
+
+      if (!newName) {
+        alert('タグ名を入力してください');
+        return;
+      }
+
+      const tags = getAllTags();
+      const tag = tags.find(t => t.id === currentEditingTagId);
+
+      if (tag) {
+        tag.name = newName;
+        tag.color = newColor;
+        saveTags(tags);
+        renderTagManagementList();
+      }
+
+      modal.style.display = 'none';
+      currentEditingTagId = null;
+    };
+  }
+
+  // Close modal when clicking outside
+  window.addEventListener('click', function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+      currentEditingTagId = null;
+    }
+  });
 }
 
 // Initialize user tag selection in individual chat
@@ -2918,6 +3106,7 @@ function initializeUrlManagement() {
 
     urlCreateForm.addEventListener('submit', function(e) {
       e.preventDefault();
+      console.log('URL create form submitted');
 
       const urlTitleInput = document.getElementById('url-title-input');
       const urlLinkInput = document.getElementById('url-link-input');
@@ -2925,19 +3114,37 @@ function initializeUrlManagement() {
       const title = urlTitleInput.value.trim();
       const link = urlLinkInput.value.trim();
 
-      if (!title || !link) return;
+      console.log('Title:', title, 'Link:', link);
+
+      if (!title || !link) {
+        console.log('Title or link is empty');
+        return;
+      }
 
       // Create new URL
       const urls = getAllUrls();
+      console.log('Current URLs:', urls);
+
+      const shortUrl = generateShortUrl();
+      console.log('Generated short URL:', shortUrl);
+
       const newUrl = {
         id: Date.now().toString(),
         title: title,
         url: link,
-        createdAt: new Date().toISOString()
+        shortUrl: shortUrl,
+        createdAt: new Date().toISOString(),
+        totalClicks: 0,
+        uniqueClicks: 0,
+        sent: 0  // Number of times URL was sent in messages
       };
+
+      console.log('New URL object:', newUrl);
 
       urls.push(newUrl);
       saveUrls(urls);
+
+      console.log('URLs after save:', getAllUrls());
 
       // Reset form
       urlTitleInput.value = '';
@@ -2952,40 +3159,70 @@ function initializeUrlManagement() {
   renderUrlManagementList();
 }
 
+// Generate short URL
+function generateShortUrl() {
+  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let shortCode = '';
+  for (let i = 0; i < 6; i++) {
+    shortCode += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return 'https://myne.link/' + shortCode;
+}
+
 // Render URL management list
 function renderUrlManagementList() {
-  const urlList = document.getElementById('url-management-list');
-  if (!urlList) return;
+  const tbody = document.getElementById('url-management-tbody');
+  if (!tbody) return;
 
   const urls = getAllUrls();
 
   if (urls.length === 0) {
-    urlList.innerHTML = '<div class="empty-state"><p>URLがまだ作成されていません</p></div>';
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 30px; color: #999;">URLがまだ作成されていません</td></tr>';
     return;
   }
 
-  urlList.innerHTML = urls.map(url => `
-    <div class="url-management-item">
-      <div class="url-item-header">
-        <div class="url-title">${url.title}</div>
-        <div class="url-actions">
-          <button class="btn-icon btn-copy-url" data-url="${url.url}" title="URLをコピー">
-            📋
-          </button>
-          <button class="btn-icon btn-delete-url" data-url-id="${url.id}" title="削除">
-            🗑️
-          </button>
-        </div>
-      </div>
-      <div class="url-link">
-        <a href="${url.url}" target="_blank" rel="noopener noreferrer">${url.url}</a>
-      </div>
-      <div class="url-created-at">作成日: ${new Date(url.createdAt).toLocaleString('ja-JP')}</div>
-    </div>
-  `).join('');
+  tbody.innerHTML = urls.map(url => {
+    const shortUrl = url.shortUrl || generateShortUrl(); // Generate if not exists for old data
+    const createdDate = new Date(url.createdAt).toLocaleString('ja-JP', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'});
+
+    // Calculate statistics
+    const totalClicks = url.totalClicks || 0;
+    const uniqueClicks = url.uniqueClicks || 0;
+    const sent = url.sent || 0;
+    const clickRate = sent > 0 ? ((totalClicks / sent) * 100).toFixed(1) : '0.0';
+    const uniqueClickRate = sent > 0 ? ((uniqueClicks / sent) * 100).toFixed(1) : '0.0';
+
+    return `
+      <tr>
+        <td>${url.title}</td>
+        <td>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <a href="${url.url}" target="_blank" rel="noopener noreferrer" style="color: #00b900; text-decoration: none; flex: 1; word-break: break-all;">${url.url}</a>
+            <button class="btn-icon btn-copy-url" data-url="${url.url}" title="コピー">
+              <i class="fa-solid fa-copy"></i>
+            </button>
+          </div>
+        </td>
+        <td>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="color: #00b900; font-weight: 500; flex: 1;">${shortUrl}</span>
+            <button class="btn-icon btn-copy-short-url" data-short-url="${shortUrl}" title="コピー">
+              <i class="fa-solid fa-copy"></i>
+            </button>
+          </div>
+        </td>
+        <td>${totalClicks} / ${clickRate}%</td>
+        <td>${uniqueClicks} / ${uniqueClickRate}%</td>
+        <td>${createdDate}</td>
+        <td>
+          <button class="btn btn-secondary btn-sm btn-delete-url" data-url-id="${url.id}">削除</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
 
   // Add event listeners for delete buttons
-  urlList.querySelectorAll('.btn-delete-url').forEach(btn => {
+  tbody.querySelectorAll('.btn-delete-url').forEach(btn => {
     btn.addEventListener('click', function() {
       const urlId = this.getAttribute('data-url-id');
       if (confirm('このURLを削除しますか？')) {
@@ -2994,11 +3231,19 @@ function renderUrlManagementList() {
     });
   });
 
-  // Add event listeners for copy buttons
-  urlList.querySelectorAll('.btn-copy-url').forEach(btn => {
+  // Add event listeners for copy buttons (original URL)
+  tbody.querySelectorAll('.btn-copy-url').forEach(btn => {
     btn.addEventListener('click', function() {
       const url = this.getAttribute('data-url');
       copyToClipboard(url);
+    });
+  });
+
+  // Add event listeners for copy buttons (short URL)
+  tbody.querySelectorAll('.btn-copy-short-url').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const shortUrl = this.getAttribute('data-short-url');
+      copyToClipboard(shortUrl);
     });
   });
 }
@@ -3974,7 +4219,7 @@ function renderBroadcastList() {
   tbody.innerHTML = broadcasts.map(broadcast => {
     const timingText = broadcast.deliveryTiming === 'immediate' ? 'すぐに配信' : broadcast.days + '日後 ' + broadcast.time;
     const statusClass = broadcast.status === '配信完了' ? 'status-active' : 'status-progress';
-    return '<tr data-broadcast-id="' + broadcast.id + '"><td>' + (broadcast.title || '(タイトルなし)') + '</td><td>' + broadcast.targetText + '</td><td>' + timingText + '</td><td><span class="status-badge ' + statusClass + '">' + broadcast.status + '</span></td><td>' + broadcast.createdAt + '</td><td><button class="btn btn-outline btn-sm broadcast-edit-btn" onclick="editBroadcast(' + broadcast.id + ')">編集</button><button class="btn btn-secondary btn-sm" onclick="deleteBroadcast(' + broadcast.id + ')">削除</button></td></tr>';
+    return '<tr data-broadcast-id="' + broadcast.id + '"><td>' + (broadcast.title || '(タイトルなし)') + '</td><td>' + broadcast.targetText + '</td><td>' + timingText + '</td><td><span class="status-badge ' + statusClass + '">' + broadcast.status + '</span></td><td>' + broadcast.createdAt + '</td><td><button class="btn btn-outline btn-sm broadcast-edit-btn" onclick="editBroadcast(' + broadcast.id + ')">編集</button> <button class="btn btn-secondary btn-sm" onclick="deleteBroadcast(' + broadcast.id + ')">削除</button></td></tr>';
   }).join('');
 }
 

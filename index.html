@@ -611,10 +611,27 @@
 
           <div class="card">
             <h2 class="card-title">URL一覧</h2>
-            <div id="url-management-list" class="url-management-list">
-              <div class="empty-state">
-                <p>URLがまだ作成されていません</p>
-              </div>
+            <div class="table-container">
+              <table class="table" id="url-management-table">
+                <thead>
+                  <tr>
+                    <th>タイトル</th>
+                    <th>元のURL</th>
+                    <th>短縮URL</th>
+                    <th>開封数/率</th>
+                    <th>ユニーククリック数/率</th>
+                    <th>登録日</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="url-management-tbody">
+                  <tr>
+                    <td colspan="7" style="text-align: center; padding: 30px; color: #999;">
+                      URLがまだ作成されていません
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -778,7 +795,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr data-history-id="1">
                     <td>新商品のお知らせ</td>
                     <td>2024-01-15</td>
                     <td>
@@ -786,10 +803,10 @@
                     </td>
                     <td>12,453</td>
                     <td>
-                      <button class="btn btn-outline btn-sm">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
                     </td>
                   </tr>
-                  <tr>
+                  <tr data-history-id="2">
                     <td>ウェルカムメッセージ</td>
                     <td>2024-01-14</td>
                     <td>
@@ -797,11 +814,11 @@
                     </td>
                     <td>234</td>
                     <td>
-                      <button class="btn btn-outline btn-sm">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
                       <button class="btn btn-secondary btn-sm">停止</button>
                     </td>
                   </tr>
-                  <tr>
+                  <tr data-history-id="3">
                     <td>キャンペーン情報</td>
                     <td>2024-01-13</td>
                     <td>
@@ -809,10 +826,10 @@
                     </td>
                     <td>11,892</td>
                     <td>
-                      <button class="btn btn-outline btn-sm">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
                     </td>
                   </tr>
-                  <tr>
+                  <tr data-history-id="4">
                     <td>年末年始のご挨拶</td>
                     <td>2024-01-01</td>
                     <td>
@@ -820,10 +837,10 @@
                     </td>
                     <td>11,234</td>
                     <td>
-                      <button class="btn btn-outline btn-sm">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
                     </td>
                   </tr>
-                  <tr>
+                  <tr data-history-id="5">
                     <td>冬季休暇のお知らせ</td>
                     <td>2023-12-28</td>
                     <td>
@@ -831,20 +848,20 @@
                     </td>
                     <td>10,987</td>
                     <td>
-                      <button class="btn btn-outline btn-sm">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
                     </td>
                   </tr>
-                  <tr>
+                  <tr data-history-id="6">
                     <td>商品アンケート</td>
                     <td>2023-12-25</td>
                     <td><span class="status-badge status-error">停止</span></td>
                     <td>156</td>
                     <td>
-                      <button class="btn btn-outline btn-sm">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
                       <button class="btn btn-primary btn-sm">再開</button>
                     </td>
                   </tr>
-                  <tr>
+                  <tr data-history-id="7">
                     <td>クリスマスキャンペーン</td>
                     <td>2023-12-20</td>
                     <td>
@@ -852,10 +869,10 @@
                     </td>
                     <td>12,678</td>
                     <td>
-                      <button class="btn btn-outline btn-sm">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
                     </td>
                   </tr>
-                  <tr>
+                  <tr data-history-id="8">
                     <td>新機能のご紹介</td>
                     <td>2023-12-15</td>
                     <td>
@@ -863,10 +880,10 @@
                     </td>
                     <td>445</td>
                     <td>
-                      <button class="btn btn-outline btn-sm">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
                     </td>
                   </tr>
-                  <tr>
+                  <tr data-history-id="9">
                     <td>月末セール情報</td>
                     <td>2023-12-10</td>
                     <td>
@@ -874,10 +891,10 @@
                     </td>
                     <td>11,543</td>
                     <td>
-                      <button class="btn btn-outline btn-sm">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
                     </td>
                   </tr>
-                  <tr>
+                  <tr data-history-id="10">
                     <td>顧客感謝祭のご案内</td>
                     <td>2023-12-01</td>
                     <td>
@@ -885,7 +902,7 @@
                     </td>
                     <td>12,105</td>
                     <td>
-                      <button class="btn btn-outline btn-sm">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
                     </td>
                   </tr>
                 </tbody>
@@ -896,6 +913,80 @@
               <button class="btn btn-outline btn-sm" disabled>前へ</button>
               <span class="pagination-info">1 / 3 ページ (全 28 件)</span>
               <button class="btn btn-outline btn-sm">次へ</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- History Detail Page -->
+        <div
+          id="history-detail-page"
+          class="page-container page"
+          style="display: none"
+        >
+          <div class="page-header">
+            <h1 class="page-title">配信履歴詳細</h1>
+            <div class="header-actions">
+              <button class="btn btn-outline" id="history-back-btn">一覧に戻る</button>
+            </div>
+          </div>
+
+          <div class="history-detail-content">
+            <!-- 基本情報 -->
+            <div class="card">
+              <h2 class="card-title">基本情報</h2>
+              <div class="history-info-grid">
+                <div class="history-info-item">
+                  <span class="history-info-label">管理用タイトル</span>
+                  <span class="history-info-value" id="history-detail-title">-</span>
+                </div>
+                <div class="history-info-item">
+                  <span class="history-info-label">配信日時</span>
+                  <span class="history-info-value" id="history-detail-date">-</span>
+                </div>
+                <div class="history-info-item">
+                  <span class="history-info-label">配信対象</span>
+                  <span class="history-info-value" id="history-detail-target">-</span>
+                </div>
+                <div class="history-info-item">
+                  <span class="history-info-label">ステータス</span>
+                  <span class="history-info-value" id="history-detail-status">-</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 配信統計 -->
+            <div class="card">
+              <h2 class="card-title">配信統計</h2>
+              <div class="history-stats-grid">
+                <div class="history-stat-card">
+                  <div class="history-stat-label">配信数</div>
+                  <div class="history-stat-value" id="history-stat-sent">-</div>
+                </div>
+                <div class="history-stat-card">
+                  <div class="history-stat-label">開封数</div>
+                  <div class="history-stat-value" id="history-stat-opened">-</div>
+                  <div class="history-stat-rate" id="history-stat-open-rate">-</div>
+                </div>
+                <div class="history-stat-card">
+                  <div class="history-stat-label">クリック数</div>
+                  <div class="history-stat-value" id="history-stat-clicked">-</div>
+                  <div class="history-stat-rate" id="history-stat-click-rate">-</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 配信内容 -->
+            <div class="card">
+              <h2 class="card-title">配信内容</h2>
+              <div class="message-preview-container">
+                <div class="message-preview-chat">
+                  <div class="message message-sent">
+                    <div class="message-content">
+                      <div class="message-text" id="history-detail-message">-</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1062,6 +1153,54 @@
             キャンセル
           </button>
           <button class="btn btn-primary" id="memo-save-btn">
+            保存
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tag Edit Modal -->
+    <div id="tag-edit-modal" class="modal" style="display: none">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>タグ編集</h2>
+          <button class="modal-close-btn" id="tag-edit-close-btn">×</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group" style="flex: 1;">
+              <label class="form-label">タグ名</label>
+              <input
+                type="text"
+                id="tag-edit-name-input"
+                class="form-input"
+                placeholder="例: VIP顧客、問い合わせ対応中"
+                required
+              />
+            </div>
+            <div class="form-group" style="width: 200px;">
+              <label class="form-label">カラー</label>
+              <select id="tag-edit-color-input" class="form-input">
+                <option value="transparent">無色</option>
+                <option value="#00b900">グリーン</option>
+                <option value="#3b82f6">ブルー</option>
+                <option value="#ef4444">レッド</option>
+                <option value="#f59e0b">オレンジ</option>
+                <option value="#8b5cf6">パープル</option>
+                <option value="#ec4899">ピンク</option>
+                <option value="#06b6d4">シアン</option>
+                <option value="#84cc16">ライムグリーン</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="tag-edit-cancel-btn">
+            キャンセル
+          </button>
+          <button class="btn btn-primary" id="tag-edit-save-btn">
             保存
           </button>
         </div>
