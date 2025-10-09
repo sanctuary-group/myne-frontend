@@ -1819,12 +1819,18 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
   } else {
     tagsHtml = `
       <div class="tag-selection-list">
-        ${allTags.map(tag => `
-          <label class="tag-checkbox-item">
-            <input type="checkbox" value="${tag.id}" ${userTagIds.includes(tag.id) ? 'checked' : ''}>
-            <span class="tag-badge" style="background-color: ${tag.color};">${tag.name}</span>
-          </label>
-        `).join('')}
+        ${allTags.map(tag => {
+          const isTransparent = tag.color === 'transparent';
+          const styleAttr = isTransparent
+            ? 'background-color: transparent; border: 1px solid #ddd; color: #333;'
+            : `background-color: ${tag.color};`;
+          return `
+            <label class="tag-checkbox-item">
+              <input type="checkbox" value="${tag.id}" ${userTagIds.includes(tag.id) ? 'checked' : ''}>
+              <span class="tag-badge" style="${styleAttr}">${tag.name}</span>
+            </label>
+          `;
+        }).join('')}
       </div>
       <div class="tags-save-button-container" style="margin-top: 16px;">
         <button class="btn btn-primary" onclick="saveUserTagsFromBasicInfo(${userId})">保存</button>
@@ -2328,7 +2334,7 @@ function initializeTagManagement() {
 
       // Reset form
       tagNameInput.value = '';
-      tagColorInput.value = '#00b900';
+      tagColorInput.value = 'transparent';
 
       // Refresh tag list
       renderTagManagementList();
@@ -2351,21 +2357,28 @@ function renderTagManagementList() {
     return;
   }
 
-  tagList.innerHTML = tags.map(tag => `
-    <div class="tag-management-item">
-      <div class="tag-badge" style="background-color: ${tag.color};">
-        ${tag.name}
+  tagList.innerHTML = tags.map(tag => {
+    const isTransparent = tag.color === 'transparent';
+    const styleAttr = isTransparent
+      ? 'background-color: transparent; border: 1px solid #ddd; color: #333;'
+      : `background-color: ${tag.color};`;
+
+    return `
+      <div class="tag-management-item">
+        <div class="tag-badge" style="${styleAttr}">
+          ${tag.name}
+        </div>
+        <div class="tag-actions">
+          <button class="btn-icon btn-edit-tag" data-tag-id="${tag.id}" title="編集">
+            <i class="fa-solid fa-pen"></i>
+          </button>
+          <button class="btn-icon btn-delete-tag" data-tag-id="${tag.id}" title="削除">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
       </div>
-      <div class="tag-actions">
-        <button class="btn-icon btn-edit-tag" data-tag-id="${tag.id}" title="編集">
-          <i class="fa-solid fa-pen"></i>
-        </button>
-        <button class="btn-icon btn-delete-tag" data-tag-id="${tag.id}" title="削除">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 
   // Add delete event listeners
   tagList.querySelectorAll('.btn-delete-tag').forEach(btn => {
@@ -2434,19 +2447,25 @@ function initializeUserTagSelection(userId) {
 
   tagSelectionContainer.innerHTML = `
     <div class="tag-selection-list">
-      ${allTags.map(tag => `
-        <label class="tag-checkbox-item">
-          <input
-            type="checkbox"
-            class="user-tag-checkbox"
-            data-tag-id="${tag.id}"
-            ${userTagIds.includes(tag.id) ? 'checked' : ''}
-          />
-          <span class="tag-badge" style="background-color: ${tag.color};">
-            ${tag.name}
-          </span>
-        </label>
-      `).join('')}
+      ${allTags.map(tag => {
+        const isTransparent = tag.color === 'transparent';
+        const styleAttr = isTransparent
+          ? 'background-color: transparent; border: 1px solid #ddd; color: #333;'
+          : `background-color: ${tag.color};`;
+        return `
+          <label class="tag-checkbox-item">
+            <input
+              type="checkbox"
+              class="user-tag-checkbox"
+              data-tag-id="${tag.id}"
+              ${userTagIds.includes(tag.id) ? 'checked' : ''}
+            />
+            <span class="tag-badge" style="${styleAttr}">
+              ${tag.name}
+            </span>
+          </label>
+        `;
+      }).join('')}
     </div>
   `;
 
@@ -2676,19 +2695,25 @@ function initializeBroadcastTagSelection() {
     return;
   }
 
-  tagSelectionList.innerHTML = allTags.map(tag => `
-    <label class="broadcast-tag-item">
-      <input
-        type="checkbox"
-        class="broadcast-tag-checkbox"
-        data-tag-id="${tag.id}"
-      />
-      <span class="tag-badge" style="background-color: ${tag.color};">
-        ${tag.name}
-      </span>
-      <span class="tag-user-count" data-tag-id="${tag.id}">-</span>
-    </label>
-  `).join('');
+  tagSelectionList.innerHTML = allTags.map(tag => {
+    const isTransparent = tag.color === 'transparent';
+    const styleAttr = isTransparent
+      ? 'background-color: transparent; border: 1px solid #ddd; color: #333;'
+      : `background-color: ${tag.color};`;
+    return `
+      <label class="broadcast-tag-item">
+        <input
+          type="checkbox"
+          class="broadcast-tag-checkbox"
+          data-tag-id="${tag.id}"
+        />
+        <span class="tag-badge" style="${styleAttr}">
+          ${tag.name}
+        </span>
+        <span class="tag-user-count" data-tag-id="${tag.id}">-</span>
+      </label>
+    `;
+  }).join('');
 
   // Calculate and display user counts for each tag
   updateTagUserCounts();
@@ -3131,7 +3156,13 @@ async function renderFriendListTable(searchTerm = '') {
       const userTagIds = getUserTags(user.id);
       const userTags = allTags.filter(tag => userTagIds.includes(tag.id));
       const tagsHtml = userTags.length > 0
-        ? userTags.map(tag => `<span class="tag-badge" style="background-color: ${tag.color};">${tag.name}</span>`).join(' ')
+        ? userTags.map(tag => {
+            const isTransparent = tag.color === 'transparent';
+            const styleAttr = isTransparent
+              ? 'background-color: transparent; border: 1px solid #ddd; color: #333;'
+              : `background-color: ${tag.color};`;
+            return `<span class="tag-badge" style="${styleAttr}">${tag.name}</span>`;
+          }).join(' ')
         : '<span style="color: #999;">タグなし</span>';
 
       return `
@@ -3250,6 +3281,7 @@ function initializeMemoModal() {
 // Call initializeMemoModal on page load
 document.addEventListener('DOMContentLoaded', function() {
   initializeMemoModal();
+  initializeStepMessagePreviewModal();
 });
 
 // ===== Save Tags from Basic Info =====
@@ -3518,10 +3550,13 @@ function renderStepsList(steps) {
             <div class="step-message-item">
               <div class="step-message-content">${escapeHtml(msg.content)}</div>
               <div class="step-message-item-actions">
-                <button class="btn btn-sm btn-outline" onclick="editMessage(${index}, ${msgIndex})">
+                <button class="btn btn-sm btn-outline" onclick="previewStepMessage(${index}, ${msgIndex})" title="プレビュー">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-outline" onclick="editMessage(${index}, ${msgIndex})" title="編集">
                   <i class="fa-solid fa-edit"></i>
                 </button>
-                <button class="btn btn-sm btn-secondary" onclick="deleteMessage(${index}, ${msgIndex})">
+                <button class="btn btn-sm btn-secondary" onclick="deleteMessage(${index}, ${msgIndex})" title="削除">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </div>
@@ -3987,6 +4022,63 @@ function createNewBroadcast() {
   document.getElementById('tag-selection-area').style.display = 'none';
   document.getElementById('scheduled-datetime-group').style.display = 'none';
   selectedBroadcastTags.clear();
+}
+
+// Initialize step message preview modal
+function initializeStepMessagePreviewModal() {
+  const modal = document.getElementById('step-message-preview-modal');
+  const closeBtn = document.getElementById('step-message-preview-close');
+  const backBtn = document.getElementById('step-message-preview-back-btn');
+
+  if (closeBtn) {
+    closeBtn.onclick = function () {
+      modal.style.display = 'none';
+    };
+  }
+
+  if (backBtn) {
+    backBtn.onclick = function () {
+      modal.style.display = 'none';
+    };
+  }
+
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  };
+}
+
+// Preview step message
+function previewStepMessage(stepIndex, messageIndex) {
+  if (!currentScenario || !currentScenario.steps || !currentScenario.steps[stepIndex]) {
+    alert('メッセージが見つかりません');
+    return;
+  }
+
+  const step = currentScenario.steps[stepIndex];
+  const message = step.messages[messageIndex];
+
+  if (!message) {
+    alert('メッセージが見つかりません');
+    return;
+  }
+
+  const modal = document.getElementById('step-message-preview-modal');
+  const container = document.getElementById('step-message-preview-container');
+
+  const messageHtml = `
+    <div class="message-preview-chat">
+      <div class="message-bubble">
+        <div class="message-content">
+          ${escapeHtml(message.content).replace(/\n/g, '<br>')}
+        </div>
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = messageHtml;
+  modal.style.display = 'flex';
 }
 
 // Edit broadcast

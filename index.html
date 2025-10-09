@@ -497,23 +497,6 @@
               <!-- Friend List Tab -->
               <div class="data-tab-content active" id="friend-list-tab">
                 <div class="card">
-                  <h2 class="card-title">新しい友だちを追加</h2>
-                  <form id="friend-create-form" class="friend-form">
-                    <div class="form-group">
-                      <label class="form-label">友だち名</label>
-                      <input
-                        type="text"
-                        id="friend-name-input"
-                        class="form-input"
-                        placeholder="例: 田中太郎"
-                        required
-                      />
-                    </div>
-                    <button type="submit" class="btn btn-primary">友だちを追加</button>
-                  </form>
-                </div>
-
-                <div class="card">
                   <h2 class="card-title">友だちリスト</h2>
                   <div class="friend-list-search-container">
                     <input
@@ -562,6 +545,7 @@
                       <div class="form-group" style="width: 200px;">
                         <label class="form-label">カラー</label>
                         <select id="tag-color-input" class="form-input">
+                          <option value="transparent" selected>無色</option>
                           <option value="#00b900">グリーン</option>
                           <option value="#3b82f6">ブルー</option>
                           <option value="#ef4444">レッド</option>
@@ -1244,6 +1228,32 @@
           </button>
           <button class="btn btn-primary" id="broadcast-preview-confirm-btn">
             この内容で配信
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step Message Preview Modal -->
+    <div id="step-message-preview-modal" class="modal">
+      <div class="modal-content modal-preview-size">
+        <div class="modal-header">
+          <h3>メッセージプレビュー</h3>
+          <span class="close" id="step-message-preview-close">
+            <i class="fa-solid fa-times"></i>
+          </span>
+        </div>
+
+        <div class="modal-body">
+          <div id="step-message-preview-container" class="message-preview-container">
+            <div class="message-preview-chat">
+              <!-- Dynamic content will be inserted here -->
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="step-message-preview-back-btn">
+            戻る
           </button>
         </div>
       </div>
