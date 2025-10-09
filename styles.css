@@ -390,6 +390,7 @@ body {
 .form-textarea {
   min-height: 100px;
   resize: vertical;
+  line-height: 1.2;
 }
 
 .radio-group {
@@ -723,7 +724,7 @@ body {
 .step-messages-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .step-message-item {
@@ -746,7 +747,7 @@ body {
 .step-message-content {
   flex: 1;
   color: #333;
-  line-height: 1.6;
+  line-height: 1.2;
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -1190,6 +1191,9 @@ body {
   min-height: 40px;
   transition: all 0.2s;
   white-space: pre-line;
+  line-height: 1.2;
+  display: flex;
+  align-items: flex-start;
 }
 
 .user-info-memo:hover {
@@ -2005,12 +2009,13 @@ input[type="datetime-local"]:focus {
 
 .message-text {
   font-size: 15px;
-  line-height: 1.4;
+  line-height: 1.2;
   margin-bottom: 4px;
   word-wrap: break-word;
   word-break: break-word;
   white-space: pre-wrap;
   overflow-wrap: break-word;
+  text-align: left;
 }
 
 .message-time {
@@ -2454,6 +2459,11 @@ input[type="datetime-local"]:focus {
   box-shadow: 0 0 0 3px rgba(0, 185, 0, 0.1);
 }
 
+/* Step timing modal specific width */
+#step-timing-modal .modal-content {
+  max-width: 750px;
+}
+
 /* Responsive styles for timing inputs */
 @media (max-width: 768px) {
   .timing-inputs {
@@ -2674,10 +2684,11 @@ input[type="datetime-local"]:focus {
 
 .message-preview-chat .message-text {
   font-size: 15px;
-  line-height: 1.5;
+  line-height: 1.2;
   color: #333;
   white-space: pre-wrap;
   word-wrap: break-word;
+  text-align: left;
 }
 
 /* Responsive styles for broadcast preview */

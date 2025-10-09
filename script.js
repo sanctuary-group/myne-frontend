@@ -1861,9 +1861,7 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
     <div class="user-info-divider"></div>
     <div class="user-info-item">
       <div class="user-info-label">メモ</div>
-      <div class="user-info-value user-info-memo" onclick="openMemoModal(${userId})" style="cursor: pointer; color: ${memo ? '#333' : '#999'};">
-        ${memoDisplay}
-      </div>
+      <div class="user-info-value user-info-memo" onclick="openMemoModal(${userId})" style="cursor: pointer; color: ${memo ? '#333' : '#999'};">${memoDisplay}</div>
     </div>
     <div class="user-info-divider"></div>
     <div class="user-info-item">
@@ -3811,17 +3809,6 @@ function initializeStepTimingModal() {
 
   // Add step handler
   addBtn.addEventListener('click', handleStepAdd);
-
-  // Add input event listeners for real-time preview
-  const daysInput = document.getElementById('step-days');
-  const timeInput = document.getElementById('step-time');
-
-  if (daysInput) {
-    daysInput.addEventListener('input', updateStepTimingPreview);
-  }
-  if (timeInput) {
-    timeInput.addEventListener('input', updateStepTimingPreview);
-  }
 }
 
 function openStepTimingModal() {
@@ -3851,9 +3838,6 @@ function openStepTimingModal() {
   // Reset button text
   document.getElementById('step-timing-add-btn').textContent = '追加';
 
-  // Reset preview
-  updateStepTimingPreview();
-
   modal.style.display = 'flex';
 }
 
@@ -3867,7 +3851,6 @@ function handleStepDeliveryTimingChange(timing) {
 
   if (timing === 'scheduled') {
     scheduledGroup.style.display = 'block';
-    updateStepTimingPreview();
   } else {
     scheduledGroup.style.display = 'none';
   }
@@ -3934,21 +3917,6 @@ function handleStepAdd() {
 
   // Close modal
   closeStepTimingModal();
-}
-
-function updateStepTimingPreview() {
-  const daysInput = document.getElementById('step-days');
-  const timeInput = document.getElementById('step-time');
-  const previewDays = document.getElementById('step-preview-days');
-  const previewTime = document.getElementById('step-preview-time');
-
-  if (daysInput && timeInput && previewDays && previewTime) {
-    const days = daysInput.value || '0';
-    const time = timeInput.value || '09:00';
-
-    previewDays.textContent = days;
-    previewTime.textContent = time;
-  }
 }
 
 // ===== Broadcast Management Functions =====
@@ -4065,19 +4033,17 @@ function previewStepMessage(stepIndex, messageIndex) {
   }
 
   const modal = document.getElementById('step-message-preview-modal');
-  const container = document.getElementById('step-message-preview-container');
+  const chatContainer = document.querySelector('#step-message-preview-container .message-preview-chat');
 
   const messageHtml = `
-    <div class="message-preview-chat">
-      <div class="message-bubble">
-        <div class="message-content">
-          ${escapeHtml(message.content).replace(/\n/g, '<br>')}
-        </div>
+    <div class="message message-sent">
+      <div class="message-content">
+        <div class="message-text">${escapeHtml(message.content)}</div>
       </div>
     </div>
   `;
 
-  container.innerHTML = messageHtml;
+  chatContainer.innerHTML = messageHtml;
   modal.style.display = 'flex';
 }
 

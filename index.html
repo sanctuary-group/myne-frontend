@@ -1099,37 +1099,29 @@
             </div>
 
             <div class="form-group" id="step-scheduled-group" style="display: none">
-              <div class="timing-inputs">
-                <div class="timing-input-group">
-                  <label class="form-label">経過日数 *</label>
-                  <input
-                    type="number"
-                    id="step-days"
-                    class="form-input"
-                    min="0"
-                    max="30"
-                    value="0"
-                    placeholder="0"
-                  />
-                  <span class="input-suffix">日後</span>
-                </div>
-
-                <div class="timing-input-group">
-                  <label class="form-label">配信時間 *</label>
-                  <input
-                    type="time"
-                    id="step-time"
-                    class="form-input"
-                    value="09:00"
-                  />
-                </div>
+              <div class="timing-preview-input">
+                ステップは開始から
+                <input
+                  type="number"
+                  id="step-days"
+                  class="inline-number-input"
+                  min="0"
+                  max="30"
+                  value="0"
+                  placeholder="0"
+                />
+                日後の
+                <input
+                  type="time"
+                  id="step-time"
+                  class="inline-time-input"
+                  value="09:00"
+                />
+                に配信する
               </div>
 
-              <div class="timing-preview" id="step-timing-preview">
-                ステップは開始から<span id="step-preview-days">0</span>日後の<span
-                  id="step-preview-time"
-                  >09:00</span
-                >に配信する
+              <div class="form-description" style="font-size: 13px; color: #666; margin-top: 8px;">
+                ※ステップ開始当日に送信する場合は「0日後」を選択してください
               </div>
             </div>
           </div>
