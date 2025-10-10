@@ -40,6 +40,14 @@ body {
   margin-bottom: 8px;
 }
 
+.login-logo-text {
+  font-size: 48px;
+  font-weight: bold;
+  color: #555;
+  margin: 0 0 8px 0;
+  letter-spacing: 2px;
+}
+
 .login-header p {
   color: #666;
   font-size: 16px;
@@ -153,6 +161,14 @@ body {
 .header-logo {
   height: 40px;
   width: auto;
+}
+
+.header-logo-text {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  margin: 0;
+  letter-spacing: 2px;
 }
 
 .logout-btn {

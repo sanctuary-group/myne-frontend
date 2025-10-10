@@ -15,7 +15,7 @@
     <div id="login-container" class="login-container">
       <div class="login-card">
         <div class="login-header">
-          <img src="images/myne_logo.png" alt="MyNE" class="login-logo" />
+          <h1 class="login-logo-text">MyNE</h1>
           <p>アカウントにログインしてください</p>
         </div>
 
@@ -53,8 +53,10 @@
 
         <div class="login-footer">
           <a href="#forgot" class="forgot-link"> パスワードを忘れた場合 </a>
-          <span style="color: #ccc; margin: 0 8px;">|</span>
-          <a href="#signup" class="forgot-link" id="goto-signup-link">新規登録はこちら</a>
+          <span style="color: #ccc; margin: 0 8px">|</span>
+          <a href="#signup" class="forgot-link" id="goto-signup-link"
+            >新規登録はこちら</a
+          >
         </div>
 
         <div class="demo-info">
@@ -69,7 +71,7 @@
     <div id="signup-container" class="login-container" style="display: none">
       <div class="login-card">
         <div class="login-header">
-          <img src="images/myne_logo.png" alt="MyNE" class="login-logo" />
+          <h1 class="login-logo-text">MyNE</h1>
           <p>新規アカウントを作成してください</p>
         </div>
 
@@ -106,11 +108,13 @@
         </form>
 
         <div class="login-footer">
-          <a href="#login" class="forgot-link" id="goto-login-link">ログインはこちら</a>
+          <a href="#login" class="forgot-link" id="goto-login-link"
+            >ログインはこちら</a
+          >
         </div>
 
         <div class="demo-info">
-          <h4>テスト用アカウント</h4>
+          <h4>デモ用アカウント</h4>
           <p>Email: test@example.com</p>
           <p>Password: test1234</p>
         </div>
@@ -118,12 +122,16 @@
     </div>
 
     <!-- Verification Screen -->
-    <div id="verification-container" class="login-container" style="display: none">
+    <div
+      id="verification-container"
+      class="login-container"
+      style="display: none"
+    >
       <div class="login-card">
         <div class="login-header">
-          <img src="images/myne_logo.png" alt="MyNE" class="login-logo" />
+          <h1 class="login-logo-text">MyNE</h1>
           <p>認証コードを入力してください</p>
-          <p style="font-size: 14px; color: #666; margin-top: 8px;">
+          <p style="font-size: 14px; color: #666; margin-top: 8px">
             <span id="verification-email">メールアドレス</span>をご確認ください
           </p>
         </div>
@@ -169,12 +177,16 @@
     </div>
 
     <!-- Password Reset Screen -->
-    <div id="password-reset-container" class="login-container" style="display: none">
+    <div
+      id="password-reset-container"
+      class="login-container"
+      style="display: none"
+    >
       <div class="login-card">
         <div class="login-header">
-          <img src="images/myne_logo.png" alt="MyNE" class="login-logo" />
+          <h1 class="login-logo-text">MyNE</h1>
           <p>パスワードをリセット</p>
-          <p style="font-size: 14px; color: #666; margin-top: 8px;">
+          <p style="font-size: 14px; color: #666; margin-top: 8px">
             登録したメールアドレスを入力してください
           </p>
         </div>
@@ -215,12 +227,16 @@
     </div>
 
     <!-- Reset Code Verification Screen -->
-    <div id="reset-code-container" class="login-container" style="display: none">
+    <div
+      id="reset-code-container"
+      class="login-container"
+      style="display: none"
+    >
       <div class="login-card">
         <div class="login-header">
-          <img src="images/myne_logo.png" alt="MyNE" class="login-logo" />
+          <h1 class="login-logo-text">MyNE</h1>
           <p>リセットコードを入力してください</p>
-          <p style="font-size: 14px; color: #666; margin-top: 8px;">
+          <p style="font-size: 14px; color: #666; margin-top: 8px">
             <span id="reset-code-email">メールアドレス</span>をご確認ください
           </p>
         </div>
@@ -266,16 +282,22 @@
     </div>
 
     <!-- New Password Screen -->
-    <div id="new-password-container" class="login-container" style="display: none">
+    <div
+      id="new-password-container"
+      class="login-container"
+      style="display: none"
+    >
       <div class="login-card">
         <div class="login-header">
-          <img src="images/myne_logo.png" alt="MyNE" class="login-logo" />
+          <h1 class="login-logo-text">MyNE</h1>
           <p>新しいパスワードを設定</p>
         </div>
 
         <form id="new-password-form" class="login-form">
           <div class="form-group">
-            <label for="new-password" class="form-label">新しいパスワード</label>
+            <label for="new-password" class="form-label"
+              >新しいパスワード</label
+            >
             <input
               type="password"
               id="new-password"
@@ -313,7 +335,7 @@
     <div id="main-app" class="app" style="display: none">
       <header class="app-header">
         <div class="header-content">
-          <img src="images/myne_logo.png" alt="MyNE" class="header-logo" />
+          <h1 class="header-logo-text">MyNE</h1>
           <button id="logout-btn" class="logout-btn">ログアウト</button>
         </div>
       </header>
@@ -1695,7 +1717,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <h2>システム表示名編集</h2>
-          <button class="modal-close-btn" id="system-display-name-close-btn">×</button>
+          <button class="modal-close-btn" id="system-display-name-close-btn">
+            ×
+          </button>
         </div>
 
         <div class="modal-body">
@@ -1714,7 +1738,9 @@
           <button class="btn btn-outline" id="system-display-name-cancel-btn">
             キャンセル
           </button>
-          <button class="btn btn-primary" id="system-display-name-save-btn">保存</button>
+          <button class="btn btn-primary" id="system-display-name-save-btn">
+            保存
+          </button>
         </div>
       </div>
     </div>
