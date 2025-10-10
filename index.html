@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MyNE</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -113,7 +116,9 @@
 
           <div class="card dashboard-account-selector">
             <div class="account-selector-content">
-              <label for="account-select" class="account-label">アカウント:</label>
+              <label for="account-select" class="account-label"
+                >アカウント:</label
+              >
               <select id="account-select" class="account-select">
                 <option value="account1">アカウントA</option>
                 <option value="account2">アカウントB</option>
@@ -126,12 +131,10 @@
             <div class="stat-card">
               <div class="stat-number">12,453</div>
               <div class="stat-label">友だち数</div>
-              <div class="stat-trend">+234</div>
             </div>
             <div class="stat-card">
               <div class="stat-number">28</div>
               <div class="stat-label">今月の配信数</div>
-              <div class="stat-trend">+12</div>
             </div>
           </div>
 
@@ -140,7 +143,9 @@
               <h2 class="card-title">クイックアクション</h2>
               <div class="quick-actions">
                 <button class="action-btn broadcast" data-navigate="broadcast">
-                  <div class="action-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                  <div class="action-icon">
+                    <i class="fa-solid fa-bullhorn"></i>
+                  </div>
                   <div class="action-text">
                     <h3>一斉配信</h3>
                     <p>全友だちにメッセージを送信</p>
@@ -148,7 +153,9 @@
                 </button>
 
                 <button class="action-btn step" data-navigate="step">
-                  <div class="action-icon"><i class="fa-solid fa-stairs"></i></div>
+                  <div class="action-icon">
+                    <i class="fa-solid fa-stairs"></i>
+                  </div>
                   <div class="action-text">
                     <h3>ステップ配信</h3>
                     <p>自動シナリオを作成・管理</p>
@@ -159,7 +166,9 @@
                   class="action-btn individual"
                   data-navigate="individual"
                 >
-                  <div class="action-icon"><i class="fa-solid fa-comments"></i></div>
+                  <div class="action-icon">
+                    <i class="fa-solid fa-comments"></i>
+                  </div>
                   <div class="action-text">
                     <h3>個別対応</h3>
                     <p>友だちとの個別メッセージ</p>
@@ -167,7 +176,9 @@
                 </button>
 
                 <button class="action-btn settings" data-navigate="settings">
-                  <div class="action-icon"><i class="fa-solid fa-gear"></i></div>
+                  <div class="action-icon">
+                    <i class="fa-solid fa-gear"></i>
+                  </div>
                   <div class="action-text">
                     <h3>設定</h3>
                     <p>アカウント・システム設定</p>
@@ -226,11 +237,21 @@
         </div>
 
         <!-- Broadcast Page (List) -->
-        <div id="broadcast-page" class="page-container page" style="display: none">
+        <div
+          id="broadcast-page"
+          class="page-container page"
+          style="display: none"
+        >
           <h1 class="page-title">一斉配信</h1>
 
           <div class="card">
-            <button class="btn btn-primary" id="broadcast-new-btn" style="margin-bottom: 20px;">新規作成</button>
+            <button
+              class="btn btn-primary"
+              id="broadcast-new-btn"
+              style="margin-bottom: 20px"
+            >
+              新規作成
+            </button>
             <div class="table-container">
               <table class="table" id="broadcasts-table">
                 <thead>
@@ -258,9 +279,13 @@
           style="display: none"
         >
           <div class="page-header">
-            <h1 class="page-title" id="broadcast-detail-title">一斉配信を作成</h1>
+            <h1 class="page-title" id="broadcast-detail-title">
+              一斉配信を作成
+            </h1>
             <div class="header-actions">
-              <button class="btn btn-outline" id="broadcast-back-btn">一覧に戻る</button>
+              <button class="btn btn-outline" id="broadcast-back-btn">
+                一覧に戻る
+              </button>
             </div>
           </div>
 
@@ -305,12 +330,20 @@
                   >
                     <label class="form-label">配信先タグを選択</label>
                     <div class="tag-selection-container">
-                      <div class="tag-selection-list" id="broadcast-tag-selection-list">
+                      <div
+                        class="tag-selection-list"
+                        id="broadcast-tag-selection-list"
+                      >
                         <!-- タグリストがここに動的に生成される -->
                       </div>
 
-                      <div class="tag-selection-count" id="tag-selection-count" style="display: none;">
-                        選択したタグの該当人数: <span id="tagged-friends-count">0</span> 人
+                      <div
+                        class="tag-selection-count"
+                        id="tag-selection-count"
+                        style="display: none"
+                      >
+                        選択したタグの該当人数:
+                        <span id="tagged-friends-count">0</span> 人
                       </div>
                     </div>
                   </div>
@@ -324,17 +357,30 @@
                     <label class="form-label">配信タイミング *</label>
                     <div class="radio-group">
                       <label class="radio-item">
-                        <input type="radio" name="deliveryTiming" value="immediate" checked />
+                        <input
+                          type="radio"
+                          name="deliveryTiming"
+                          value="immediate"
+                          checked
+                        />
                         メッセージ登録後すぐに配信
                       </label>
                       <label class="radio-item">
-                        <input type="radio" name="deliveryTiming" value="scheduled" />
+                        <input
+                          type="radio"
+                          name="deliveryTiming"
+                          value="scheduled"
+                        />
                         日時で指定
                       </label>
                     </div>
                   </div>
 
-                  <div id="scheduled-datetime-group" class="form-group" style="display: none;">
+                  <div
+                    id="scheduled-datetime-group"
+                    class="form-group"
+                    style="display: none"
+                  >
                     <div class="timing-preview-input">
                       メッセージ登録から
                       <input
@@ -356,7 +402,10 @@
                       に配信する
                     </div>
 
-                    <div class="form-description" style="font-size: 13px; color: #666; margin-top: 8px;">
+                    <div
+                      class="form-description"
+                      style="font-size: 13px; color: #666; margin-top: 8px"
+                    >
                       ※メッセージ登録当日に送信する場合は「0日後」を選択してください
                     </div>
                   </div>
@@ -394,8 +443,18 @@
               </div>
 
               <div class="form-actions">
-                <button id="broadcast-preview-btn" class="btn btn-outline btn-large">プレビュー</button>
-                <button id="broadcast-save-btn" class="btn btn-primary btn-large">保存して配信</button>
+                <button
+                  id="broadcast-preview-btn"
+                  class="btn btn-outline btn-large"
+                >
+                  プレビュー
+                </button>
+                <button
+                  id="broadcast-save-btn"
+                  class="btn btn-primary btn-large"
+                >
+                  保存して配信
+                </button>
               </div>
             </div>
           </div>
@@ -406,7 +465,13 @@
           <h1 class="page-title">ステップ配信</h1>
 
           <div class="card">
-            <button class="btn btn-primary" id="scenario-new-btn" style="margin-bottom: 20px;">新規作成</button>
+            <button
+              class="btn btn-primary"
+              id="scenario-new-btn"
+              style="margin-bottom: 20px"
+            >
+              新規作成
+            </button>
             <div class="table-container">
               <table class="table" id="scenarios-table">
                 <thead>
@@ -418,21 +483,39 @@
                   </tr>
                 </thead>
                 <tbody id="scenarios-tbody">
-                  <tr data-scenario-id="1" data-scenario-name="ウェルカムシーケンス" data-delivery-timing="immediate">
+                  <tr
+                    data-scenario-id="1"
+                    data-scenario-name="ウェルカムシーケンス"
+                    data-delivery-timing="immediate"
+                  >
                     <td>ウェルカムシーケンス</td>
-                    <td><span class="status-badge status-active">配信中</span></td>
+                    <td>
+                      <span class="status-badge status-active">配信中</span>
+                    </td>
                     <td>2024-01-15</td>
                     <td>
-                      <button class="btn btn-outline btn-sm scenario-edit-btn">編集</button>
+                      <button class="btn btn-outline btn-sm scenario-edit-btn">
+                        編集
+                      </button>
                       <button class="btn btn-secondary btn-sm">停止</button>
                     </td>
                   </tr>
-                  <tr data-scenario-id="2" data-scenario-name="商品紹介シリーズ" data-delivery-timing="scheduled" data-scheduled-days="1" data-scheduled-time="10:00">
+                  <tr
+                    data-scenario-id="2"
+                    data-scenario-name="商品紹介シリーズ"
+                    data-delivery-timing="scheduled"
+                    data-scheduled-days="1"
+                    data-scheduled-time="10:00"
+                  >
                     <td>商品紹介シリーズ</td>
-                    <td><span class="status-badge status-active">配信中</span></td>
+                    <td>
+                      <span class="status-badge status-active">配信中</span>
+                    </td>
                     <td>2024-01-10</td>
                     <td>
-                      <button class="btn btn-outline btn-sm scenario-edit-btn">編集</button>
+                      <button class="btn btn-outline btn-sm scenario-edit-btn">
+                        編集
+                      </button>
                       <button class="btn btn-secondary btn-sm">停止</button>
                     </td>
                   </tr>
@@ -443,11 +526,17 @@
         </div>
 
         <!-- Scenario Detail Page -->
-        <div id="scenario-detail-page" class="page-container page" style="display: none">
+        <div
+          id="scenario-detail-page"
+          class="page-container page"
+          style="display: none"
+        >
           <div class="page-header">
             <h1 class="page-title" id="scenario-detail-title">シナリオ詳細</h1>
             <div class="header-actions">
-              <button class="btn btn-outline" id="scenario-back-btn">一覧に戻る</button>
+              <button class="btn btn-outline" id="scenario-back-btn">
+                一覧に戻る
+              </button>
             </div>
           </div>
 
@@ -459,7 +548,11 @@
                   <span class="info-label">管理名:</span>
                   <div class="info-value-editable">
                     <span class="info-value" id="detail-scenario-name">-</span>
-                    <button class="btn-icon" id="edit-scenario-name-btn" title="管理名を編集">
+                    <button
+                      class="btn-icon"
+                      id="edit-scenario-name-btn"
+                      title="管理名を編集"
+                    >
                       <i class="fa-solid fa-pen"></i>
                     </button>
                   </div>
@@ -499,8 +592,12 @@
           <div class="data-management-layout">
             <!-- Tab Navigation -->
             <div class="data-management-tabs">
-              <button class="data-tab-btn active" data-tab="friend-list">友だちリスト</button>
-              <button class="data-tab-btn" data-tab="tag-management">タグ管理</button>
+              <button class="data-tab-btn active" data-tab="friend-list">
+                友だちリスト
+              </button>
+              <button class="data-tab-btn" data-tab="tag-management">
+                タグ管理
+              </button>
             </div>
 
             <!-- Tab Contents -->
@@ -517,7 +614,10 @@
                       placeholder="名前またはIDで検索..."
                     />
                   </div>
-                  <div id="friend-list-table-container" class="friend-list-table-container">
+                  <div
+                    id="friend-list-table-container"
+                    class="friend-list-table-container"
+                  >
                     <table class="friend-list-table">
                       <thead>
                         <tr>
@@ -529,7 +629,12 @@
                       </thead>
                       <tbody id="friend-list-tbody">
                         <tr>
-                          <td colspan="4" style="text-align: center; padding: 20px;">読み込み中...</td>
+                          <td
+                            colspan="4"
+                            style="text-align: center; padding: 20px"
+                          >
+                            読み込み中...
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -554,27 +659,119 @@
                     </div>
                     <div class="form-group">
                       <label class="form-label">カラー</label>
-                      <div class="color-palette-container" id="tag-color-palette">
-                        <button type="button" class="color-option transparent selected" data-color="transparent" title="無色">
+                      <div
+                        class="color-palette-container"
+                        id="tag-color-palette"
+                      >
+                        <button
+                          type="button"
+                          class="color-option transparent selected"
+                          data-color="transparent"
+                          title="無色"
+                        >
                           <i class="fa-solid fa-ban"></i>
                         </button>
-                        <button type="button" class="color-option" data-color="#00b900" style="background-color: #00b900;" title="グリーン"></button>
-                        <button type="button" class="color-option" data-color="#3b82f6" style="background-color: #3b82f6;" title="ブルー"></button>
-                        <button type="button" class="color-option" data-color="#ef4444" style="background-color: #ef4444;" title="レッド"></button>
-                        <button type="button" class="color-option" data-color="#f59e0b" style="background-color: #f59e0b;" title="オレンジ"></button>
-                        <button type="button" class="color-option" data-color="#8b5cf6" style="background-color: #8b5cf6;" title="パープル"></button>
-                        <button type="button" class="color-option" data-color="#ec4899" style="background-color: #ec4899;" title="ピンク"></button>
-                        <button type="button" class="color-option" data-color="#06b6d4" style="background-color: #06b6d4;" title="シアン"></button>
-                        <button type="button" class="color-option" data-color="#84cc16" style="background-color: #84cc16;" title="ライムグリーン"></button>
-                        <button type="button" class="color-option" data-color="#14b8a6" style="background-color: #14b8a6;" title="ティール"></button>
-                        <button type="button" class="color-option" data-color="#f97316" style="background-color: #f97316;" title="ディープオレンジ"></button>
-                        <button type="button" class="color-option" data-color="#a855f7" style="background-color: #a855f7;" title="バイオレット"></button>
-                        <button type="button" class="color-option" data-color="#0ea5e9" style="background-color: #0ea5e9;" title="スカイブルー"></button>
-                        <button type="button" class="color-option" data-color="#f43f5e" style="background-color: #f43f5e;" title="ローズ"></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#00b900"
+                          style="background-color: #00b900"
+                          title="グリーン"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#3b82f6"
+                          style="background-color: #3b82f6"
+                          title="ブルー"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#ef4444"
+                          style="background-color: #ef4444"
+                          title="レッド"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#f59e0b"
+                          style="background-color: #f59e0b"
+                          title="オレンジ"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#8b5cf6"
+                          style="background-color: #8b5cf6"
+                          title="パープル"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#ec4899"
+                          style="background-color: #ec4899"
+                          title="ピンク"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#06b6d4"
+                          style="background-color: #06b6d4"
+                          title="シアン"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#84cc16"
+                          style="background-color: #84cc16"
+                          title="ライムグリーン"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#14b8a6"
+                          style="background-color: #14b8a6"
+                          title="ティール"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#f97316"
+                          style="background-color: #f97316"
+                          title="ディープオレンジ"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#a855f7"
+                          style="background-color: #a855f7"
+                          title="バイオレット"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#0ea5e9"
+                          style="background-color: #0ea5e9"
+                          title="スカイブルー"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#f43f5e"
+                          style="background-color: #f43f5e"
+                          title="ローズ"
+                        ></button>
                       </div>
-                      <input type="hidden" id="tag-color-input" value="transparent" />
+                      <input
+                        type="hidden"
+                        id="tag-color-input"
+                        value="transparent"
+                      />
                     </div>
-                    <button type="submit" class="btn btn-primary">タグを作成</button>
+                    <button type="submit" class="btn btn-primary">
+                      タグを作成
+                    </button>
                   </form>
                 </div>
 
@@ -643,7 +840,10 @@
                 </thead>
                 <tbody id="url-management-tbody">
                   <tr>
-                    <td colspan="7" style="text-align: center; padding: 30px; color: #999;">
+                    <td
+                      colspan="7"
+                      style="text-align: center; padding: 30px; color: #999"
+                    >
                       URLがまだ作成されていません
                     </td>
                   </tr>
@@ -665,10 +865,18 @@
               <div class="friends-header">
                 <div class="filter-select-container">
                   <select id="friend-filter-select" class="form-select">
-                    <option value="all">すべて <span id="all-count-text">(0)</span></option>
-                    <option value="unread">未読 <span id="unread-count-text">(0)</span></option>
-                    <option value="read">既読 <span id="read-count-text">(0)</span></option>
-                    <option value="bookmarked">ブックマーク <span id="bookmark-count-text">(0)</span></option>
+                    <option value="all">
+                      すべて <span id="all-count-text">(0)</span>
+                    </option>
+                    <option value="unread">
+                      未読 <span id="unread-count-text">(0)</span>
+                    </option>
+                    <option value="read">
+                      既読 <span id="read-count-text">(0)</span>
+                    </option>
+                    <option value="bookmarked">
+                      ブックマーク <span id="bookmark-count-text">(0)</span>
+                    </option>
                   </select>
                 </div>
                 <div class="search-box">
@@ -683,7 +891,9 @@
 
               <div class="friends-list">
                 <!-- ユーザーリストは動的に読み込まれます -->
-                <div style="padding: 20px; text-align: center;">読み込み中...</div>
+                <div style="padding: 20px; text-align: center">
+                  読み込み中...
+                </div>
               </div>
             </div>
 
@@ -693,11 +903,21 @@
                 <div class="chat-user-info">
                   <div class="chat-avatar" id="individual-chat-avatar">-</div>
                   <div class="chat-user-details">
-                    <div class="chat-user-name" id="individual-chat-user-name">友だちを選択してください</div>
+                    <div class="chat-user-name" id="individual-chat-user-name">
+                      友だちを選択してください
+                    </div>
                   </div>
                 </div>
-                <div class="chat-header-actions" id="chat-header-actions" style="display: none;">
-                  <button class="bookmark-btn" id="chat-bookmark-btn" title="ブックマーク">
+                <div
+                  class="chat-header-actions"
+                  id="chat-header-actions"
+                  style="display: none"
+                >
+                  <button
+                    class="bookmark-btn"
+                    id="chat-bookmark-btn"
+                    title="ブックマーク"
+                  >
                     <i class="bookmark-icon fa-regular fa-bookmark"></i>
                   </button>
                 </div>
@@ -705,14 +925,24 @@
 
               <div class="chat-messages" id="individual-chat-messages">
                 <div class="empty-state">
-                  <p>左側から友だちを選択してメッセージのやりとりを開始してください</p>
+                  <p>
+                    左側から友だちを選択してメッセージのやりとりを開始してください
+                  </p>
                 </div>
               </div>
 
-              <div class="chat-input-area" id="individual-chat-input-area" style="display: none;">
+              <div
+                class="chat-input-area"
+                id="individual-chat-input-area"
+                style="display: none"
+              >
                 <div class="chat-input-container">
                   <div class="read-status-buttons">
-                    <button class="read-status-btn" id="read-status-toggle-btn" title="既読/未読切り替え">
+                    <button
+                      class="read-status-btn"
+                      id="read-status-toggle-btn"
+                      title="既読/未読切り替え"
+                    >
                       <i class="fa-solid fa-envelope-open"></i>
                     </button>
                   </div>
@@ -722,7 +952,9 @@
                     placeholder="メッセージを入力..."
                     rows="3"
                   ></textarea>
-                  <button id="individual-chat-send-btn" class="chat-send-btn">送信</button>
+                  <button id="individual-chat-send-btn" class="chat-send-btn">
+                    送信
+                  </button>
                 </div>
               </div>
             </div>
@@ -820,7 +1052,9 @@
                     </td>
                     <td>12,453</td>
                     <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">
+                        詳細
+                      </button>
                     </td>
                   </tr>
                   <tr data-history-id="2">
@@ -831,7 +1065,9 @@
                     </td>
                     <td>234</td>
                     <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">
+                        詳細
+                      </button>
                       <button class="btn btn-secondary btn-sm">停止</button>
                     </td>
                   </tr>
@@ -843,7 +1079,9 @@
                     </td>
                     <td>11,892</td>
                     <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">
+                        詳細
+                      </button>
                     </td>
                   </tr>
                   <tr data-history-id="4">
@@ -854,7 +1092,9 @@
                     </td>
                     <td>11,234</td>
                     <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">
+                        詳細
+                      </button>
                     </td>
                   </tr>
                   <tr data-history-id="5">
@@ -865,7 +1105,9 @@
                     </td>
                     <td>10,987</td>
                     <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">
+                        詳細
+                      </button>
                     </td>
                   </tr>
                   <tr data-history-id="6">
@@ -874,7 +1116,9 @@
                     <td><span class="status-badge status-error">停止</span></td>
                     <td>156</td>
                     <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">
+                        詳細
+                      </button>
                       <button class="btn btn-primary btn-sm">再開</button>
                     </td>
                   </tr>
@@ -886,7 +1130,9 @@
                     </td>
                     <td>12,678</td>
                     <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">
+                        詳細
+                      </button>
                     </td>
                   </tr>
                   <tr data-history-id="8">
@@ -897,7 +1143,9 @@
                     </td>
                     <td>445</td>
                     <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">
+                        詳細
+                      </button>
                     </td>
                   </tr>
                   <tr data-history-id="9">
@@ -908,7 +1156,9 @@
                     </td>
                     <td>11,543</td>
                     <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">
+                        詳細
+                      </button>
                     </td>
                   </tr>
                   <tr data-history-id="10">
@@ -919,7 +1169,9 @@
                     </td>
                     <td>12,105</td>
                     <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
+                      <button class="btn btn-outline btn-sm history-detail-btn">
+                        詳細
+                      </button>
                     </td>
                   </tr>
                 </tbody>
@@ -943,7 +1195,9 @@
           <div class="page-header">
             <h1 class="page-title">配信履歴詳細</h1>
             <div class="header-actions">
-              <button class="btn btn-outline" id="history-back-btn">一覧に戻る</button>
+              <button class="btn btn-outline" id="history-back-btn">
+                一覧に戻る
+              </button>
             </div>
           </div>
 
@@ -954,19 +1208,27 @@
               <div class="history-info-grid">
                 <div class="history-info-item">
                   <span class="history-info-label">管理用タイトル</span>
-                  <span class="history-info-value" id="history-detail-title">-</span>
+                  <span class="history-info-value" id="history-detail-title"
+                    >-</span
+                  >
                 </div>
                 <div class="history-info-item">
                   <span class="history-info-label">配信日時</span>
-                  <span class="history-info-value" id="history-detail-date">-</span>
+                  <span class="history-info-value" id="history-detail-date"
+                    >-</span
+                  >
                 </div>
                 <div class="history-info-item">
                   <span class="history-info-label">配信対象</span>
-                  <span class="history-info-value" id="history-detail-target">-</span>
+                  <span class="history-info-value" id="history-detail-target"
+                    >-</span
+                  >
                 </div>
                 <div class="history-info-item">
                   <span class="history-info-label">ステータス</span>
-                  <span class="history-info-value" id="history-detail-status">-</span>
+                  <span class="history-info-value" id="history-detail-status"
+                    >-</span
+                  >
                 </div>
               </div>
             </div>
@@ -981,13 +1243,21 @@
                 </div>
                 <div class="history-stat-card">
                   <div class="history-stat-label">開封数</div>
-                  <div class="history-stat-value" id="history-stat-opened">-</div>
-                  <div class="history-stat-rate" id="history-stat-open-rate">-</div>
+                  <div class="history-stat-value" id="history-stat-opened">
+                    -
+                  </div>
+                  <div class="history-stat-rate" id="history-stat-open-rate">
+                    -
+                  </div>
                 </div>
                 <div class="history-stat-card">
                   <div class="history-stat-label">クリック数</div>
-                  <div class="history-stat-value" id="history-stat-clicked">-</div>
-                  <div class="history-stat-rate" id="history-stat-click-rate">-</div>
+                  <div class="history-stat-value" id="history-stat-clicked">
+                    -
+                  </div>
+                  <div class="history-stat-rate" id="history-stat-click-rate">
+                    -
+                  </div>
                 </div>
               </div>
             </div>
@@ -999,7 +1269,9 @@
                 <div class="message-preview-chat">
                   <div class="message message-sent">
                     <div class="message-content">
-                      <div class="message-text" id="history-detail-message">-</div>
+                      <div class="message-text" id="history-detail-message">
+                        -
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1038,9 +1310,7 @@
           <button class="btn btn-outline" id="scenario-cancel-btn">
             キャンセル
           </button>
-          <button class="btn btn-primary" id="scenario-create-btn">
-            作成
-          </button>
+          <button class="btn btn-primary" id="scenario-create-btn">作成</button>
         </div>
       </div>
     </div>
@@ -1169,9 +1439,7 @@
           <button class="btn btn-outline" id="memo-cancel-btn">
             キャンセル
           </button>
-          <button class="btn btn-primary" id="memo-save-btn">
-            保存
-          </button>
+          <button class="btn btn-primary" id="memo-save-btn">保存</button>
         </div>
       </div>
     </div>
@@ -1198,24 +1466,111 @@
           <div class="form-group">
             <label class="form-label">カラー</label>
             <div class="color-palette-container" id="tag-edit-color-palette">
-              <button type="button" class="color-option transparent" data-color="transparent" title="無色">
+              <button
+                type="button"
+                class="color-option transparent"
+                data-color="transparent"
+                title="無色"
+              >
                 <i class="fa-solid fa-ban"></i>
               </button>
-              <button type="button" class="color-option" data-color="#00b900" style="background-color: #00b900;" title="グリーン"></button>
-              <button type="button" class="color-option" data-color="#3b82f6" style="background-color: #3b82f6;" title="ブルー"></button>
-              <button type="button" class="color-option" data-color="#ef4444" style="background-color: #ef4444;" title="レッド"></button>
-              <button type="button" class="color-option" data-color="#f59e0b" style="background-color: #f59e0b;" title="オレンジ"></button>
-              <button type="button" class="color-option" data-color="#8b5cf6" style="background-color: #8b5cf6;" title="パープル"></button>
-              <button type="button" class="color-option" data-color="#ec4899" style="background-color: #ec4899;" title="ピンク"></button>
-              <button type="button" class="color-option" data-color="#06b6d4" style="background-color: #06b6d4;" title="シアン"></button>
-              <button type="button" class="color-option" data-color="#84cc16" style="background-color: #84cc16;" title="ライムグリーン"></button>
-              <button type="button" class="color-option" data-color="#14b8a6" style="background-color: #14b8a6;" title="ティール"></button>
-              <button type="button" class="color-option" data-color="#f97316" style="background-color: #f97316;" title="ディープオレンジ"></button>
-              <button type="button" class="color-option" data-color="#a855f7" style="background-color: #a855f7;" title="バイオレット"></button>
-              <button type="button" class="color-option" data-color="#0ea5e9" style="background-color: #0ea5e9;" title="スカイブルー"></button>
-              <button type="button" class="color-option" data-color="#f43f5e" style="background-color: #f43f5e;" title="ローズ"></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#00b900"
+                style="background-color: #00b900"
+                title="グリーン"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#3b82f6"
+                style="background-color: #3b82f6"
+                title="ブルー"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#ef4444"
+                style="background-color: #ef4444"
+                title="レッド"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#f59e0b"
+                style="background-color: #f59e0b"
+                title="オレンジ"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#8b5cf6"
+                style="background-color: #8b5cf6"
+                title="パープル"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#ec4899"
+                style="background-color: #ec4899"
+                title="ピンク"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#06b6d4"
+                style="background-color: #06b6d4"
+                title="シアン"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#84cc16"
+                style="background-color: #84cc16"
+                title="ライムグリーン"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#14b8a6"
+                style="background-color: #14b8a6"
+                title="ティール"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#f97316"
+                style="background-color: #f97316"
+                title="ディープオレンジ"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#a855f7"
+                style="background-color: #a855f7"
+                title="バイオレット"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#0ea5e9"
+                style="background-color: #0ea5e9"
+                title="スカイブルー"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#f43f5e"
+                style="background-color: #f43f5e"
+                title="ローズ"
+              ></button>
             </div>
-            <input type="hidden" id="tag-edit-color-input" value="transparent" />
+            <input
+              type="hidden"
+              id="tag-edit-color-input"
+              value="transparent"
+            />
           </div>
         </div>
 
@@ -1223,9 +1578,7 @@
           <button class="btn btn-outline" id="tag-edit-cancel-btn">
             キャンセル
           </button>
-          <button class="btn btn-primary" id="tag-edit-save-btn">
-            保存
-          </button>
+          <button class="btn btn-primary" id="tag-edit-save-btn">保存</button>
         </div>
       </div>
     </div>
@@ -1254,13 +1607,21 @@
                   ステップ開始直後
                 </label>
                 <label class="radio-item">
-                  <input type="radio" name="stepDeliveryTiming" value="scheduled" />
+                  <input
+                    type="radio"
+                    name="stepDeliveryTiming"
+                    value="scheduled"
+                  />
                   日時で指定
                 </label>
               </div>
             </div>
 
-            <div class="form-group" id="step-scheduled-group" style="display: none">
+            <div
+              class="form-group"
+              id="step-scheduled-group"
+              style="display: none"
+            >
               <div class="timing-preview-input">
                 ステップは開始から
                 <input
@@ -1282,7 +1643,10 @@
                 に配信する
               </div>
 
-              <div class="form-description" style="font-size: 13px; color: #666; margin-top: 8px;">
+              <div
+                class="form-description"
+                style="font-size: 13px; color: #666; margin-top: 8px"
+              >
                 ※ステップ開始当日に送信する場合は「0日後」を選択してください
               </div>
             </div>
@@ -1293,9 +1657,7 @@
           <button class="btn btn-outline" id="step-timing-cancel-btn">
             キャンセル
           </button>
-          <button class="btn btn-primary" id="step-timing-add-btn">
-            追加
-          </button>
+          <button class="btn btn-primary" id="step-timing-add-btn">追加</button>
         </div>
       </div>
     </div>
@@ -1328,9 +1690,7 @@
           <button class="btn btn-outline" id="message-cancel-btn">
             キャンセル
           </button>
-          <button class="btn btn-primary" id="message-add-btn">
-            追加
-          </button>
+          <button class="btn btn-primary" id="message-add-btn">追加</button>
         </div>
       </div>
     </div>
@@ -1340,7 +1700,9 @@
       <div class="modal-content modal-preview-size">
         <div class="modal-header">
           <h2>配信内容プレビュー</h2>
-          <button class="modal-close-btn" id="broadcast-preview-close-btn">×</button>
+          <button class="modal-close-btn" id="broadcast-preview-close-btn">
+            ×
+          </button>
         </div>
 
         <div class="modal-body">
@@ -1368,7 +1730,9 @@
               <div class="message-preview-chat">
                 <div class="message message-sent">
                   <div class="message-content">
-                    <div class="message-text" id="preview-message-text">メッセージが入力されていません</div>
+                    <div class="message-text" id="preview-message-text">
+                      メッセージが入力されていません
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1398,7 +1762,10 @@
         </div>
 
         <div class="modal-body">
-          <div id="step-message-preview-container" class="message-preview-container">
+          <div
+            id="step-message-preview-container"
+            class="message-preview-container"
+          >
             <div class="message-preview-chat">
               <!-- Dynamic content will be inserted here -->
             </div>
