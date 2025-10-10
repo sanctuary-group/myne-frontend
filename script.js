@@ -101,6 +101,7 @@ let currentPage = "dashboard";
 let currentChatUserId = null;
 let currentChatUserName = null;
 let userDraftMessages = {}; // Store draft messages per user
+let currentAccount = "account1"; // Current selected account
 
 // DOM Elements
 const loginContainer = document.getElementById("login-container");
@@ -148,6 +149,19 @@ function setupEventListeners() {
 
   // Logout button
   logoutBtn.addEventListener("click", handleLogout);
+
+  // Account selector
+  const accountSelect = document.getElementById("account-select");
+  if (accountSelect) {
+    // Load saved account from localStorage
+    const savedAccount = localStorage.getItem("currentAccount");
+    if (savedAccount) {
+      currentAccount = savedAccount;
+      accountSelect.value = savedAccount;
+    }
+
+    accountSelect.addEventListener("change", handleAccountChange);
+  }
 
   // Navigation items
   navItems.forEach((item) => {
@@ -203,6 +217,31 @@ function handleLogin(e) {
     loginBtn.textContent = "ログイン";
     loginBtn.disabled = false;
   }, 1000);
+}
+
+function handleAccountChange(e) {
+  const newAccount = e.target.value;
+  currentAccount = newAccount;
+
+  // Save to localStorage
+  localStorage.setItem("currentAccount", newAccount);
+
+  // Show notification
+  console.log(`アカウントを ${getAccountName(newAccount)} に切り替えました`);
+
+  // Reload current page data with new account context
+  // In a real application, you would fetch data for the selected account
+  // For now, we'll just refresh the current page
+  navigateToPage(currentPage);
+}
+
+function getAccountName(accountId) {
+  const accountNames = {
+    'account1': 'メインアカウント',
+    'account2': 'サブアカウント',
+    'account3': 'テストアカウント'
+  };
+  return accountNames[accountId] || accountId;
 }
 
 function handleLogout() {
