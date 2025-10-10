@@ -1,21 +1,21 @@
 // ===== MOCK DATA =====
 // 友だちデータ
 const MOCK_FRIENDS = [
-  { id: 1, name: '田中太郎', lineId: 'U001', tags: [1, 3], registeredAt: '2024-01-15', memo: '製品Aに興味あり', bookmarked: true, readStatus: 'unread' },
-  { id: 2, name: '鈴木花子', lineId: 'U002', tags: [2], registeredAt: '2024-01-14', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 3, name: '佐藤次郎', lineId: 'U003', tags: [1, 2], registeredAt: '2024-01-13', memo: '月次レポート希望', bookmarked: true, readStatus: 'unread' },
-  { id: 4, name: '高橋美咲', lineId: 'U004', tags: [], registeredAt: '2024-01-12', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 5, name: '伊藤健一', lineId: 'U005', tags: [3], registeredAt: '2024-01-11', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 6, name: '渡辺さくら', lineId: 'U006', tags: [1], registeredAt: '2024-01-10', memo: 'VIP対応', bookmarked: true, readStatus: 'unread' },
-  { id: 7, name: '山本太一', lineId: 'U007', tags: [2, 3], registeredAt: '2024-01-09', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 8, name: '中村結衣', lineId: 'U008', tags: [], registeredAt: '2024-01-08', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 9, name: '小林大輔', lineId: 'U009', tags: [1], registeredAt: '2024-01-07', memo: '請求書発行済み', bookmarked: false, readStatus: 'read' },
-  { id: 10, name: '加藤愛', lineId: 'U010', tags: [3], registeredAt: '2024-01-06', memo: '', bookmarked: false, readStatus: 'unread' },
-  { id: 11, name: '吉田悠斗', lineId: 'U011', tags: [2], registeredAt: '2024-01-05', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 12, name: '山田陽菜', lineId: 'U012', tags: [], registeredAt: '2024-01-04', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 13, name: '佐々木蓮', lineId: 'U013', tags: [1, 2], registeredAt: '2024-01-03', memo: '次回フォロー: 2/1', bookmarked: true, readStatus: 'unread' },
-  { id: 14, name: '松本葵', lineId: 'U014', tags: [], registeredAt: '2024-01-02', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 15, name: '井上颯太', lineId: 'U015', tags: [3], registeredAt: '2024-01-01', memo: '', bookmarked: false, readStatus: 'read' }
+  { id: 1, name: '田中太郎', lineId: 'U001', tags: [1, 3], registeredAt: '2025-10-15', memo: '製品Aに興味あり', bookmarked: true, readStatus: 'unread' },
+  { id: 2, name: '鈴木花子', lineId: 'U002', tags: [2], registeredAt: '2025-10-14', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 3, name: '佐藤次郎', lineId: 'U003', tags: [1, 2], registeredAt: '2025-10-13', memo: '月次レポート希望', bookmarked: true, readStatus: 'unread' },
+  { id: 4, name: '高橋美咲', lineId: 'U004', tags: [], registeredAt: '2025-10-12', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 5, name: '伊藤健一', lineId: 'U005', tags: [3], registeredAt: '2025-10-11', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 6, name: '渡辺さくら', lineId: 'U006', tags: [1], registeredAt: '2025-09-10', memo: 'VIP対応', bookmarked: true, readStatus: 'unread' },
+  { id: 7, name: '山本太一', lineId: 'U007', tags: [2, 3], registeredAt: '2025-09-09', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 8, name: '中村結衣', lineId: 'U008', tags: [], registeredAt: '2025-08-08', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 9, name: '小林大輔', lineId: 'U009', tags: [1], registeredAt: '2025-08-07', memo: '請求書発行済み', bookmarked: false, readStatus: 'read' },
+  { id: 10, name: '加藤愛', lineId: 'U010', tags: [3], registeredAt: '2025-07-06', memo: '', bookmarked: false, readStatus: 'unread' },
+  { id: 11, name: '吉田悠斗', lineId: 'U011', tags: [2], registeredAt: '2025-07-05', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 12, name: '山田陽菜', lineId: 'U012', tags: [], registeredAt: '2025-06-04', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 13, name: '佐々木蓮', lineId: 'U013', tags: [1, 2], registeredAt: '2025-06-03', memo: '次回フォロー: 11/1', bookmarked: true, readStatus: 'unread' },
+  { id: 14, name: '松本葵', lineId: 'U014', tags: [], registeredAt: '2025-05-02', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 15, name: '井上颯太', lineId: 'U015', tags: [3], registeredAt: '2025-05-01', memo: '', bookmarked: false, readStatus: 'read' }
 ];
 
 // タグデータ
@@ -30,29 +30,29 @@ const MOCK_TAGS = [
 // メッセージデータ
 const MOCK_MESSAGES = {
   1: [
-    { id: 1, sender: 'user', content: 'こんにちは！製品Aについて詳しく教えてください。', timestamp: '2024-01-15 10:30' },
-    { id: 2, sender: 'admin', content: 'お問い合わせありがとうございます。製品Aは当社の主力商品で...', timestamp: '2024-01-15 10:35' },
-    { id: 3, sender: 'user', content: '価格はいくらですか？', timestamp: '2024-01-15 10:40' },
-    { id: 4, sender: 'admin', content: '製品Aの価格は¥9,800です。', timestamp: '2024-01-15 10:42' }
+    { id: 1, sender: 'user', content: 'こんにちは！製品Aについて詳しく教えてください。', timestamp: '2025-10-15 10:30' },
+    { id: 2, sender: 'admin', content: 'お問い合わせありがとうございます。製品Aは当社の主力商品で...', timestamp: '2025-10-15 10:35' },
+    { id: 3, sender: 'user', content: '価格はいくらですか？', timestamp: '2025-10-15 10:40' },
+    { id: 4, sender: 'admin', content: '製品Aの価格は¥9,800です。', timestamp: '2025-10-15 10:42' }
   ],
   2: [
-    { id: 1, sender: 'user', content: '配送状況を教えてください', timestamp: '2024-01-14 14:20' },
-    { id: 2, sender: 'admin', content: 'ご注文の商品は本日発送いたしました。', timestamp: '2024-01-14 14:25' },
-    { id: 3, sender: 'user', content: 'ありがとうございます！', timestamp: '2024-01-14 14:30' }
+    { id: 1, sender: 'user', content: '配送状況を教えてください', timestamp: '2025-10-14 14:20' },
+    { id: 2, sender: 'admin', content: 'ご注文の商品は本日発送いたしました。', timestamp: '2025-10-14 14:25' },
+    { id: 3, sender: 'user', content: 'ありがとうございます！', timestamp: '2025-10-14 14:30' }
   ],
   3: [
-    { id: 1, sender: 'user', content: '月次レポートをお願いします', timestamp: '2024-01-13 09:00' },
-    { id: 2, sender: 'admin', content: '承知いたしました。準備でき次第お送りします。', timestamp: '2024-01-13 09:15' },
-    { id: 3, sender: 'user', content: 'いつ頃になりそうですか？', timestamp: '2024-01-13 11:00' }
+    { id: 1, sender: 'user', content: '月次レポートをお願いします', timestamp: '2025-10-13 09:00' },
+    { id: 2, sender: 'admin', content: '承知いたしました。準備でき次第お送りします。', timestamp: '2025-10-13 09:15' },
+    { id: 3, sender: 'user', content: 'いつ頃になりそうですか？', timestamp: '2025-10-13 11:00' }
   ],
   6: [
-    { id: 1, sender: 'user', content: 'VIPプランについて教えてください', timestamp: '2024-01-10 15:00' },
-    { id: 2, sender: 'admin', content: 'VIPプランは月額¥29,800で...', timestamp: '2024-01-10 15:10' },
-    { id: 3, sender: 'user', content: '申し込みたいです', timestamp: '2024-01-10 15:20' }
+    { id: 1, sender: 'user', content: 'VIPプランについて教えてください', timestamp: '2025-09-10 15:00' },
+    { id: 2, sender: 'admin', content: 'VIPプランは月額¥29,800で...', timestamp: '2025-09-10 15:10' },
+    { id: 3, sender: 'user', content: '申し込みたいです', timestamp: '2025-09-10 15:20' }
   ],
   13: [
-    { id: 1, sender: 'user', content: '次回の打ち合わせはいつですか？', timestamp: '2024-01-03 10:00' },
-    { id: 2, sender: 'admin', content: '2月1日の14時でいかがでしょうか？', timestamp: '2024-01-03 10:15' }
+    { id: 1, sender: 'user', content: '次回の打ち合わせはいつですか？', timestamp: '2025-06-03 10:00' },
+    { id: 2, sender: 'admin', content: '11月1日の14時でいかがでしょうか？', timestamp: '2025-06-03 10:15' }
   ]
 };
 
@@ -536,7 +536,7 @@ function showHistoryDetail(historyId) {
   const historyData = {
     1: {
       title: "新商品のお知らせ",
-      date: "2024-01-15 10:00",
+      date: "2025-10-15 10:00",
       target: "友だち全員",
       status: "配信完了",
       sent: "12,453",
@@ -548,7 +548,7 @@ function showHistoryDetail(historyId) {
     },
     2: {
       title: "ウェルカムメッセージ",
-      date: "2024-01-14 09:00",
+      date: "2025-10-14 09:00",
       target: "新規登録者",
       status: "進行中",
       sent: "234",
@@ -560,7 +560,7 @@ function showHistoryDetail(historyId) {
     },
     3: {
       title: "キャンペーン情報",
-      date: "2024-01-13 14:30",
+      date: "2025-10-13 14:30",
       target: "友だち全員",
       status: "配信完了",
       sent: "11,892",
@@ -696,6 +696,72 @@ function easeOutCubic(t) {
   return 1 - Math.pow(1 - t, 3);
 }
 
+// Update dashboard statistics from actual data
+function updateDashboardStats() {
+  // 友だち数を1:1チャットのデータから取得
+  const friends = getMockFriends();
+  const friendsCount = friends.length;
+
+  // 今月の配信数を計算（一斉配信とステップ配信の合計）
+  const broadcasts = getMockBroadcasts();
+  const scenarios = loadScenariosFromLocalStorage();
+
+  console.log('[Dashboard] 一斉配信データ:', broadcasts);
+  console.log('[Dashboard] ステップ配信データ:', scenarios);
+
+  // 今月の年月を取得
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1; // 0-indexed, so add 1
+  console.log(`[Dashboard] 現在の年月: ${currentYear}年${currentMonth}月`);
+
+  // 今月の一斉配信をカウント
+  const thisMonthBroadcasts = broadcasts.filter(broadcast => {
+    if (!broadcast.createdAt) return false;
+    const createdDate = new Date(broadcast.createdAt);
+    const match = createdDate.getFullYear() === currentYear &&
+           (createdDate.getMonth() + 1) === currentMonth;
+    console.log(`[Dashboard] 一斉配信 "${broadcast.title}": ${broadcast.createdAt} -> ${match ? '今月' : '対象外'}`);
+    return match;
+  }).length;
+
+  // 今月のステップ配信をカウント
+  const thisMonthScenarios = scenarios.filter(scenario => {
+    if (!scenario.createdAt) return false;
+    // createdAtは 'YYYY/MM/DD' 形式の日本語ロケール文字列
+    const dateParts = scenario.createdAt.split('/');
+    if (dateParts.length !== 3) return false;
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]);
+    const match = year === currentYear && month === currentMonth;
+    console.log(`[Dashboard] ステップ配信 "${scenario.name}": ${scenario.createdAt} (${year}/${month}) -> ${match ? '今月' : '対象外'}`);
+    return match;
+  }).length;
+
+  const totalDeliveries = thisMonthBroadcasts + thisMonthScenarios;
+
+  console.log(`[Dashboard] 今月の一斉配信: ${thisMonthBroadcasts}件`);
+  console.log(`[Dashboard] 今月のステップ配信: ${thisMonthScenarios}件`);
+  console.log(`[Dashboard] 合計: ${totalDeliveries}件`);
+
+  // DOMを更新
+  const statCards = document.querySelectorAll('.stat-card');
+  if (statCards.length >= 2) {
+    // 友だち数を更新
+    const friendsStatNumber = statCards[0].querySelector('.stat-number');
+    if (friendsStatNumber) {
+      friendsStatNumber.textContent = friendsCount.toLocaleString();
+    }
+
+    // 今月の配信数を更新
+    const deliveriesStatNumber = statCards[1].querySelector('.stat-number');
+    if (deliveriesStatNumber) {
+      deliveriesStatNumber.textContent = totalDeliveries.toString();
+      console.log(`[Dashboard] DOM更新完了: 今月の配信数 = ${totalDeliveries}`);
+    }
+  }
+}
+
 // Initialize page-specific functionality when navigating
 const originalNavigateToPage = navigateToPage;
 navigateToPage = function (pageId) {
@@ -733,7 +799,8 @@ navigateToPage = function (pageId) {
       initializeSettings();
       break;
     case "dashboard":
-      // Animate stats when dashboard loads
+      // Update stats from actual data, then animate
+      updateDashboardStats();
       setTimeout(animateStats, 100);
       break;
   }
@@ -4219,8 +4286,10 @@ function handleStepAdd() {
 
 // Mock broadcast data
 const MOCK_BROADCASTS = [
-  { id: 1, title: '新商品のお知らせ', target: 'all', targetText: '全員', deliveryTiming: 'immediate', message: 'いつもご利用ありがとうございます。新商品が入荷しました！', createdAt: '2024-01-15', status: '配信完了' },
-  { id: 2, title: 'セール情報', target: 'tags', targetText: 'VIP顧客', selectedTags: [1], deliveryTiming: 'scheduled', days: 1, time: '10:00', message: 'VIPメンバー限定セールのお知らせです', createdAt: '2024-01-10', status: '配信予約中' }
+  { id: 1, title: '新商品のお知らせ', target: 'all', targetText: '全員', deliveryTiming: 'immediate', message: 'いつもご利用ありがとうございます。新商品が入荷しました！', createdAt: '2025-10-15', status: '配信完了' },
+  { id: 2, title: 'セール情報', target: 'tags', targetText: 'VIP顧客', selectedTags: [1], deliveryTiming: 'scheduled', days: 1, time: '10:00', message: 'VIPメンバー限定セールのお知らせです', createdAt: '2025-10-10', status: '配信予約中' },
+  { id: 3, title: '秋のキャンペーン', target: 'all', targetText: '全員', deliveryTiming: 'immediate', message: '秋のキャンペーンを開始しました！', createdAt: '2025-10-05', status: '配信完了' },
+  { id: 4, title: '9月の総括', target: 'all', targetText: '全員', deliveryTiming: 'immediate', message: '9月の活動報告をお送りします。', createdAt: '2025-09-30', status: '配信完了' }
 ];
 
 // Initialize mock broadcast data
