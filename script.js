@@ -5127,6 +5127,10 @@ function initializeColorPalette(paletteId, inputId) {
 
   if (!palette || !input) return;
 
+  // Get color picker element (if exists)
+  const pickerIdPrefix = paletteId.replace('-palette', '');
+  const colorPicker = document.getElementById(pickerIdPrefix + '-picker');
+
   // Add click event to all color options
   const colorOptions = palette.querySelectorAll('.color-option');
   colorOptions.forEach(option => {
@@ -5141,8 +5145,26 @@ function initializeColorPalette(paletteId, inputId) {
 
       // Update hidden input value
       input.value = color;
+
+      // Update color picker value (if not transparent)
+      if (colorPicker && color !== 'transparent') {
+        colorPicker.value = color;
+      }
     });
   });
+
+  // Add event listener to color picker (if exists)
+  if (colorPicker) {
+    colorPicker.addEventListener('input', function() {
+      const customColor = this.value;
+
+      // Remove selected class from all palette options
+      colorOptions.forEach(opt => opt.classList.remove('selected'));
+
+      // Update hidden input value
+      input.value = customColor;
+    });
+  }
 }
 
 /**
@@ -5174,15 +5196,29 @@ function setColorPaletteValue(paletteId, color) {
   const palette = document.getElementById(paletteId);
   if (!palette) return;
 
+  // Get color picker element (if exists)
+  const pickerIdPrefix = paletteId.replace('-palette', '');
+  const colorPicker = document.getElementById(pickerIdPrefix + '-picker');
+
   const colorOptions = palette.querySelectorAll('.color-option');
+  let foundInPalette = false;
+
   colorOptions.forEach(option => {
     const optionColor = option.getAttribute('data-color');
     if (optionColor === color) {
       option.classList.add('selected');
+      foundInPalette = true;
     } else {
       option.classList.remove('selected');
     }
   });
+
+  // Update color picker value
+  if (colorPicker) {
+    if (color !== 'transparent') {
+      colorPicker.value = color;
+    }
+  }
 }
 
 // Initialize on load - ensure this runs after DOM is loaded
