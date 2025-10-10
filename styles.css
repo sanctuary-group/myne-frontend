@@ -649,6 +649,19 @@ body {
   text-align: center;
 }
 
+/* Settings Page Actions */
+.settings-actions {
+  margin-top: 30px;
+  display: flex;
+  gap: 15px;
+  justify-content: flex-start;
+}
+
+#settings-save-cancel-group {
+  display: flex;
+  gap: 10px;
+}
+
 /* Step Delivery */
 .scenarios-grid {
   display: grid;

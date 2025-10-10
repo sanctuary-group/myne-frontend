@@ -824,17 +824,71 @@ function filterFriends(searchTerm) {
 
 // Settings functionality
 function initializeSettings() {
-  const saveButtons = document.querySelectorAll("#settings-page .btn-primary");
+  const emailInput = document.getElementById("settings-email");
+  const passwordInput = document.getElementById("settings-password");
+  const editBtn = document.getElementById("settings-edit-btn");
+  const saveCancelGroup = document.getElementById("settings-save-cancel-group");
+  const saveBtn = document.getElementById("settings-save-btn");
+  const cancelBtn = document.getElementById("settings-cancel-btn");
 
-  saveButtons.forEach((btn) => {
-    btn.addEventListener("click", function () {
+  // 元の値を保存する変数
+  let originalEmail = "";
+  let originalPassword = "";
+
+  // 編集ボタンのクリックイベント
+  if (editBtn) {
+    editBtn.addEventListener("click", function () {
+      // 現在の値を保存
+      originalEmail = emailInput.value;
+      originalPassword = passwordInput.value;
+
+      // 入力フィールドを有効化
+      emailInput.disabled = false;
+      passwordInput.disabled = false;
+
+      // ボタンの表示を切り替え
+      editBtn.style.display = "none";
+      saveCancelGroup.style.display = "flex";
+    });
+  }
+
+  // 保存ボタンのクリックイベント
+  if (saveBtn) {
+    saveBtn.addEventListener("click", function () {
       // Here you would implement settings save
       console.log("Saving settings...");
+      console.log("Email:", emailInput.value);
+      console.log("Password:", passwordInput.value);
+
+      // 入力フィールドを無効化
+      emailInput.disabled = true;
+      passwordInput.disabled = true;
+
+      // ボタンの表示を切り替え
+      editBtn.style.display = "inline-block";
+      saveCancelGroup.style.display = "none";
 
       // Show success message (simplified)
       alert("設定を保存しました");
     });
-  });
+  }
+
+  // キャンセルボタンのクリックイベント
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", function () {
+      // 元の値に戻す
+      emailInput.value = originalEmail;
+      passwordInput.value = originalPassword;
+
+      // 入力フィールドを無効化
+      emailInput.disabled = true;
+      passwordInput.disabled = true;
+
+      // ボタンの表示を切り替え
+      editBtn.style.display = "inline-block";
+      saveCancelGroup.style.display = "none";
+    });
+  }
 }
 
 // History page functionality
