@@ -104,6 +104,7 @@ let userDraftMessages = {}; // Store draft messages per user
 let currentAccount = "account1"; // Current selected account
 let pendingVerificationEmail = null; // 認証待ちのメールアドレス
 let pendingResetEmail = null; // パスワードリセット待ちのメールアドレス
+let currentBroadcastStatusFilter = '配信予約中'; // Current broadcast status filter
 
 // DOM Elements
 const loginContainer = document.getElementById("login-container");
@@ -891,209 +892,6 @@ function initializeSettings() {
   }
 }
 
-// History page functionality
-function initializeHistoryPage() {
-  const searchInput = document.getElementById("history-search");
-  const statusFilter = document.getElementById("history-status-filter");
-
-  if (searchInput) {
-    searchInput.addEventListener("input", function () {
-      filterHistoryTable();
-    });
-  }
-
-  if (statusFilter) {
-    statusFilter.addEventListener("change", function () {
-      filterHistoryTable();
-    });
-  }
-
-  // Initialize detail buttons
-  const detailButtons = document.querySelectorAll(".history-detail-btn");
-  detailButtons.forEach((btn) => {
-    btn.addEventListener("click", function (e) {
-      e.preventDefault();
-      const row = this.closest("tr");
-      const historyId = row.getAttribute("data-history-id");
-      showHistoryDetail(historyId);
-    });
-  });
-
-  // Initialize action buttons
-  const actionButtons = document.querySelectorAll("#history-table .btn");
-  actionButtons.forEach((btn) => {
-    btn.addEventListener("click", function (e) {
-      e.preventDefault();
-      const action = this.textContent.trim();
-      const row = this.closest("tr");
-      const title = row.querySelector("td:first-child").textContent.trim();
-
-      handleHistoryAction(action, title, row);
-    });
-  });
-
-  // History back button
-  const historyBackBtn = document.getElementById("history-back-btn");
-  if (historyBackBtn) {
-    historyBackBtn.addEventListener("click", function () {
-      showPage("history");
-    });
-  }
-}
-
-function filterHistoryTable() {
-  const searchTerm = document
-    .getElementById("history-search")
-    .value.toLowerCase();
-  const statusFilter = document.getElementById("history-status-filter").value;
-
-  const rows = document.querySelectorAll("#history-table tbody tr");
-  let visibleCount = 0;
-
-  rows.forEach((row) => {
-    const title = row
-      .querySelector("td:nth-child(1)")
-      .textContent.toLowerCase();
-    const statusBadge = row.querySelector(".status-badge");
-    const status = statusBadge ? statusBadge.textContent : "";
-
-    const matchesSearch = title.includes(searchTerm);
-    const matchesStatus = !statusFilter || status === statusFilter;
-
-    if (matchesSearch && matchesStatus) {
-      row.style.display = "";
-      visibleCount++;
-    } else {
-      row.style.display = "none";
-    }
-  });
-
-  // Update pagination info (simplified)
-  const paginationInfo = document.querySelector(".pagination-info");
-  if (paginationInfo && visibleCount > 0) {
-    paginationInfo.textContent = `表示中: ${visibleCount} 件`;
-  } else if (paginationInfo) {
-    paginationInfo.textContent = "該当する履歴が見つかりません";
-  }
-}
-
-// Show history detail page
-function showHistoryDetail(historyId) {
-  // Sample data (in production, this would come from API)
-  const historyData = {
-    1: {
-      title: "新商品のお知らせ",
-      date: "2025-10-15 10:00",
-      target: "友だち全員",
-      status: "配信完了",
-      sent: "12,453",
-      opened: "9,234",
-      openRate: "74.1%",
-      clicked: "4,567",
-      clickRate: "36.6%",
-      message: "こんにちは！\n\n新商品のお知らせです。\n本日より新しい商品の販売を開始しました。\n\nぜひチェックしてみてください！",
-    },
-    2: {
-      title: "ウェルカムメッセージ",
-      date: "2025-10-14 09:00",
-      target: "新規登録者",
-      status: "進行中",
-      sent: "234",
-      opened: "145",
-      openRate: "62.0%",
-      clicked: "67",
-      clickRate: "28.6%",
-      message: "ご登録ありがとうございます！\n\nこれから役立つ情報をお届けしていきます。",
-    },
-    3: {
-      title: "キャンペーン情報",
-      date: "2025-10-13 14:30",
-      target: "友だち全員",
-      status: "配信完了",
-      sent: "11,892",
-      opened: "8,543",
-      openRate: "71.8%",
-      clicked: "3,234",
-      clickRate: "27.2%",
-      message: "期間限定キャンペーン開催中！\n\n今だけお得な特典をご用意しています。",
-    },
-  };
-
-  const data = historyData[historyId] || historyData[1];
-
-  // Update detail page content
-  document.getElementById("history-detail-title").textContent = data.title;
-  document.getElementById("history-detail-date").textContent = data.date;
-  document.getElementById("history-detail-target").textContent = data.target;
-
-  const statusElement = document.getElementById("history-detail-status");
-  statusElement.innerHTML = `<span class="status-badge ${
-    data.status === "配信完了"
-      ? "status-active"
-      : data.status === "進行中"
-      ? "status-progress"
-      : "status-error"
-  }">${data.status}</span>`;
-
-  document.getElementById("history-stat-sent").textContent = data.sent;
-  document.getElementById("history-stat-opened").textContent = data.opened;
-  document.getElementById("history-stat-open-rate").textContent =
-    data.openRate;
-  document.getElementById("history-stat-clicked").textContent = data.clicked;
-  document.getElementById("history-stat-click-rate").textContent =
-    data.clickRate;
-  document.getElementById("history-detail-message").textContent = data.message;
-
-  // Show detail page
-  showPage("history-detail");
-}
-
-function handleHistoryAction(action, title, row) {
-  switch (action) {
-    case "詳細":
-      // Show delivery details modal or navigate to details page
-      const historyId = row.getAttribute("data-history-id");
-      showHistoryDetail(historyId);
-      break;
-    case "停止":
-      // Stop ongoing delivery
-      console.log("停止:", title);
-      if (confirm(`${title} の配信を停止しますか？`)) {
-        const statusBadge = row.querySelector(".status-badge");
-        if (statusBadge) {
-          statusBadge.textContent = "停止";
-          statusBadge.className = "status-badge status-error";
-        }
-        // Update action button
-        const actionBtn = row.querySelector(".btn-secondary");
-        if (actionBtn && actionBtn.textContent.trim() === "停止") {
-          actionBtn.textContent = "再開";
-          actionBtn.className = "btn btn-primary btn-sm";
-        }
-      }
-      break;
-    case "再開":
-      // Resume stopped delivery
-      console.log("再開:", title);
-      if (confirm(`${title} の配信を再開しますか？`)) {
-        const statusBadge = row.querySelector(".status-badge");
-        if (statusBadge) {
-          statusBadge.textContent = "進行中";
-          statusBadge.className = "status-badge status-progress";
-        }
-        // Update action button
-        const actionBtn = row.querySelector(".btn-primary");
-        if (actionBtn && actionBtn.textContent.trim() === "再開") {
-          actionBtn.textContent = "停止";
-          actionBtn.className = "btn btn-secondary btn-sm";
-        }
-      }
-      break;
-    default:
-      console.log("Unknown action:", action);
-  }
-}
-
 // Statistics animation (optional enhancement)
 function animateStats() {
   const statNumbers = document.querySelectorAll(".stat-number");
@@ -1209,6 +1007,65 @@ function updateDashboardStats() {
   }
 }
 
+// Load and display broadcast history on dashboard
+function loadDashboardBroadcastHistory() {
+  const tbody = document.getElementById('dashboard-history-tbody');
+  if (!tbody) return;
+
+  const broadcasts = getMockBroadcasts();
+
+  // Sort by createdAt descending (most recent first) and take top 3
+  const recentBroadcasts = broadcasts
+    .sort((a, b) => {
+      const dateA = new Date(a.createdAt || 0);
+      const dateB = new Date(b.createdAt || 0);
+      return dateB - dateA;
+    })
+    .slice(0, 3);
+
+  // Clear existing rows
+  tbody.innerHTML = '';
+
+  if (recentBroadcasts.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #999;">配信履歴がありません</td></tr>';
+    return;
+  }
+
+  // Render rows
+  recentBroadcasts.forEach(broadcast => {
+    const row = document.createElement('tr');
+
+    // Title
+    const titleCell = document.createElement('td');
+    titleCell.textContent = broadcast.title || '(タイトルなし)';
+    row.appendChild(titleCell);
+
+    // Date and time
+    const dateCell = document.createElement('td');
+    if (broadcast.createdAt) {
+      const date = new Date(broadcast.createdAt);
+      dateCell.textContent = date.toLocaleDateString('ja-JP', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }) + ' ' + (broadcast.time || '09:00');
+    } else {
+      dateCell.textContent = '-';
+    }
+    row.appendChild(dateCell);
+
+    // Status
+    const statusCell = document.createElement('td');
+    const statusBadge = document.createElement('span');
+    statusBadge.className = 'status-badge status-active';
+    statusBadge.textContent = broadcast.status || '配信完了';
+    statusCell.appendChild(statusBadge);
+    row.appendChild(statusCell);
+
+    tbody.appendChild(row);
+  });
+}
+
 // Initialize page-specific functionality when navigating
 const originalNavigateToPage = navigateToPage;
 navigateToPage = function (pageId) {
@@ -1239,15 +1096,13 @@ navigateToPage = function (pageId) {
       initializeReadStatusButtons();  // 既読・未読ボタンを初期化
       loadIndividualPageUsers('all');  // APIからユーザーリストを取得して表示（デフォルトはすべて）
       break;
-    case "history":
-      initializeHistoryPage();
-      break;
     case "settings":
       initializeSettings();
       break;
     case "dashboard":
       // Update stats from actual data, then animate
       updateDashboardStats();
+      loadDashboardBroadcastHistory();
       setTimeout(animateStats, 100);
       break;
   }
@@ -4871,7 +4726,32 @@ function initializeBroadcastListPage() {
     newBtn.addEventListener('click', createNewBroadcast);
   }
 
+  initializeBroadcastStatusToggle();
   renderBroadcastList();
+}
+
+// Initialize broadcast status toggle buttons
+function initializeBroadcastStatusToggle() {
+  const scheduledBtn = document.getElementById('broadcast-status-scheduled');
+  const completedBtn = document.getElementById('broadcast-status-completed');
+
+  if (scheduledBtn) {
+    scheduledBtn.addEventListener('click', () => {
+      currentBroadcastStatusFilter = '配信予約中';
+      scheduledBtn.classList.add('active');
+      completedBtn.classList.remove('active');
+      renderBroadcastList();
+    });
+  }
+
+  if (completedBtn) {
+    completedBtn.addEventListener('click', () => {
+      currentBroadcastStatusFilter = '配信完了';
+      completedBtn.classList.add('active');
+      scheduledBtn.classList.remove('active');
+      renderBroadcastList();
+    });
+  }
 }
 
 // Render broadcast list
@@ -4879,10 +4759,16 @@ function renderBroadcastList() {
   const tbody = document.getElementById('broadcasts-tbody');
   if (!tbody) return;
 
-  const broadcasts = getMockBroadcasts();
+  const allBroadcasts = getMockBroadcasts();
+
+  // Filter based on current status
+  const broadcasts = allBroadcasts.filter(b => b.status === currentBroadcastStatusFilter);
 
   if (broadcasts.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">一斉配信がまだ作成されていません<br>「新規作成」ボタンから作成してください</td></tr>';
+    const emptyMessage = currentBroadcastStatusFilter === '配信予約中'
+      ? '配信予約中の一斉配信がありません<br>「新規作成」ボタンから作成してください'
+      : '配信完了の一斉配信がありません';
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">' + emptyMessage + '</td></tr>';
     return;
   }
 
@@ -4995,6 +4881,29 @@ function deleteBroadcast(id) {
   broadcasts = broadcasts.filter(b => b.id !== id);
   saveMockBroadcasts(broadcasts);
   renderBroadcastList();
+}
+
+// Duplicate broadcast
+function duplicateBroadcast(id) {
+  const broadcasts = getMockBroadcasts();
+  const broadcast = broadcasts.find(b => b.id === id);
+  if (!broadcast) return;
+
+  // Create a copy of the broadcast
+  const duplicatedBroadcast = {
+    ...broadcast,
+    id: Date.now(),
+    title: (broadcast.title || '') + '（コピー）',
+    createdAt: new Date().toISOString().split('T')[0],
+    status: '配信予約中'
+  };
+
+  // Add duplicated broadcast to the list
+  broadcasts.push(duplicatedBroadcast);
+  saveMockBroadcasts(broadcasts);
+  renderBroadcastList();
+
+  alert('一斉配信を複製しました');
 }
 
 // Initialize broadcast detail page
