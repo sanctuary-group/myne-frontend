@@ -65,14 +65,6 @@
       <header class="app-header">
         <div class="header-content">
           <img src="images/myne_logo.png" alt="MyNE" class="header-logo" />
-          <div class="header-account-selector">
-            <label for="account-select" class="account-label">アカウント:</label>
-            <select id="account-select" class="account-select">
-              <option value="account1">アカウントA</option>
-              <option value="account2">アカウントB</option>
-              <option value="account3">アカウントC</option>
-            </select>
-          </div>
           <button id="logout-btn" class="logout-btn">ログアウト</button>
         </div>
       </header>
@@ -118,6 +110,17 @@
         <!-- Dashboard Page -->
         <div id="dashboard-page" class="page-container page">
           <h1 class="page-title">ダッシュボード</h1>
+
+          <div class="card dashboard-account-selector">
+            <div class="account-selector-content">
+              <label for="account-select" class="account-label">アカウント:</label>
+              <select id="account-select" class="account-select">
+                <option value="account1">アカウントA</option>
+                <option value="account2">アカウントB</option>
+                <option value="account3">アカウントC</option>
+              </select>
+            </div>
+          </div>
 
           <div class="stats-grid">
             <div class="stat-card">
@@ -539,31 +542,37 @@
                 <div class="card">
                   <h2 class="card-title">新しいタグを作成</h2>
                   <form id="tag-create-form" class="tag-form">
-                    <div class="form-row">
-                      <div class="form-group" style="flex: 1;">
-                        <label class="form-label">タグ名</label>
-                        <input
-                          type="text"
-                          id="tag-name-input"
-                          class="form-input"
-                          placeholder="例: VIP顧客、問い合わせ対応中"
-                          required
-                        />
+                    <div class="form-group">
+                      <label class="form-label">タグ名</label>
+                      <input
+                        type="text"
+                        id="tag-name-input"
+                        class="form-input"
+                        placeholder="例: VIP顧客、問い合わせ対応中"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">カラー</label>
+                      <div class="color-palette-container" id="tag-color-palette">
+                        <button type="button" class="color-option transparent selected" data-color="transparent" title="無色">
+                          <i class="fa-solid fa-ban"></i>
+                        </button>
+                        <button type="button" class="color-option" data-color="#00b900" style="background-color: #00b900;" title="グリーン"></button>
+                        <button type="button" class="color-option" data-color="#3b82f6" style="background-color: #3b82f6;" title="ブルー"></button>
+                        <button type="button" class="color-option" data-color="#ef4444" style="background-color: #ef4444;" title="レッド"></button>
+                        <button type="button" class="color-option" data-color="#f59e0b" style="background-color: #f59e0b;" title="オレンジ"></button>
+                        <button type="button" class="color-option" data-color="#8b5cf6" style="background-color: #8b5cf6;" title="パープル"></button>
+                        <button type="button" class="color-option" data-color="#ec4899" style="background-color: #ec4899;" title="ピンク"></button>
+                        <button type="button" class="color-option" data-color="#06b6d4" style="background-color: #06b6d4;" title="シアン"></button>
+                        <button type="button" class="color-option" data-color="#84cc16" style="background-color: #84cc16;" title="ライムグリーン"></button>
+                        <button type="button" class="color-option" data-color="#14b8a6" style="background-color: #14b8a6;" title="ティール"></button>
+                        <button type="button" class="color-option" data-color="#f97316" style="background-color: #f97316;" title="ディープオレンジ"></button>
+                        <button type="button" class="color-option" data-color="#a855f7" style="background-color: #a855f7;" title="バイオレット"></button>
+                        <button type="button" class="color-option" data-color="#0ea5e9" style="background-color: #0ea5e9;" title="スカイブルー"></button>
+                        <button type="button" class="color-option" data-color="#f43f5e" style="background-color: #f43f5e;" title="ローズ"></button>
                       </div>
-                      <div class="form-group" style="width: 200px;">
-                        <label class="form-label">カラー</label>
-                        <select id="tag-color-input" class="form-input">
-                          <option value="transparent" selected>無色</option>
-                          <option value="#00b900">グリーン</option>
-                          <option value="#3b82f6">ブルー</option>
-                          <option value="#ef4444">レッド</option>
-                          <option value="#f59e0b">オレンジ</option>
-                          <option value="#8b5cf6">パープル</option>
-                          <option value="#ec4899">ピンク</option>
-                          <option value="#06b6d4">シアン</option>
-                          <option value="#84cc16">ライムグリーン</option>
-                        </select>
-                      </div>
+                      <input type="hidden" id="tag-color-input" value="transparent" />
                     </div>
                     <button type="submit" class="btn btn-primary">タグを作成</button>
                   </form>
@@ -1176,31 +1185,37 @@
         </div>
 
         <div class="modal-body">
-          <div class="form-row">
-            <div class="form-group" style="flex: 1;">
-              <label class="form-label">タグ名</label>
-              <input
-                type="text"
-                id="tag-edit-name-input"
-                class="form-input"
-                placeholder="例: VIP顧客、問い合わせ対応中"
-                required
-              />
+          <div class="form-group">
+            <label class="form-label">タグ名</label>
+            <input
+              type="text"
+              id="tag-edit-name-input"
+              class="form-input"
+              placeholder="例: VIP顧客、問い合わせ対応中"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">カラー</label>
+            <div class="color-palette-container" id="tag-edit-color-palette">
+              <button type="button" class="color-option transparent" data-color="transparent" title="無色">
+                <i class="fa-solid fa-ban"></i>
+              </button>
+              <button type="button" class="color-option" data-color="#00b900" style="background-color: #00b900;" title="グリーン"></button>
+              <button type="button" class="color-option" data-color="#3b82f6" style="background-color: #3b82f6;" title="ブルー"></button>
+              <button type="button" class="color-option" data-color="#ef4444" style="background-color: #ef4444;" title="レッド"></button>
+              <button type="button" class="color-option" data-color="#f59e0b" style="background-color: #f59e0b;" title="オレンジ"></button>
+              <button type="button" class="color-option" data-color="#8b5cf6" style="background-color: #8b5cf6;" title="パープル"></button>
+              <button type="button" class="color-option" data-color="#ec4899" style="background-color: #ec4899;" title="ピンク"></button>
+              <button type="button" class="color-option" data-color="#06b6d4" style="background-color: #06b6d4;" title="シアン"></button>
+              <button type="button" class="color-option" data-color="#84cc16" style="background-color: #84cc16;" title="ライムグリーン"></button>
+              <button type="button" class="color-option" data-color="#14b8a6" style="background-color: #14b8a6;" title="ティール"></button>
+              <button type="button" class="color-option" data-color="#f97316" style="background-color: #f97316;" title="ディープオレンジ"></button>
+              <button type="button" class="color-option" data-color="#a855f7" style="background-color: #a855f7;" title="バイオレット"></button>
+              <button type="button" class="color-option" data-color="#0ea5e9" style="background-color: #0ea5e9;" title="スカイブルー"></button>
+              <button type="button" class="color-option" data-color="#f43f5e" style="background-color: #f43f5e;" title="ローズ"></button>
             </div>
-            <div class="form-group" style="width: 200px;">
-              <label class="form-label">カラー</label>
-              <select id="tag-edit-color-input" class="form-input">
-                <option value="transparent">無色</option>
-                <option value="#00b900">グリーン</option>
-                <option value="#3b82f6">ブルー</option>
-                <option value="#ef4444">レッド</option>
-                <option value="#f59e0b">オレンジ</option>
-                <option value="#8b5cf6">パープル</option>
-                <option value="#ec4899">ピンク</option>
-                <option value="#06b6d4">シアン</option>
-                <option value="#84cc16">ライムグリーン</option>
-              </select>
-            </div>
+            <input type="hidden" id="tag-edit-color-input" value="transparent" />
           </div>
         </div>
 

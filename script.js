@@ -2436,6 +2436,9 @@ function initializeTagManagement() {
     });
   });
 
+  // Initialize color palette for tag creation
+  initializeColorPalette('tag-color-palette', 'tag-color-input');
+
   // Tag creation form
   const tagCreateForm = document.getElementById('tag-create-form');
   if (tagCreateForm) {
@@ -2465,6 +2468,9 @@ function initializeTagManagement() {
       // Reset form
       tagNameInput.value = '';
       tagColorInput.value = 'transparent';
+
+      // Reset color palette selection
+      resetColorPalette('tag-color-palette', 'transparent');
 
       // Refresh tag list
       renderTagManagementList();
@@ -2570,6 +2576,9 @@ function editTag(tagId) {
   if (nameInput) nameInput.value = tag.name;
   if (colorInput) colorInput.value = tag.color || 'transparent';
 
+  // Update color palette selection
+  setColorPaletteValue('tag-edit-color-palette', tag.color || 'transparent');
+
   if (modal) {
     modal.style.display = 'flex';
     console.log('Modal display set to flex');
@@ -2584,6 +2593,9 @@ let tagEditModalInitialized = false;
 function initializeTagEditModal() {
   if (tagEditModalInitialized) return;
   tagEditModalInitialized = true;
+
+  // Initialize color palette for tag edit modal
+  initializeColorPalette('tag-edit-color-palette', 'tag-edit-color-input');
 
   const modal = document.getElementById('tag-edit-modal');
   const closeBtn = document.getElementById('tag-edit-close-btn');
@@ -4482,6 +4494,77 @@ navigateToPage = function(pageId) {
     initializeBroadcastDetailPage();
   }
 };
+
+// ===== COLOR PALETTE HELPER FUNCTIONS =====
+
+/**
+ * Initialize color palette interaction
+ * @param {string} paletteId - ID of the color palette container
+ * @param {string} inputId - ID of the hidden input to store selected color
+ */
+function initializeColorPalette(paletteId, inputId) {
+  const palette = document.getElementById(paletteId);
+  const input = document.getElementById(inputId);
+
+  if (!palette || !input) return;
+
+  // Add click event to all color options
+  const colorOptions = palette.querySelectorAll('.color-option');
+  colorOptions.forEach(option => {
+    option.addEventListener('click', function() {
+      const color = this.getAttribute('data-color');
+
+      // Remove selected class from all options
+      colorOptions.forEach(opt => opt.classList.remove('selected'));
+
+      // Add selected class to clicked option
+      this.classList.add('selected');
+
+      // Update hidden input value
+      input.value = color;
+    });
+  });
+}
+
+/**
+ * Reset color palette to default value
+ * @param {string} paletteId - ID of the color palette container
+ * @param {string} defaultColor - Default color to select (default: 'transparent')
+ */
+function resetColorPalette(paletteId, defaultColor = 'transparent') {
+  const palette = document.getElementById(paletteId);
+  if (!palette) return;
+
+  const colorOptions = palette.querySelectorAll('.color-option');
+  colorOptions.forEach(option => {
+    const color = option.getAttribute('data-color');
+    if (color === defaultColor) {
+      option.classList.add('selected');
+    } else {
+      option.classList.remove('selected');
+    }
+  });
+}
+
+/**
+ * Set specific color value in palette
+ * @param {string} paletteId - ID of the color palette container
+ * @param {string} color - Color value to select
+ */
+function setColorPaletteValue(paletteId, color) {
+  const palette = document.getElementById(paletteId);
+  if (!palette) return;
+
+  const colorOptions = palette.querySelectorAll('.color-option');
+  colorOptions.forEach(option => {
+    const optionColor = option.getAttribute('data-color');
+    if (optionColor === color) {
+      option.classList.add('selected');
+    } else {
+      option.classList.remove('selected');
+    }
+  });
+}
 
 // Initialize on load - ensure this runs after DOM is loaded
 if (document.readyState === 'loading') {
