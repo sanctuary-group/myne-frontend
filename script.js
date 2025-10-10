@@ -1014,8 +1014,9 @@ function loadDashboardBroadcastHistory() {
 
   const broadcasts = getMockBroadcasts();
 
-  // Sort by createdAt descending (most recent first) and take top 3
+  // Filter only completed broadcasts, sort by createdAt descending (most recent first) and take top 3
   const recentBroadcasts = broadcasts
+    .filter(b => b.status === '配信完了')
     .sort((a, b) => {
       const dateA = new Date(a.createdAt || 0);
       const dateB = new Date(b.createdAt || 0);
