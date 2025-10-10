@@ -102,11 +102,23 @@ let currentChatUserId = null;
 let currentChatUserName = null;
 let userDraftMessages = {}; // Store draft messages per user
 let currentAccount = "account1"; // Current selected account
+let pendingVerificationEmail = null; // 認証待ちのメールアドレス
+let pendingResetEmail = null; // パスワードリセット待ちのメールアドレス
 
 // DOM Elements
 const loginContainer = document.getElementById("login-container");
+const signupContainer = document.getElementById("signup-container");
+const verificationContainer = document.getElementById("verification-container");
+const passwordResetContainer = document.getElementById("password-reset-container");
+const resetCodeContainer = document.getElementById("reset-code-container");
+const newPasswordContainer = document.getElementById("new-password-container");
 const mainApp = document.getElementById("main-app");
 const loginForm = document.getElementById("login-form");
+const signupForm = document.getElementById("signup-form");
+const verificationForm = document.getElementById("verification-form");
+const passwordResetForm = document.getElementById("password-reset-form");
+const resetCodeForm = document.getElementById("reset-code-form");
+const newPasswordForm = document.getElementById("new-password-form");
 const loginBtn = document.getElementById("login-btn");
 const errorMessage = document.getElementById("error-message");
 const logoutBtn = document.getElementById("logout-btn");
@@ -146,6 +158,55 @@ function initializeApp() {
 function setupEventListeners() {
   // Login form submission
   loginForm.addEventListener("submit", handleLogin);
+
+  // Signup form submission
+  signupForm.addEventListener("submit", handleSignup);
+
+  // Verification form submission
+  verificationForm.addEventListener("submit", handleVerification);
+
+  // Password reset form submission
+  passwordResetForm.addEventListener("submit", handlePasswordReset);
+
+  // Reset code form submission
+  resetCodeForm.addEventListener("submit", handleResetCode);
+
+  // New password form submission
+  newPasswordForm.addEventListener("submit", handleNewPassword);
+
+  // Navigation links between login and signup screens
+  const gotoSignupLink = document.getElementById("goto-signup-link");
+  const gotoLoginLink = document.getElementById("goto-login-link");
+  const gotoPasswordResetLink = document.querySelector('a[href="#forgot"]');
+  const gotoLoginFromResetLink = document.getElementById("goto-login-from-reset-link");
+
+  if (gotoSignupLink) {
+    gotoSignupLink.addEventListener("click", function(e) {
+      e.preventDefault();
+      showSignupScreen();
+    });
+  }
+
+  if (gotoLoginLink) {
+    gotoLoginLink.addEventListener("click", function(e) {
+      e.preventDefault();
+      showLoginScreen();
+    });
+  }
+
+  if (gotoPasswordResetLink) {
+    gotoPasswordResetLink.addEventListener("click", function(e) {
+      e.preventDefault();
+      showPasswordResetScreen();
+    });
+  }
+
+  if (gotoLoginFromResetLink) {
+    gotoLoginFromResetLink.addEventListener("click", function(e) {
+      e.preventDefault();
+      showLoginScreen();
+    });
+  }
 
   // Logout button
   logoutBtn.addEventListener("click", handleLogout);
@@ -258,11 +319,89 @@ function handleLogout() {
 
 function showLoginScreen() {
   loginContainer.style.display = "flex";
+  signupContainer.style.display = "none";
+  verificationContainer.style.display = "none";
+  passwordResetContainer.style.display = "none";
+  resetCodeContainer.style.display = "none";
+  newPasswordContainer.style.display = "none";
   mainApp.style.display = "none";
+  hideError();
+}
+
+function showSignupScreen() {
+  loginContainer.style.display = "none";
+  signupContainer.style.display = "flex";
+  verificationContainer.style.display = "none";
+  passwordResetContainer.style.display = "none";
+  resetCodeContainer.style.display = "none";
+  newPasswordContainer.style.display = "none";
+  mainApp.style.display = "none";
+  hideSignupError();
+}
+
+function showVerificationScreen() {
+  loginContainer.style.display = "none";
+  signupContainer.style.display = "none";
+  verificationContainer.style.display = "flex";
+  passwordResetContainer.style.display = "none";
+  resetCodeContainer.style.display = "none";
+  newPasswordContainer.style.display = "none";
+  mainApp.style.display = "none";
+
+  // Set the email address in verification screen
+  if (pendingVerificationEmail) {
+    document.getElementById("verification-email").textContent = pendingVerificationEmail;
+  }
+
+  hideVerificationError();
+}
+
+function showPasswordResetScreen() {
+  loginContainer.style.display = "none";
+  signupContainer.style.display = "none";
+  verificationContainer.style.display = "none";
+  passwordResetContainer.style.display = "flex";
+  resetCodeContainer.style.display = "none";
+  newPasswordContainer.style.display = "none";
+  mainApp.style.display = "none";
+  hidePasswordResetError();
+}
+
+function showResetCodeScreen() {
+  loginContainer.style.display = "none";
+  signupContainer.style.display = "none";
+  verificationContainer.style.display = "none";
+  passwordResetContainer.style.display = "none";
+  resetCodeContainer.style.display = "flex";
+  newPasswordContainer.style.display = "none";
+  mainApp.style.display = "none";
+
+  // Set the email address in reset code screen
+  if (pendingResetEmail) {
+    document.getElementById("reset-code-email").textContent = pendingResetEmail;
+  }
+
+  hideResetCodeError();
+}
+
+function showNewPasswordScreen() {
+  loginContainer.style.display = "none";
+  signupContainer.style.display = "none";
+  verificationContainer.style.display = "none";
+  passwordResetContainer.style.display = "none";
+  resetCodeContainer.style.display = "none";
+  newPasswordContainer.style.display = "flex";
+  mainApp.style.display = "none";
+  hideNewPasswordError();
 }
 
 function showMainApp() {
   loginContainer.style.display = "none";
+  signupContainer.style.display = "none";
+  verificationContainer.style.display = "none";
+  passwordResetContainer.style.display = "none";
+  resetCodeContainer.style.display = "none";
+  newPasswordContainer.style.display = "none";
   mainApp.style.display = "grid";
   navigateToPage("dashboard");
 }
@@ -273,6 +412,260 @@ function showError(message) {
 }
 
 function hideError() {
+  errorMessage.style.display = "none";
+}
+
+// ===== Signup Functions =====
+function handleSignup(e) {
+  e.preventDefault();
+
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+  const signupBtn = document.getElementById("signup-btn");
+
+  // Validate inputs
+  if (!validateRequired(email) || !validateRequired(password)) {
+    showSignupError("メールアドレスとパスワードを入力してください");
+    return;
+  }
+
+  if (!validateEmail(email)) {
+    showSignupError("有効なメールアドレスを入力してください");
+    return;
+  }
+
+  if (password.length < 6) {
+    showSignupError("パスワードは6文字以上で入力してください");
+    return;
+  }
+
+  // Show loading state
+  signupBtn.textContent = "登録中...";
+  signupBtn.disabled = true;
+  hideSignupError();
+
+  // Simulate API call
+  setTimeout(() => {
+    // Successful signup - move to verification
+    pendingVerificationEmail = email;
+    showVerificationScreen();
+
+    // Reset form
+    signupBtn.textContent = "新規登録";
+    signupBtn.disabled = false;
+    document.getElementById("signup-email").value = "";
+    document.getElementById("signup-password").value = "";
+  }, 1000);
+}
+
+function showSignupError(message) {
+  const errorMessage = document.getElementById("signup-error-message");
+  errorMessage.textContent = message;
+  errorMessage.style.display = "block";
+}
+
+function hideSignupError() {
+  const errorMessage = document.getElementById("signup-error-message");
+  errorMessage.style.display = "none";
+}
+
+// ===== Verification Functions =====
+function handleVerification(e) {
+  e.preventDefault();
+
+  const code = document.getElementById("verification-code").value;
+  const verificationBtn = document.getElementById("verification-btn");
+
+  // Validate input
+  if (!validateRequired(code) || code.length !== 6) {
+    showVerificationError("6桁の認証コードを入力してください");
+    return;
+  }
+
+  // Show loading state
+  verificationBtn.textContent = "認証中...";
+  verificationBtn.disabled = true;
+  hideVerificationError();
+
+  // Simulate API call
+  setTimeout(() => {
+    if (code === "123456") {
+      // Successful verification
+      currentUser = { email: pendingVerificationEmail };
+      sessionStorage.setItem("isLoggedIn", "true");
+      sessionStorage.setItem("userEmail", pendingVerificationEmail);
+      showMainApp();
+
+      // Reset form
+      verificationBtn.textContent = "認証";
+      verificationBtn.disabled = false;
+      document.getElementById("verification-code").value = "";
+      pendingVerificationEmail = null;
+    } else {
+      // Failed verification
+      showVerificationError("認証コードが正しくありません");
+      verificationBtn.textContent = "認証";
+      verificationBtn.disabled = false;
+    }
+  }, 1000);
+}
+
+function showVerificationError(message) {
+  const errorMessage = document.getElementById("verification-error-message");
+  errorMessage.textContent = message;
+  errorMessage.style.display = "block";
+}
+
+function hideVerificationError() {
+  const errorMessage = document.getElementById("verification-error-message");
+  errorMessage.style.display = "none";
+}
+
+// ===== Password Reset Functions =====
+function handlePasswordReset(e) {
+  e.preventDefault();
+
+  const email = document.getElementById("reset-email").value;
+  const resetBtn = document.getElementById("password-reset-btn");
+
+  // Validate input
+  if (!validateRequired(email)) {
+    showPasswordResetError("メールアドレスを入力してください");
+    return;
+  }
+
+  if (!validateEmail(email)) {
+    showPasswordResetError("有効なメールアドレスを入力してください");
+    return;
+  }
+
+  // Show loading state
+  resetBtn.textContent = "送信中...";
+  resetBtn.disabled = true;
+  hidePasswordResetError();
+
+  // Simulate API call
+  setTimeout(() => {
+    // Successful - move to reset code screen
+    pendingResetEmail = email;
+    showResetCodeScreen();
+
+    // Reset form
+    resetBtn.textContent = "リセットコードを送信";
+    resetBtn.disabled = false;
+    document.getElementById("reset-email").value = "";
+  }, 1000);
+}
+
+function showPasswordResetError(message) {
+  const errorMessage = document.getElementById("password-reset-error-message");
+  errorMessage.textContent = message;
+  errorMessage.style.display = "block";
+}
+
+function hidePasswordResetError() {
+  const errorMessage = document.getElementById("password-reset-error-message");
+  errorMessage.style.display = "none";
+}
+
+function handleResetCode(e) {
+  e.preventDefault();
+
+  const code = document.getElementById("reset-code").value;
+  const resetCodeBtn = document.getElementById("reset-code-btn");
+
+  // Validate input
+  if (!validateRequired(code) || code.length !== 6) {
+    showResetCodeError("6桁のリセットコードを入力してください");
+    return;
+  }
+
+  // Show loading state
+  resetCodeBtn.textContent = "確認中...";
+  resetCodeBtn.disabled = true;
+  hideResetCodeError();
+
+  // Simulate API call
+  setTimeout(() => {
+    if (code === "654321") {
+      // Successful verification - move to new password screen
+      showNewPasswordScreen();
+
+      // Reset form
+      resetCodeBtn.textContent = "確認";
+      resetCodeBtn.disabled = false;
+      document.getElementById("reset-code").value = "";
+    } else {
+      // Failed verification
+      showResetCodeError("リセットコードが正しくありません");
+      resetCodeBtn.textContent = "確認";
+      resetCodeBtn.disabled = false;
+    }
+  }, 1000);
+}
+
+function showResetCodeError(message) {
+  const errorMessage = document.getElementById("reset-code-error-message");
+  errorMessage.textContent = message;
+  errorMessage.style.display = "block";
+}
+
+function hideResetCodeError() {
+  const errorMessage = document.getElementById("reset-code-error-message");
+  errorMessage.style.display = "none";
+}
+
+function handleNewPassword(e) {
+  e.preventDefault();
+
+  const newPassword = document.getElementById("new-password").value;
+  const confirmPassword = document.getElementById("confirm-password").value;
+  const newPasswordBtn = document.getElementById("new-password-btn");
+
+  // Validate inputs
+  if (!validateRequired(newPassword) || !validateRequired(confirmPassword)) {
+    showNewPasswordError("新しいパスワードを入力してください");
+    return;
+  }
+
+  if (newPassword.length < 6) {
+    showNewPasswordError("パスワードは6文字以上で入力してください");
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    showNewPasswordError("パスワードが一致しません");
+    return;
+  }
+
+  // Show loading state
+  newPasswordBtn.textContent = "設定中...";
+  newPasswordBtn.disabled = true;
+  hideNewPasswordError();
+
+  // Simulate API call
+  setTimeout(() => {
+    // Successful password reset - show login screen with success message
+    alert("パスワードが正常にリセットされました。新しいパスワードでログインしてください。");
+    showLoginScreen();
+
+    // Reset form
+    newPasswordBtn.textContent = "パスワードを設定";
+    newPasswordBtn.disabled = false;
+    document.getElementById("new-password").value = "";
+    document.getElementById("confirm-password").value = "";
+    pendingResetEmail = null;
+  }, 1000);
+}
+
+function showNewPasswordError(message) {
+  const errorMessage = document.getElementById("new-password-error-message");
+  errorMessage.textContent = message;
+  errorMessage.style.display = "block";
+}
+
+function hideNewPasswordError() {
+  const errorMessage = document.getElementById("new-password-error-message");
   errorMessage.style.display = "none";
 }
 

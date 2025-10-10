@@ -53,6 +53,8 @@
 
         <div class="login-footer">
           <a href="#forgot" class="forgot-link"> パスワードを忘れた場合 </a>
+          <span style="color: #ccc; margin: 0 8px;">|</span>
+          <a href="#signup" class="forgot-link" id="goto-signup-link">新規登録はこちら</a>
         </div>
 
         <div class="demo-info">
@@ -60,6 +62,250 @@
           <p>Email: admin@example.com</p>
           <p>Password: password</p>
         </div>
+      </div>
+    </div>
+
+    <!-- Signup Screen -->
+    <div id="signup-container" class="login-container" style="display: none">
+      <div class="login-card">
+        <div class="login-header">
+          <img src="images/myne_logo.png" alt="MyNE" class="login-logo" />
+          <p>新規アカウントを作成してください</p>
+        </div>
+
+        <form id="signup-form" class="login-form">
+          <div class="form-group">
+            <label for="signup-email" class="form-label">メールアドレス</label>
+            <input
+              type="email"
+              id="signup-email"
+              class="form-input"
+              placeholder="example@company.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="signup-password" class="form-label">パスワード</label>
+            <input
+              type="password"
+              id="signup-password"
+              class="form-input"
+              placeholder="パスワードを入力 (6文字以上)"
+            />
+          </div>
+
+          <div
+            id="signup-error-message"
+            class="error-message"
+            style="display: none"
+          ></div>
+
+          <button type="submit" id="signup-btn" class="login-btn">
+            新規登録
+          </button>
+        </form>
+
+        <div class="login-footer">
+          <a href="#login" class="forgot-link" id="goto-login-link">ログインはこちら</a>
+        </div>
+
+        <div class="demo-info">
+          <h4>テスト用アカウント</h4>
+          <p>Email: test@example.com</p>
+          <p>Password: test1234</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Verification Screen -->
+    <div id="verification-container" class="login-container" style="display: none">
+      <div class="login-card">
+        <div class="login-header">
+          <img src="images/myne_logo.png" alt="MyNE" class="login-logo" />
+          <p>認証コードを入力してください</p>
+          <p style="font-size: 14px; color: #666; margin-top: 8px;">
+            <span id="verification-email">メールアドレス</span>をご確認ください
+          </p>
+        </div>
+
+        <form id="verification-form" class="login-form">
+          <div class="form-group">
+            <label for="verification-code" class="form-label"
+              >認証コード (6桁)</label
+            >
+            <input
+              type="text"
+              id="verification-code"
+              class="form-input"
+              placeholder="123456"
+              maxlength="6"
+              style="
+                text-align: center;
+                font-size: 24px;
+                letter-spacing: 8px;
+                font-weight: 600;
+              "
+            />
+          </div>
+
+          <div
+            id="verification-error-message"
+            class="error-message"
+            style="display: none"
+          ></div>
+
+          <button type="submit" id="verification-btn" class="login-btn">
+            認証
+          </button>
+        </form>
+
+        <div class="demo-info">
+          <h4>ダミーコード</h4>
+          <p style="font-size: 24px; font-weight: 600; letter-spacing: 4px">
+            123456
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Password Reset Screen -->
+    <div id="password-reset-container" class="login-container" style="display: none">
+      <div class="login-card">
+        <div class="login-header">
+          <img src="images/myne_logo.png" alt="MyNE" class="login-logo" />
+          <p>パスワードをリセット</p>
+          <p style="font-size: 14px; color: #666; margin-top: 8px;">
+            登録したメールアドレスを入力してください
+          </p>
+        </div>
+
+        <form id="password-reset-form" class="login-form">
+          <div class="form-group">
+            <label for="reset-email" class="form-label">メールアドレス</label>
+            <input
+              type="email"
+              id="reset-email"
+              class="form-input"
+              placeholder="example@company.com"
+            />
+          </div>
+
+          <div
+            id="password-reset-error-message"
+            class="error-message"
+            style="display: none"
+          ></div>
+
+          <button type="submit" id="password-reset-btn" class="login-btn">
+            リセットコードを送信
+          </button>
+        </form>
+
+        <div class="login-footer">
+          <a href="#login" class="forgot-link" id="goto-login-from-reset-link"
+            >ログインに戻る</a
+          >
+        </div>
+
+        <div class="demo-info">
+          <h4>テスト用メールアドレス</h4>
+          <p>Email: admin@example.com</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reset Code Verification Screen -->
+    <div id="reset-code-container" class="login-container" style="display: none">
+      <div class="login-card">
+        <div class="login-header">
+          <img src="images/myne_logo.png" alt="MyNE" class="login-logo" />
+          <p>リセットコードを入力してください</p>
+          <p style="font-size: 14px; color: #666; margin-top: 8px;">
+            <span id="reset-code-email">メールアドレス</span>をご確認ください
+          </p>
+        </div>
+
+        <form id="reset-code-form" class="login-form">
+          <div class="form-group">
+            <label for="reset-code" class="form-label"
+              >リセットコード (6桁)</label
+            >
+            <input
+              type="text"
+              id="reset-code"
+              class="form-input"
+              placeholder="654321"
+              maxlength="6"
+              style="
+                text-align: center;
+                font-size: 24px;
+                letter-spacing: 8px;
+                font-weight: 600;
+              "
+            />
+          </div>
+
+          <div
+            id="reset-code-error-message"
+            class="error-message"
+            style="display: none"
+          ></div>
+
+          <button type="submit" id="reset-code-btn" class="login-btn">
+            確認
+          </button>
+        </form>
+
+        <div class="demo-info">
+          <h4>ダミーコード</h4>
+          <p style="font-size: 24px; font-weight: 600; letter-spacing: 4px">
+            654321
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Password Screen -->
+    <div id="new-password-container" class="login-container" style="display: none">
+      <div class="login-card">
+        <div class="login-header">
+          <img src="images/myne_logo.png" alt="MyNE" class="login-logo" />
+          <p>新しいパスワードを設定</p>
+        </div>
+
+        <form id="new-password-form" class="login-form">
+          <div class="form-group">
+            <label for="new-password" class="form-label">新しいパスワード</label>
+            <input
+              type="password"
+              id="new-password"
+              class="form-input"
+              placeholder="パスワードを入力 (6文字以上)"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="confirm-password" class="form-label"
+              >パスワード確認</label
+            >
+            <input
+              type="password"
+              id="confirm-password"
+              class="form-input"
+              placeholder="パスワードを再入力"
+            />
+          </div>
+
+          <div
+            id="new-password-error-message"
+            class="error-message"
+            style="display: none"
+          ></div>
+
+          <button type="submit" id="new-password-btn" class="login-btn">
+            パスワードを設定
+          </button>
+        </form>
       </div>
     </div>
 
