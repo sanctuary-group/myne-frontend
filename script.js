@@ -1997,7 +1997,7 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
   // 仮データ（後でAPIから取得する想定）
   const lineName = userName; // LINE名（仮）
   const stepDeliveries = ['ウェルカムシーケンス', '商品紹介ステップ', 'フォローアップステップ']; // 送信したステップ配信のタイトル（仮）
-  const systemDisplayName = `ユーザー${userId}`; // システム表示名（仮）
+  const systemDisplayName = getUserSystemDisplayName(userId); // システム表示名
 
   // ステップ配信のタイトルリストHTML生成
   const stepDeliveriesHtml = stepDeliveries.map(title =>
@@ -2047,7 +2047,13 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
     </div>
     <div class="user-info-item">
       <div class="user-info-label">システム表示名</div>
-      <div class="user-info-value">${systemDisplayName}</div>
+      <div class="user-info-value user-info-system-display-name" onclick="openSystemDisplayNameModal(${userId})" style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+        <span>${systemDisplayName}</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5;">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+      </div>
     </div>
     <div class="user-info-item">
       <div class="user-info-label">ステップ</div>
@@ -3639,9 +3645,106 @@ function initializeMemoModal() {
   }
 }
 
+// ===== System Display Name Functions =====
+let currentSystemDisplayNameUserId = null;
+
+// Get user system display name from localStorage
+function getUserSystemDisplayName(userId) {
+  const key = `user_${userId}_system_display_name`;
+  const displayName = localStorage.getItem(key);
+  if (displayName !== null) {
+    return displayName;
+  }
+
+  // デフォルト値を返す
+  return `ユーザー${userId}`;
+}
+
+// Save user system display name to localStorage
+function saveUserSystemDisplayName(userId, displayName) {
+  const key = `user_${userId}_system_display_name`;
+  localStorage.setItem(key, displayName);
+}
+
+// Open system display name modal
+function openSystemDisplayNameModal(userId) {
+  currentSystemDisplayNameUserId = userId;
+  const modal = document.getElementById('system-display-name-modal');
+  const input = document.getElementById('system-display-name-input');
+
+  if (!modal || !input) return;
+
+  // Load existing display name
+  const displayName = getUserSystemDisplayName(userId);
+  input.value = displayName;
+
+  modal.style.display = 'flex';
+  input.focus();
+}
+
+// Close system display name modal
+function closeSystemDisplayNameModal() {
+  const modal = document.getElementById('system-display-name-modal');
+  if (modal) {
+    modal.style.display = 'none';
+    currentSystemDisplayNameUserId = null;
+  }
+}
+
+// Save system display name and close modal
+function saveSystemDisplayNameAndClose() {
+  if (currentSystemDisplayNameUserId === null) return;
+
+  const input = document.getElementById('system-display-name-input');
+  if (!input) return;
+
+  const displayName = input.value.trim();
+  if (displayName) {
+    saveUserSystemDisplayName(currentSystemDisplayNameUserId, displayName);
+
+    // Update the display in user info
+    const displayNameElement = document.querySelector('.user-info-system-display-name');
+    if (displayNameElement) {
+      displayNameElement.textContent = displayName;
+    }
+  }
+
+  closeSystemDisplayNameModal();
+}
+
+// Initialize system display name modal event listeners
+function initializeSystemDisplayNameModal() {
+  const closeBtn = document.getElementById('system-display-name-close-btn');
+  const cancelBtn = document.getElementById('system-display-name-cancel-btn');
+  const saveBtn = document.getElementById('system-display-name-save-btn');
+  const modal = document.getElementById('system-display-name-modal');
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeSystemDisplayNameModal);
+  }
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', closeSystemDisplayNameModal);
+  }
+
+  if (saveBtn) {
+    saveBtn.addEventListener('click', saveSystemDisplayNameAndClose);
+  }
+
+  // Close modal when clicking outside
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeSystemDisplayNameModal();
+      }
+    });
+  }
+}
+
 // Call initializeMemoModal on page load
 document.addEventListener('DOMContentLoaded', function() {
   initializeMemoModal();
+  initializeSystemDisplayNameModal();
   initializeStepMessagePreviewModal();
 });
 
