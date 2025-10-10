@@ -4,7 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MyNE</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -12,7 +15,7 @@
     <div id="login-container" class="login-container">
       <div class="login-card">
         <div class="login-header">
-          <img src="images/myne_logo.png" alt="MyNE" class="login-logo" />
+          <h1 class="login-logo-text">MyNE</h1>
           <p>アカウントにログインしてください</p>
         </div>
 
@@ -50,6 +53,10 @@
 
         <div class="login-footer">
           <a href="#forgot" class="forgot-link"> パスワードを忘れた場合 </a>
+          <span style="color: #ccc; margin: 0 8px">|</span>
+          <a href="#signup" class="forgot-link" id="goto-signup-link"
+            >新規登録はこちら</a
+          >
         </div>
 
         <div class="demo-info">
@@ -60,11 +67,275 @@
       </div>
     </div>
 
+    <!-- Signup Screen -->
+    <div id="signup-container" class="login-container" style="display: none">
+      <div class="login-card">
+        <div class="login-header">
+          <h1 class="login-logo-text">MyNE</h1>
+          <p>新規アカウントを作成してください</p>
+        </div>
+
+        <form id="signup-form" class="login-form">
+          <div class="form-group">
+            <label for="signup-email" class="form-label">メールアドレス</label>
+            <input
+              type="email"
+              id="signup-email"
+              class="form-input"
+              placeholder="example@company.com"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="signup-password" class="form-label">パスワード</label>
+            <input
+              type="password"
+              id="signup-password"
+              class="form-input"
+              placeholder="パスワードを入力 (6文字以上)"
+            />
+          </div>
+
+          <div
+            id="signup-error-message"
+            class="error-message"
+            style="display: none"
+          ></div>
+
+          <button type="submit" id="signup-btn" class="login-btn">
+            新規登録
+          </button>
+        </form>
+
+        <div class="login-footer">
+          <a href="#login" class="forgot-link" id="goto-login-link"
+            >ログインはこちら</a
+          >
+        </div>
+
+        <div class="demo-info">
+          <h4>デモ用アカウント</h4>
+          <p>Email: test@example.com</p>
+          <p>Password: test1234</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Verification Screen -->
+    <div
+      id="verification-container"
+      class="login-container"
+      style="display: none"
+    >
+      <div class="login-card">
+        <div class="login-header">
+          <h1 class="login-logo-text">MyNE</h1>
+          <p>認証コードを入力してください</p>
+          <p style="font-size: 14px; color: #666; margin-top: 8px">
+            <span id="verification-email">メールアドレス</span>をご確認ください
+          </p>
+        </div>
+
+        <form id="verification-form" class="login-form">
+          <div class="form-group">
+            <label for="verification-code" class="form-label"
+              >認証コード (6桁)</label
+            >
+            <input
+              type="text"
+              id="verification-code"
+              class="form-input"
+              placeholder="123456"
+              maxlength="6"
+              style="
+                text-align: center;
+                font-size: 24px;
+                letter-spacing: 8px;
+                font-weight: 600;
+              "
+            />
+          </div>
+
+          <div
+            id="verification-error-message"
+            class="error-message"
+            style="display: none"
+          ></div>
+
+          <button type="submit" id="verification-btn" class="login-btn">
+            認証
+          </button>
+        </form>
+
+        <div class="demo-info">
+          <h4>ダミーコード</h4>
+          <p style="font-size: 24px; font-weight: 600; letter-spacing: 4px">
+            123456
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Password Reset Screen -->
+    <div
+      id="password-reset-container"
+      class="login-container"
+      style="display: none"
+    >
+      <div class="login-card">
+        <div class="login-header">
+          <h1 class="login-logo-text">MyNE</h1>
+          <p>パスワードをリセット</p>
+          <p style="font-size: 14px; color: #666; margin-top: 8px">
+            登録したメールアドレスを入力してください
+          </p>
+        </div>
+
+        <form id="password-reset-form" class="login-form">
+          <div class="form-group">
+            <label for="reset-email" class="form-label">メールアドレス</label>
+            <input
+              type="email"
+              id="reset-email"
+              class="form-input"
+              placeholder="example@company.com"
+            />
+          </div>
+
+          <div
+            id="password-reset-error-message"
+            class="error-message"
+            style="display: none"
+          ></div>
+
+          <button type="submit" id="password-reset-btn" class="login-btn">
+            リセットコードを送信
+          </button>
+        </form>
+
+        <div class="login-footer">
+          <a href="#login" class="forgot-link" id="goto-login-from-reset-link"
+            >ログインに戻る</a
+          >
+        </div>
+
+        <div class="demo-info">
+          <h4>テスト用メールアドレス</h4>
+          <p>Email: admin@example.com</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reset Code Verification Screen -->
+    <div
+      id="reset-code-container"
+      class="login-container"
+      style="display: none"
+    >
+      <div class="login-card">
+        <div class="login-header">
+          <h1 class="login-logo-text">MyNE</h1>
+          <p>リセットコードを入力してください</p>
+          <p style="font-size: 14px; color: #666; margin-top: 8px">
+            <span id="reset-code-email">メールアドレス</span>をご確認ください
+          </p>
+        </div>
+
+        <form id="reset-code-form" class="login-form">
+          <div class="form-group">
+            <label for="reset-code" class="form-label"
+              >リセットコード (6桁)</label
+            >
+            <input
+              type="text"
+              id="reset-code"
+              class="form-input"
+              placeholder="654321"
+              maxlength="6"
+              style="
+                text-align: center;
+                font-size: 24px;
+                letter-spacing: 8px;
+                font-weight: 600;
+              "
+            />
+          </div>
+
+          <div
+            id="reset-code-error-message"
+            class="error-message"
+            style="display: none"
+          ></div>
+
+          <button type="submit" id="reset-code-btn" class="login-btn">
+            確認
+          </button>
+        </form>
+
+        <div class="demo-info">
+          <h4>ダミーコード</h4>
+          <p style="font-size: 24px; font-weight: 600; letter-spacing: 4px">
+            654321
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Password Screen -->
+    <div
+      id="new-password-container"
+      class="login-container"
+      style="display: none"
+    >
+      <div class="login-card">
+        <div class="login-header">
+          <h1 class="login-logo-text">MyNE</h1>
+          <p>新しいパスワードを設定</p>
+        </div>
+
+        <form id="new-password-form" class="login-form">
+          <div class="form-group">
+            <label for="new-password" class="form-label"
+              >新しいパスワード</label
+            >
+            <input
+              type="password"
+              id="new-password"
+              class="form-input"
+              placeholder="パスワードを入力 (6文字以上)"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="confirm-password" class="form-label"
+              >パスワード確認</label
+            >
+            <input
+              type="password"
+              id="confirm-password"
+              class="form-input"
+              placeholder="パスワードを再入力"
+            />
+          </div>
+
+          <div
+            id="new-password-error-message"
+            class="error-message"
+            style="display: none"
+          ></div>
+
+          <button type="submit" id="new-password-btn" class="login-btn">
+            パスワードを設定
+          </button>
+        </form>
+      </div>
+    </div>
+
     <!-- Main App -->
     <div id="main-app" class="app" style="display: none">
       <header class="app-header">
         <div class="header-content">
-          <img src="images/myne_logo.png" alt="MyNE" class="header-logo" />
+          <h1 class="header-logo-text">MyNE</h1>
           <button id="logout-btn" class="logout-btn">ログアウト</button>
         </div>
       </header>
@@ -95,10 +366,6 @@
             <i class="nav-icon fa-solid fa-link"></i>
             <span>URL管理</span>
           </button>
-          <button class="nav-item" data-page="history">
-            <i class="nav-icon fa-solid fa-clock-rotate-left"></i>
-            <span>配信履歴</span>
-          </button>
           <button class="nav-item" data-page="settings">
             <i class="nav-icon fa-solid fa-gear"></i>
             <span>設定</span>
@@ -113,7 +380,9 @@
 
           <div class="card dashboard-account-selector">
             <div class="account-selector-content">
-              <label for="account-select" class="account-label">アカウント:</label>
+              <label for="account-select" class="account-label"
+                >アカウント:</label
+              >
               <select id="account-select" class="account-select">
                 <option value="account1">アカウントA</option>
                 <option value="account2">アカウントB</option>
@@ -126,12 +395,10 @@
             <div class="stat-card">
               <div class="stat-number">12,453</div>
               <div class="stat-label">友だち数</div>
-              <div class="stat-trend">+234</div>
             </div>
             <div class="stat-card">
               <div class="stat-number">28</div>
               <div class="stat-label">今月の配信数</div>
-              <div class="stat-trend">+12</div>
             </div>
           </div>
 
@@ -139,35 +406,43 @@
             <div class="card">
               <h2 class="card-title">クイックアクション</h2>
               <div class="quick-actions">
+                <button
+                  class="action-btn individual"
+                  data-navigate="individual"
+                >
+                  <div class="action-icon">
+                    <i class="fa-solid fa-comments"></i>
+                  </div>
+                  <div class="action-text">
+                    <h3>1:1チャット</h3>
+                    <p>友だちとの個別メッセージ</p>
+                  </div>
+                </button>
+
                 <button class="action-btn broadcast" data-navigate="broadcast">
-                  <div class="action-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                  <div class="action-icon">
+                    <i class="fa-solid fa-bullhorn"></i>
+                  </div>
                   <div class="action-text">
                     <h3>一斉配信</h3>
-                    <p>全友だちにメッセージを送信</p>
+                    <p>全友だちにメッセージ</p>
                   </div>
                 </button>
 
                 <button class="action-btn step" data-navigate="step">
-                  <div class="action-icon"><i class="fa-solid fa-stairs"></i></div>
+                  <div class="action-icon">
+                    <i class="fa-solid fa-stairs"></i>
+                  </div>
                   <div class="action-text">
                     <h3>ステップ配信</h3>
                     <p>自動シナリオを作成・管理</p>
                   </div>
                 </button>
 
-                <button
-                  class="action-btn individual"
-                  data-navigate="individual"
-                >
-                  <div class="action-icon"><i class="fa-solid fa-comments"></i></div>
-                  <div class="action-text">
-                    <h3>個別対応</h3>
-                    <p>友だちとの個別メッセージ</p>
-                  </div>
-                </button>
-
                 <button class="action-btn settings" data-navigate="settings">
-                  <div class="action-icon"><i class="fa-solid fa-gear"></i></div>
+                  <div class="action-icon">
+                    <i class="fa-solid fa-gear"></i>
+                  </div>
                   <div class="action-text">
                     <h3>設定</h3>
                     <p>アカウント・システム設定</p>
@@ -177,48 +452,44 @@
             </div>
 
             <div class="card">
-              <h2 class="card-title">最近の配信履歴</h2>
+              <h2 class="card-title">配信履歴</h2>
               <div class="table-container">
-                <table class="table">
+                <table class="table" id="dashboard-history-table">
                   <thead>
                     <tr>
                       <th>タイトル</th>
-                      <th>配信日</th>
+                      <th>配信日時</th>
                       <th>ステータス</th>
-                      <th>配信数</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="dashboard-history-tbody">
                     <tr>
                       <td>新商品のお知らせ</td>
-                      <td>2024-01-15</td>
+                      <td>2025-10-08 10:00</td>
                       <td>
                         <span class="status-badge status-active">配信完了</span>
                       </td>
-                      <td>12,453</td>
-                    </tr>
-                    <tr>
-                      <td>ウェルカムメッセージ</td>
-                      <td>2024-01-14</td>
-                      <td>
-                        <span class="status-badge status-progress">進行中</span>
-                      </td>
-                      <td>234</td>
                     </tr>
                     <tr>
                       <td>キャンペーン情報</td>
-                      <td>2024-01-13</td>
+                      <td>2025-10-05 14:30</td>
                       <td>
                         <span class="status-badge status-active">配信完了</span>
                       </td>
-                      <td>11,892</td>
+                    </tr>
+                    <tr>
+                      <td>定期メンテナンスのお知らせ</td>
+                      <td>2025-10-01 09:00</td>
+                      <td>
+                        <span class="status-badge status-active">配信完了</span>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="card-footer">
-                <button class="btn btn-outline" data-navigate="history">
-                  すべての履歴を見る
+                <button class="btn btn-outline" data-navigate="broadcast">
+                  すべての配信を見る
                 </button>
               </div>
             </div>
@@ -226,11 +497,42 @@
         </div>
 
         <!-- Broadcast Page (List) -->
-        <div id="broadcast-page" class="page-container page" style="display: none">
+        <div
+          id="broadcast-page"
+          class="page-container page"
+          style="display: none"
+        >
           <h1 class="page-title">一斉配信</h1>
 
           <div class="card">
-            <button class="btn btn-primary" id="broadcast-new-btn" style="margin-bottom: 20px;">新規作成</button>
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+              "
+            >
+              <div class="broadcast-status-toggle">
+                <button
+                  class="broadcast-status-btn active"
+                  data-status="配信予約中"
+                  id="broadcast-status-scheduled"
+                >
+                  配信予約中
+                </button>
+                <button
+                  class="broadcast-status-btn"
+                  data-status="配信完了"
+                  id="broadcast-status-completed"
+                >
+                  配信完了
+                </button>
+              </div>
+              <button class="btn btn-primary" id="broadcast-new-btn">
+                新規作成
+              </button>
+            </div>
             <div class="table-container">
               <table class="table" id="broadcasts-table">
                 <thead>
@@ -258,9 +560,13 @@
           style="display: none"
         >
           <div class="page-header">
-            <h1 class="page-title" id="broadcast-detail-title">一斉配信を作成</h1>
+            <h1 class="page-title" id="broadcast-detail-title">
+              一斉配信を作成
+            </h1>
             <div class="header-actions">
-              <button class="btn btn-outline" id="broadcast-back-btn">一覧に戻る</button>
+              <button class="btn btn-outline" id="broadcast-back-btn">
+                一覧に戻る
+              </button>
             </div>
           </div>
 
@@ -305,12 +611,20 @@
                   >
                     <label class="form-label">配信先タグを選択</label>
                     <div class="tag-selection-container">
-                      <div class="tag-selection-list" id="broadcast-tag-selection-list">
+                      <div
+                        class="tag-selection-list"
+                        id="broadcast-tag-selection-list"
+                      >
                         <!-- タグリストがここに動的に生成される -->
                       </div>
 
-                      <div class="tag-selection-count" id="tag-selection-count" style="display: none;">
-                        選択したタグの該当人数: <span id="tagged-friends-count">0</span> 人
+                      <div
+                        class="tag-selection-count"
+                        id="tag-selection-count"
+                        style="display: none"
+                      >
+                        選択したタグの該当人数:
+                        <span id="tagged-friends-count">0</span> 人
                       </div>
                     </div>
                   </div>
@@ -324,17 +638,30 @@
                     <label class="form-label">配信タイミング *</label>
                     <div class="radio-group">
                       <label class="radio-item">
-                        <input type="radio" name="deliveryTiming" value="immediate" checked />
+                        <input
+                          type="radio"
+                          name="deliveryTiming"
+                          value="immediate"
+                          checked
+                        />
                         メッセージ登録後すぐに配信
                       </label>
                       <label class="radio-item">
-                        <input type="radio" name="deliveryTiming" value="scheduled" />
+                        <input
+                          type="radio"
+                          name="deliveryTiming"
+                          value="scheduled"
+                        />
                         日時で指定
                       </label>
                     </div>
                   </div>
 
-                  <div id="scheduled-datetime-group" class="form-group" style="display: none;">
+                  <div
+                    id="scheduled-datetime-group"
+                    class="form-group"
+                    style="display: none"
+                  >
                     <div class="timing-preview-input">
                       メッセージ登録から
                       <input
@@ -356,7 +683,10 @@
                       に配信する
                     </div>
 
-                    <div class="form-description" style="font-size: 13px; color: #666; margin-top: 8px;">
+                    <div
+                      class="form-description"
+                      style="font-size: 13px; color: #666; margin-top: 8px"
+                    >
                       ※メッセージ登録当日に送信する場合は「0日後」を選択してください
                     </div>
                   </div>
@@ -394,8 +724,18 @@
               </div>
 
               <div class="form-actions">
-                <button id="broadcast-preview-btn" class="btn btn-outline btn-large">プレビュー</button>
-                <button id="broadcast-save-btn" class="btn btn-primary btn-large">保存して配信</button>
+                <button
+                  id="broadcast-preview-btn"
+                  class="btn btn-outline btn-large"
+                >
+                  プレビュー
+                </button>
+                <button
+                  id="broadcast-save-btn"
+                  class="btn btn-primary btn-large"
+                >
+                  保存して配信
+                </button>
               </div>
             </div>
           </div>
@@ -406,7 +746,13 @@
           <h1 class="page-title">ステップ配信</h1>
 
           <div class="card">
-            <button class="btn btn-primary" id="scenario-new-btn" style="margin-bottom: 20px;">新規作成</button>
+            <button
+              class="btn btn-primary"
+              id="scenario-new-btn"
+              style="margin-bottom: 20px"
+            >
+              新規作成
+            </button>
             <div class="table-container">
               <table class="table" id="scenarios-table">
                 <thead>
@@ -418,21 +764,39 @@
                   </tr>
                 </thead>
                 <tbody id="scenarios-tbody">
-                  <tr data-scenario-id="1" data-scenario-name="ウェルカムシーケンス" data-delivery-timing="immediate">
+                  <tr
+                    data-scenario-id="1"
+                    data-scenario-name="ウェルカムシーケンス"
+                    data-delivery-timing="immediate"
+                  >
                     <td>ウェルカムシーケンス</td>
-                    <td><span class="status-badge status-active">配信中</span></td>
-                    <td>2024-01-15</td>
                     <td>
-                      <button class="btn btn-outline btn-sm scenario-edit-btn">編集</button>
+                      <span class="status-badge status-active">配信中</span>
+                    </td>
+                    <td>2025-10-15</td>
+                    <td>
+                      <button class="btn btn-outline btn-sm scenario-edit-btn">
+                        編集
+                      </button>
                       <button class="btn btn-secondary btn-sm">停止</button>
                     </td>
                   </tr>
-                  <tr data-scenario-id="2" data-scenario-name="商品紹介シリーズ" data-delivery-timing="scheduled" data-scheduled-days="1" data-scheduled-time="10:00">
+                  <tr
+                    data-scenario-id="2"
+                    data-scenario-name="商品紹介シリーズ"
+                    data-delivery-timing="scheduled"
+                    data-scheduled-days="1"
+                    data-scheduled-time="10:00"
+                  >
                     <td>商品紹介シリーズ</td>
-                    <td><span class="status-badge status-active">配信中</span></td>
-                    <td>2024-01-10</td>
                     <td>
-                      <button class="btn btn-outline btn-sm scenario-edit-btn">編集</button>
+                      <span class="status-badge status-active">配信中</span>
+                    </td>
+                    <td>2025-10-10</td>
+                    <td>
+                      <button class="btn btn-outline btn-sm scenario-edit-btn">
+                        編集
+                      </button>
                       <button class="btn btn-secondary btn-sm">停止</button>
                     </td>
                   </tr>
@@ -443,11 +807,17 @@
         </div>
 
         <!-- Scenario Detail Page -->
-        <div id="scenario-detail-page" class="page-container page" style="display: none">
+        <div
+          id="scenario-detail-page"
+          class="page-container page"
+          style="display: none"
+        >
           <div class="page-header">
             <h1 class="page-title" id="scenario-detail-title">シナリオ詳細</h1>
             <div class="header-actions">
-              <button class="btn btn-outline" id="scenario-back-btn">一覧に戻る</button>
+              <button class="btn btn-outline" id="scenario-back-btn">
+                一覧に戻る
+              </button>
             </div>
           </div>
 
@@ -459,7 +829,11 @@
                   <span class="info-label">管理名:</span>
                   <div class="info-value-editable">
                     <span class="info-value" id="detail-scenario-name">-</span>
-                    <button class="btn-icon" id="edit-scenario-name-btn" title="管理名を編集">
+                    <button
+                      class="btn-icon"
+                      id="edit-scenario-name-btn"
+                      title="管理名を編集"
+                    >
                       <i class="fa-solid fa-pen"></i>
                     </button>
                   </div>
@@ -499,8 +873,12 @@
           <div class="data-management-layout">
             <!-- Tab Navigation -->
             <div class="data-management-tabs">
-              <button class="data-tab-btn active" data-tab="friend-list">友だちリスト</button>
-              <button class="data-tab-btn" data-tab="tag-management">タグ管理</button>
+              <button class="data-tab-btn active" data-tab="friend-list">
+                友だちリスト
+              </button>
+              <button class="data-tab-btn" data-tab="tag-management">
+                タグ管理
+              </button>
             </div>
 
             <!-- Tab Contents -->
@@ -517,7 +895,10 @@
                       placeholder="名前またはIDで検索..."
                     />
                   </div>
-                  <div id="friend-list-table-container" class="friend-list-table-container">
+                  <div
+                    id="friend-list-table-container"
+                    class="friend-list-table-container"
+                  >
                     <table class="friend-list-table">
                       <thead>
                         <tr>
@@ -529,7 +910,12 @@
                       </thead>
                       <tbody id="friend-list-tbody">
                         <tr>
-                          <td colspan="4" style="text-align: center; padding: 20px;">読み込み中...</td>
+                          <td
+                            colspan="4"
+                            style="text-align: center; padding: 20px"
+                          >
+                            読み込み中...
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -554,27 +940,130 @@
                     </div>
                     <div class="form-group">
                       <label class="form-label">カラー</label>
-                      <div class="color-palette-container" id="tag-color-palette">
-                        <button type="button" class="color-option transparent selected" data-color="transparent" title="無色">
+                      <div
+                        class="color-palette-container"
+                        id="tag-color-palette"
+                      >
+                        <button
+                          type="button"
+                          class="color-option transparent selected"
+                          data-color="transparent"
+                          title="無色"
+                        >
                           <i class="fa-solid fa-ban"></i>
                         </button>
-                        <button type="button" class="color-option" data-color="#00b900" style="background-color: #00b900;" title="グリーン"></button>
-                        <button type="button" class="color-option" data-color="#3b82f6" style="background-color: #3b82f6;" title="ブルー"></button>
-                        <button type="button" class="color-option" data-color="#ef4444" style="background-color: #ef4444;" title="レッド"></button>
-                        <button type="button" class="color-option" data-color="#f59e0b" style="background-color: #f59e0b;" title="オレンジ"></button>
-                        <button type="button" class="color-option" data-color="#8b5cf6" style="background-color: #8b5cf6;" title="パープル"></button>
-                        <button type="button" class="color-option" data-color="#ec4899" style="background-color: #ec4899;" title="ピンク"></button>
-                        <button type="button" class="color-option" data-color="#06b6d4" style="background-color: #06b6d4;" title="シアン"></button>
-                        <button type="button" class="color-option" data-color="#84cc16" style="background-color: #84cc16;" title="ライムグリーン"></button>
-                        <button type="button" class="color-option" data-color="#14b8a6" style="background-color: #14b8a6;" title="ティール"></button>
-                        <button type="button" class="color-option" data-color="#f97316" style="background-color: #f97316;" title="ディープオレンジ"></button>
-                        <button type="button" class="color-option" data-color="#a855f7" style="background-color: #a855f7;" title="バイオレット"></button>
-                        <button type="button" class="color-option" data-color="#0ea5e9" style="background-color: #0ea5e9;" title="スカイブルー"></button>
-                        <button type="button" class="color-option" data-color="#f43f5e" style="background-color: #f43f5e;" title="ローズ"></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#00b900"
+                          style="background-color: #00b900"
+                          title="グリーン"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#3b82f6"
+                          style="background-color: #3b82f6"
+                          title="ブルー"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#ef4444"
+                          style="background-color: #ef4444"
+                          title="レッド"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#f59e0b"
+                          style="background-color: #f59e0b"
+                          title="オレンジ"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#8b5cf6"
+                          style="background-color: #8b5cf6"
+                          title="パープル"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#ec4899"
+                          style="background-color: #ec4899"
+                          title="ピンク"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#06b6d4"
+                          style="background-color: #06b6d4"
+                          title="シアン"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#84cc16"
+                          style="background-color: #84cc16"
+                          title="ライムグリーン"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#14b8a6"
+                          style="background-color: #14b8a6"
+                          title="ティール"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#f97316"
+                          style="background-color: #f97316"
+                          title="ディープオレンジ"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#a855f7"
+                          style="background-color: #a855f7"
+                          title="バイオレット"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#0ea5e9"
+                          style="background-color: #0ea5e9"
+                          title="スカイブルー"
+                        ></button>
+                        <button
+                          type="button"
+                          class="color-option"
+                          data-color="#f43f5e"
+                          style="background-color: #f43f5e"
+                          title="ローズ"
+                        ></button>
                       </div>
-                      <input type="hidden" id="tag-color-input" value="transparent" />
+                      <div class="color-picker-container">
+                        <label class="color-picker-label"
+                          >または、カスタムカラーを選択:</label
+                        >
+                        <input
+                          type="color"
+                          id="tag-color-picker"
+                          class="color-picker-input"
+                          value="#00b900"
+                        />
+                      </div>
+                      <input
+                        type="hidden"
+                        id="tag-color-input"
+                        value="transparent"
+                      />
                     </div>
-                    <button type="submit" class="btn btn-primary">タグを作成</button>
+                    <button type="submit" class="btn btn-primary">
+                      タグを作成
+                    </button>
                   </form>
                 </div>
 
@@ -643,7 +1132,10 @@
                 </thead>
                 <tbody id="url-management-tbody">
                   <tr>
-                    <td colspan="7" style="text-align: center; padding: 30px; color: #999;">
+                    <td
+                      colspan="7"
+                      style="text-align: center; padding: 30px; color: #999"
+                    >
                       URLがまだ作成されていません
                     </td>
                   </tr>
@@ -665,10 +1157,18 @@
               <div class="friends-header">
                 <div class="filter-select-container">
                   <select id="friend-filter-select" class="form-select">
-                    <option value="all">すべて <span id="all-count-text">(0)</span></option>
-                    <option value="unread">未読 <span id="unread-count-text">(0)</span></option>
-                    <option value="read">既読 <span id="read-count-text">(0)</span></option>
-                    <option value="bookmarked">ブックマーク <span id="bookmark-count-text">(0)</span></option>
+                    <option value="all">
+                      すべて <span id="all-count-text">(0)</span>
+                    </option>
+                    <option value="unread">
+                      未読 <span id="unread-count-text">(0)</span>
+                    </option>
+                    <option value="read">
+                      既読 <span id="read-count-text">(0)</span>
+                    </option>
+                    <option value="bookmarked">
+                      ブックマーク <span id="bookmark-count-text">(0)</span>
+                    </option>
                   </select>
                 </div>
                 <div class="search-box">
@@ -683,7 +1183,9 @@
 
               <div class="friends-list">
                 <!-- ユーザーリストは動的に読み込まれます -->
-                <div style="padding: 20px; text-align: center;">読み込み中...</div>
+                <div style="padding: 20px; text-align: center">
+                  読み込み中...
+                </div>
               </div>
             </div>
 
@@ -693,11 +1195,21 @@
                 <div class="chat-user-info">
                   <div class="chat-avatar" id="individual-chat-avatar">-</div>
                   <div class="chat-user-details">
-                    <div class="chat-user-name" id="individual-chat-user-name">友だちを選択してください</div>
+                    <div class="chat-user-name" id="individual-chat-user-name">
+                      友だちを選択してください
+                    </div>
                   </div>
                 </div>
-                <div class="chat-header-actions" id="chat-header-actions" style="display: none;">
-                  <button class="bookmark-btn" id="chat-bookmark-btn" title="ブックマーク">
+                <div
+                  class="chat-header-actions"
+                  id="chat-header-actions"
+                  style="display: none"
+                >
+                  <button
+                    class="bookmark-btn"
+                    id="chat-bookmark-btn"
+                    title="ブックマーク"
+                  >
                     <i class="bookmark-icon fa-regular fa-bookmark"></i>
                   </button>
                 </div>
@@ -705,14 +1217,24 @@
 
               <div class="chat-messages" id="individual-chat-messages">
                 <div class="empty-state">
-                  <p>左側から友だちを選択してメッセージのやりとりを開始してください</p>
+                  <p>
+                    左側から友だちを選択してメッセージのやりとりを開始してください
+                  </p>
                 </div>
               </div>
 
-              <div class="chat-input-area" id="individual-chat-input-area" style="display: none;">
+              <div
+                class="chat-input-area"
+                id="individual-chat-input-area"
+                style="display: none"
+              >
                 <div class="chat-input-container">
                   <div class="read-status-buttons">
-                    <button class="read-status-btn" id="read-status-toggle-btn" title="既読/未読切り替え">
+                    <button
+                      class="read-status-btn"
+                      id="read-status-toggle-btn"
+                      title="既読/未読切り替え"
+                    >
                       <i class="fa-solid fa-envelope-open"></i>
                     </button>
                   </div>
@@ -722,7 +1244,9 @@
                     placeholder="メッセージを入力..."
                     rows="3"
                   ></textarea>
-                  <button id="individual-chat-send-btn" class="chat-send-btn">送信</button>
+                  <button id="individual-chat-send-btn" class="chat-send-btn">
+                    送信
+                  </button>
                 </div>
               </div>
             </div>
@@ -750,259 +1274,38 @@
           <div class="card">
             <h2 class="card-title">アカウント設定</h2>
             <div class="form-group">
-              <label class="form-label">表示名</label>
-              <input type="text" class="form-input" value="MyNE" />
-            </div>
-
-            <div class="form-group">
               <label class="form-label">メールアドレス</label>
               <input
                 type="email"
+                id="settings-email"
                 class="form-input"
                 value="admin@example.com"
+                disabled
               />
             </div>
 
-            <button class="btn btn-primary">保存</button>
-          </div>
-        </div>
-
-        <!-- History Page -->
-        <div
-          id="history-page"
-          class="page-container page"
-          style="display: none"
-        >
-          <div class="page-header">
-            <h1 class="page-title">配信履歴</h1>
-            <button class="btn btn-outline" data-navigate="dashboard">
-              ダッシュボードに戻る
-            </button>
-          </div>
-
-          <div class="history-filters">
-            <div class="search-box">
+            <div class="form-group">
+              <label class="form-label">パスワード</label>
               <input
-                type="text"
-                id="history-search"
+                type="password"
+                id="settings-password"
                 class="form-input"
-                placeholder="配信タイトルまたは内容で検索..."
+                value="password"
+                disabled
               />
             </div>
-            <div class="filter-controls">
-              <select id="history-status-filter" class="form-select">
-                <option value="">すべてのステータス</option>
-                <option value="配信完了">配信完了</option>
-                <option value="進行中">進行中</option>
-                <option value="停止">停止</option>
-              </select>
-            </div>
-          </div>
 
-          <div class="card">
-            <div class="table-container">
-              <table class="table" id="history-table">
-                <thead>
-                  <tr>
-                    <th>タイトル</th>
-                    <th>配信日</th>
-                    <th>ステータス</th>
-                    <th>配信数</th>
-                    <th>操作</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr data-history-id="1">
-                    <td>新商品のお知らせ</td>
-                    <td>2024-01-15</td>
-                    <td>
-                      <span class="status-badge status-active">配信完了</span>
-                    </td>
-                    <td>12,453</td>
-                    <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
-                    </td>
-                  </tr>
-                  <tr data-history-id="2">
-                    <td>ウェルカムメッセージ</td>
-                    <td>2024-01-14</td>
-                    <td>
-                      <span class="status-badge status-progress">進行中</span>
-                    </td>
-                    <td>234</td>
-                    <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
-                      <button class="btn btn-secondary btn-sm">停止</button>
-                    </td>
-                  </tr>
-                  <tr data-history-id="3">
-                    <td>キャンペーン情報</td>
-                    <td>2024-01-13</td>
-                    <td>
-                      <span class="status-badge status-active">配信完了</span>
-                    </td>
-                    <td>11,892</td>
-                    <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
-                    </td>
-                  </tr>
-                  <tr data-history-id="4">
-                    <td>年末年始のご挨拶</td>
-                    <td>2024-01-01</td>
-                    <td>
-                      <span class="status-badge status-active">配信完了</span>
-                    </td>
-                    <td>11,234</td>
-                    <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
-                    </td>
-                  </tr>
-                  <tr data-history-id="5">
-                    <td>冬季休暇のお知らせ</td>
-                    <td>2023-12-28</td>
-                    <td>
-                      <span class="status-badge status-active">配信完了</span>
-                    </td>
-                    <td>10,987</td>
-                    <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
-                    </td>
-                  </tr>
-                  <tr data-history-id="6">
-                    <td>商品アンケート</td>
-                    <td>2023-12-25</td>
-                    <td><span class="status-badge status-error">停止</span></td>
-                    <td>156</td>
-                    <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
-                      <button class="btn btn-primary btn-sm">再開</button>
-                    </td>
-                  </tr>
-                  <tr data-history-id="7">
-                    <td>クリスマスキャンペーン</td>
-                    <td>2023-12-20</td>
-                    <td>
-                      <span class="status-badge status-active">配信完了</span>
-                    </td>
-                    <td>12,678</td>
-                    <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
-                    </td>
-                  </tr>
-                  <tr data-history-id="8">
-                    <td>新機能のご紹介</td>
-                    <td>2023-12-15</td>
-                    <td>
-                      <span class="status-badge status-active">配信完了</span>
-                    </td>
-                    <td>445</td>
-                    <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
-                    </td>
-                  </tr>
-                  <tr data-history-id="9">
-                    <td>月末セール情報</td>
-                    <td>2023-12-10</td>
-                    <td>
-                      <span class="status-badge status-active">配信完了</span>
-                    </td>
-                    <td>11,543</td>
-                    <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
-                    </td>
-                  </tr>
-                  <tr data-history-id="10">
-                    <td>顧客感謝祭のご案内</td>
-                    <td>2023-12-01</td>
-                    <td>
-                      <span class="status-badge status-active">配信完了</span>
-                    </td>
-                    <td>12,105</td>
-                    <td>
-                      <button class="btn btn-outline btn-sm history-detail-btn">詳細</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div class="pagination">
-              <button class="btn btn-outline btn-sm" disabled>前へ</button>
-              <span class="pagination-info">1 / 3 ページ (全 28 件)</span>
-              <button class="btn btn-outline btn-sm">次へ</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- History Detail Page -->
-        <div
-          id="history-detail-page"
-          class="page-container page"
-          style="display: none"
-        >
-          <div class="page-header">
-            <h1 class="page-title">配信履歴詳細</h1>
-            <div class="header-actions">
-              <button class="btn btn-outline" id="history-back-btn">一覧に戻る</button>
-            </div>
-          </div>
-
-          <div class="history-detail-content">
-            <!-- 基本情報 -->
-            <div class="card">
-              <h2 class="card-title">基本情報</h2>
-              <div class="history-info-grid">
-                <div class="history-info-item">
-                  <span class="history-info-label">管理用タイトル</span>
-                  <span class="history-info-value" id="history-detail-title">-</span>
-                </div>
-                <div class="history-info-item">
-                  <span class="history-info-label">配信日時</span>
-                  <span class="history-info-value" id="history-detail-date">-</span>
-                </div>
-                <div class="history-info-item">
-                  <span class="history-info-label">配信対象</span>
-                  <span class="history-info-value" id="history-detail-target">-</span>
-                </div>
-                <div class="history-info-item">
-                  <span class="history-info-label">ステータス</span>
-                  <span class="history-info-value" id="history-detail-status">-</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- 配信統計 -->
-            <div class="card">
-              <h2 class="card-title">配信統計</h2>
-              <div class="history-stats-grid">
-                <div class="history-stat-card">
-                  <div class="history-stat-label">配信数</div>
-                  <div class="history-stat-value" id="history-stat-sent">-</div>
-                </div>
-                <div class="history-stat-card">
-                  <div class="history-stat-label">開封数</div>
-                  <div class="history-stat-value" id="history-stat-opened">-</div>
-                  <div class="history-stat-rate" id="history-stat-open-rate">-</div>
-                </div>
-                <div class="history-stat-card">
-                  <div class="history-stat-label">クリック数</div>
-                  <div class="history-stat-value" id="history-stat-clicked">-</div>
-                  <div class="history-stat-rate" id="history-stat-click-rate">-</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- 配信内容 -->
-            <div class="card">
-              <h2 class="card-title">配信内容</h2>
-              <div class="message-preview-container">
-                <div class="message-preview-chat">
-                  <div class="message message-sent">
-                    <div class="message-content">
-                      <div class="message-text" id="history-detail-message">-</div>
-                    </div>
-                  </div>
-                </div>
+            <div class="settings-actions">
+              <button id="settings-edit-btn" class="btn btn-outline">
+                編集
+              </button>
+              <div id="settings-save-cancel-group" style="display: none">
+                <button id="settings-cancel-btn" class="btn btn-outline">
+                  キャンセル
+                </button>
+                <button id="settings-save-btn" class="btn btn-primary">
+                  保存
+                </button>
               </div>
             </div>
           </div>
@@ -1038,9 +1341,7 @@
           <button class="btn btn-outline" id="scenario-cancel-btn">
             キャンセル
           </button>
-          <button class="btn btn-primary" id="scenario-create-btn">
-            作成
-          </button>
+          <button class="btn btn-primary" id="scenario-create-btn">作成</button>
         </div>
       </div>
     </div>
@@ -1169,7 +1470,38 @@
           <button class="btn btn-outline" id="memo-cancel-btn">
             キャンセル
           </button>
-          <button class="btn btn-primary" id="memo-save-btn">
+          <button class="btn btn-primary" id="memo-save-btn">保存</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Display Name Edit Modal -->
+    <div id="system-display-name-modal" class="modal" style="display: none">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>システム表示名編集</h2>
+          <button class="modal-close-btn" id="system-display-name-close-btn">
+            ×
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">システム表示名</label>
+            <input
+              type="text"
+              id="system-display-name-input"
+              class="form-input"
+              placeholder="表示名を入力してください"
+            />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="system-display-name-cancel-btn">
+            キャンセル
+          </button>
+          <button class="btn btn-primary" id="system-display-name-save-btn">
             保存
           </button>
         </div>
@@ -1198,24 +1530,122 @@
           <div class="form-group">
             <label class="form-label">カラー</label>
             <div class="color-palette-container" id="tag-edit-color-palette">
-              <button type="button" class="color-option transparent" data-color="transparent" title="無色">
+              <button
+                type="button"
+                class="color-option transparent"
+                data-color="transparent"
+                title="無色"
+              >
                 <i class="fa-solid fa-ban"></i>
               </button>
-              <button type="button" class="color-option" data-color="#00b900" style="background-color: #00b900;" title="グリーン"></button>
-              <button type="button" class="color-option" data-color="#3b82f6" style="background-color: #3b82f6;" title="ブルー"></button>
-              <button type="button" class="color-option" data-color="#ef4444" style="background-color: #ef4444;" title="レッド"></button>
-              <button type="button" class="color-option" data-color="#f59e0b" style="background-color: #f59e0b;" title="オレンジ"></button>
-              <button type="button" class="color-option" data-color="#8b5cf6" style="background-color: #8b5cf6;" title="パープル"></button>
-              <button type="button" class="color-option" data-color="#ec4899" style="background-color: #ec4899;" title="ピンク"></button>
-              <button type="button" class="color-option" data-color="#06b6d4" style="background-color: #06b6d4;" title="シアン"></button>
-              <button type="button" class="color-option" data-color="#84cc16" style="background-color: #84cc16;" title="ライムグリーン"></button>
-              <button type="button" class="color-option" data-color="#14b8a6" style="background-color: #14b8a6;" title="ティール"></button>
-              <button type="button" class="color-option" data-color="#f97316" style="background-color: #f97316;" title="ディープオレンジ"></button>
-              <button type="button" class="color-option" data-color="#a855f7" style="background-color: #a855f7;" title="バイオレット"></button>
-              <button type="button" class="color-option" data-color="#0ea5e9" style="background-color: #0ea5e9;" title="スカイブルー"></button>
-              <button type="button" class="color-option" data-color="#f43f5e" style="background-color: #f43f5e;" title="ローズ"></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#00b900"
+                style="background-color: #00b900"
+                title="グリーン"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#3b82f6"
+                style="background-color: #3b82f6"
+                title="ブルー"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#ef4444"
+                style="background-color: #ef4444"
+                title="レッド"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#f59e0b"
+                style="background-color: #f59e0b"
+                title="オレンジ"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#8b5cf6"
+                style="background-color: #8b5cf6"
+                title="パープル"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#ec4899"
+                style="background-color: #ec4899"
+                title="ピンク"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#06b6d4"
+                style="background-color: #06b6d4"
+                title="シアン"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#84cc16"
+                style="background-color: #84cc16"
+                title="ライムグリーン"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#14b8a6"
+                style="background-color: #14b8a6"
+                title="ティール"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#f97316"
+                style="background-color: #f97316"
+                title="ディープオレンジ"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#a855f7"
+                style="background-color: #a855f7"
+                title="バイオレット"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#0ea5e9"
+                style="background-color: #0ea5e9"
+                title="スカイブルー"
+              ></button>
+              <button
+                type="button"
+                class="color-option"
+                data-color="#f43f5e"
+                style="background-color: #f43f5e"
+                title="ローズ"
+              ></button>
             </div>
-            <input type="hidden" id="tag-edit-color-input" value="transparent" />
+            <div class="color-picker-container">
+              <label class="color-picker-label"
+                >または、カスタムカラーを選択:</label
+              >
+              <input
+                type="color"
+                id="tag-edit-color-picker"
+                class="color-picker-input"
+                value="#00b900"
+              />
+            </div>
+            <input
+              type="hidden"
+              id="tag-edit-color-input"
+              value="transparent"
+            />
           </div>
         </div>
 
@@ -1223,9 +1653,7 @@
           <button class="btn btn-outline" id="tag-edit-cancel-btn">
             キャンセル
           </button>
-          <button class="btn btn-primary" id="tag-edit-save-btn">
-            保存
-          </button>
+          <button class="btn btn-primary" id="tag-edit-save-btn">保存</button>
         </div>
       </div>
     </div>
@@ -1254,13 +1682,21 @@
                   ステップ開始直後
                 </label>
                 <label class="radio-item">
-                  <input type="radio" name="stepDeliveryTiming" value="scheduled" />
+                  <input
+                    type="radio"
+                    name="stepDeliveryTiming"
+                    value="scheduled"
+                  />
                   日時で指定
                 </label>
               </div>
             </div>
 
-            <div class="form-group" id="step-scheduled-group" style="display: none">
+            <div
+              class="form-group"
+              id="step-scheduled-group"
+              style="display: none"
+            >
               <div class="timing-preview-input">
                 ステップは開始から
                 <input
@@ -1282,7 +1718,10 @@
                 に配信する
               </div>
 
-              <div class="form-description" style="font-size: 13px; color: #666; margin-top: 8px;">
+              <div
+                class="form-description"
+                style="font-size: 13px; color: #666; margin-top: 8px"
+              >
                 ※ステップ開始当日に送信する場合は「0日後」を選択してください
               </div>
             </div>
@@ -1293,9 +1732,7 @@
           <button class="btn btn-outline" id="step-timing-cancel-btn">
             キャンセル
           </button>
-          <button class="btn btn-primary" id="step-timing-add-btn">
-            追加
-          </button>
+          <button class="btn btn-primary" id="step-timing-add-btn">追加</button>
         </div>
       </div>
     </div>
@@ -1328,9 +1765,7 @@
           <button class="btn btn-outline" id="message-cancel-btn">
             キャンセル
           </button>
-          <button class="btn btn-primary" id="message-add-btn">
-            追加
-          </button>
+          <button class="btn btn-primary" id="message-add-btn">追加</button>
         </div>
       </div>
     </div>
@@ -1340,7 +1775,9 @@
       <div class="modal-content modal-preview-size">
         <div class="modal-header">
           <h2>配信内容プレビュー</h2>
-          <button class="modal-close-btn" id="broadcast-preview-close-btn">×</button>
+          <button class="modal-close-btn" id="broadcast-preview-close-btn">
+            ×
+          </button>
         </div>
 
         <div class="modal-body">
@@ -1368,7 +1805,9 @@
               <div class="message-preview-chat">
                 <div class="message message-sent">
                   <div class="message-content">
-                    <div class="message-text" id="preview-message-text">メッセージが入力されていません</div>
+                    <div class="message-text" id="preview-message-text">
+                      メッセージが入力されていません
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1398,7 +1837,10 @@
         </div>
 
         <div class="modal-body">
-          <div id="step-message-preview-container" class="message-preview-container">
+          <div
+            id="step-message-preview-container"
+            class="message-preview-container"
+          >
             <div class="message-preview-chat">
               <!-- Dynamic content will be inserted here -->
             </div>

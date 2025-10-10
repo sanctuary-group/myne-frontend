@@ -1,21 +1,21 @@
 // ===== MOCK DATA =====
 // 友だちデータ
 const MOCK_FRIENDS = [
-  { id: 1, name: '田中太郎', lineId: 'U001', tags: [1, 3], registeredAt: '2024-01-15', memo: '製品Aに興味あり', bookmarked: true, readStatus: 'unread' },
-  { id: 2, name: '鈴木花子', lineId: 'U002', tags: [2], registeredAt: '2024-01-14', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 3, name: '佐藤次郎', lineId: 'U003', tags: [1, 2], registeredAt: '2024-01-13', memo: '月次レポート希望', bookmarked: true, readStatus: 'unread' },
-  { id: 4, name: '高橋美咲', lineId: 'U004', tags: [], registeredAt: '2024-01-12', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 5, name: '伊藤健一', lineId: 'U005', tags: [3], registeredAt: '2024-01-11', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 6, name: '渡辺さくら', lineId: 'U006', tags: [1], registeredAt: '2024-01-10', memo: 'VIP対応', bookmarked: true, readStatus: 'unread' },
-  { id: 7, name: '山本太一', lineId: 'U007', tags: [2, 3], registeredAt: '2024-01-09', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 8, name: '中村結衣', lineId: 'U008', tags: [], registeredAt: '2024-01-08', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 9, name: '小林大輔', lineId: 'U009', tags: [1], registeredAt: '2024-01-07', memo: '請求書発行済み', bookmarked: false, readStatus: 'read' },
-  { id: 10, name: '加藤愛', lineId: 'U010', tags: [3], registeredAt: '2024-01-06', memo: '', bookmarked: false, readStatus: 'unread' },
-  { id: 11, name: '吉田悠斗', lineId: 'U011', tags: [2], registeredAt: '2024-01-05', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 12, name: '山田陽菜', lineId: 'U012', tags: [], registeredAt: '2024-01-04', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 13, name: '佐々木蓮', lineId: 'U013', tags: [1, 2], registeredAt: '2024-01-03', memo: '次回フォロー: 2/1', bookmarked: true, readStatus: 'unread' },
-  { id: 14, name: '松本葵', lineId: 'U014', tags: [], registeredAt: '2024-01-02', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 15, name: '井上颯太', lineId: 'U015', tags: [3], registeredAt: '2024-01-01', memo: '', bookmarked: false, readStatus: 'read' }
+  { id: 1, name: '田中太郎', lineId: 'U001', tags: [1, 3], registeredAt: '2025-10-15', memo: '製品Aに興味あり', bookmarked: true, readStatus: 'unread' },
+  { id: 2, name: '鈴木花子', lineId: 'U002', tags: [2], registeredAt: '2025-10-14', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 3, name: '佐藤次郎', lineId: 'U003', tags: [1, 2], registeredAt: '2025-10-13', memo: '月次レポート希望', bookmarked: true, readStatus: 'unread' },
+  { id: 4, name: '高橋美咲', lineId: 'U004', tags: [], registeredAt: '2025-10-12', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 5, name: '伊藤健一', lineId: 'U005', tags: [3], registeredAt: '2025-10-11', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 6, name: '渡辺さくら', lineId: 'U006', tags: [1], registeredAt: '2025-09-10', memo: 'VIP対応', bookmarked: true, readStatus: 'unread' },
+  { id: 7, name: '山本太一', lineId: 'U007', tags: [2, 3], registeredAt: '2025-09-09', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 8, name: '中村結衣', lineId: 'U008', tags: [], registeredAt: '2025-08-08', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 9, name: '小林大輔', lineId: 'U009', tags: [1], registeredAt: '2025-08-07', memo: '請求書発行済み', bookmarked: false, readStatus: 'read' },
+  { id: 10, name: '加藤愛', lineId: 'U010', tags: [3], registeredAt: '2025-07-06', memo: '', bookmarked: false, readStatus: 'unread' },
+  { id: 11, name: '吉田悠斗', lineId: 'U011', tags: [2], registeredAt: '2025-07-05', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 12, name: '山田陽菜', lineId: 'U012', tags: [], registeredAt: '2025-06-04', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 13, name: '佐々木蓮', lineId: 'U013', tags: [1, 2], registeredAt: '2025-06-03', memo: '次回フォロー: 11/1', bookmarked: true, readStatus: 'unread' },
+  { id: 14, name: '松本葵', lineId: 'U014', tags: [], registeredAt: '2025-05-02', memo: '', bookmarked: false, readStatus: 'read' },
+  { id: 15, name: '井上颯太', lineId: 'U015', tags: [3], registeredAt: '2025-05-01', memo: '', bookmarked: false, readStatus: 'read' }
 ];
 
 // タグデータ
@@ -30,29 +30,29 @@ const MOCK_TAGS = [
 // メッセージデータ
 const MOCK_MESSAGES = {
   1: [
-    { id: 1, sender: 'user', content: 'こんにちは！製品Aについて詳しく教えてください。', timestamp: '2024-01-15 10:30' },
-    { id: 2, sender: 'admin', content: 'お問い合わせありがとうございます。製品Aは当社の主力商品で...', timestamp: '2024-01-15 10:35' },
-    { id: 3, sender: 'user', content: '価格はいくらですか？', timestamp: '2024-01-15 10:40' },
-    { id: 4, sender: 'admin', content: '製品Aの価格は¥9,800です。', timestamp: '2024-01-15 10:42' }
+    { id: 1, sender: 'user', content: 'こんにちは！製品Aについて詳しく教えてください。', timestamp: '2025-10-15 10:30' },
+    { id: 2, sender: 'admin', content: 'お問い合わせありがとうございます。製品Aは当社の主力商品で...', timestamp: '2025-10-15 10:35' },
+    { id: 3, sender: 'user', content: '価格はいくらですか？', timestamp: '2025-10-15 10:40' },
+    { id: 4, sender: 'admin', content: '製品Aの価格は¥9,800です。', timestamp: '2025-10-15 10:42' }
   ],
   2: [
-    { id: 1, sender: 'user', content: '配送状況を教えてください', timestamp: '2024-01-14 14:20' },
-    { id: 2, sender: 'admin', content: 'ご注文の商品は本日発送いたしました。', timestamp: '2024-01-14 14:25' },
-    { id: 3, sender: 'user', content: 'ありがとうございます！', timestamp: '2024-01-14 14:30' }
+    { id: 1, sender: 'user', content: '配送状況を教えてください', timestamp: '2025-10-14 14:20' },
+    { id: 2, sender: 'admin', content: 'ご注文の商品は本日発送いたしました。', timestamp: '2025-10-14 14:25' },
+    { id: 3, sender: 'user', content: 'ありがとうございます！', timestamp: '2025-10-14 14:30' }
   ],
   3: [
-    { id: 1, sender: 'user', content: '月次レポートをお願いします', timestamp: '2024-01-13 09:00' },
-    { id: 2, sender: 'admin', content: '承知いたしました。準備でき次第お送りします。', timestamp: '2024-01-13 09:15' },
-    { id: 3, sender: 'user', content: 'いつ頃になりそうですか？', timestamp: '2024-01-13 11:00' }
+    { id: 1, sender: 'user', content: '月次レポートをお願いします', timestamp: '2025-10-13 09:00' },
+    { id: 2, sender: 'admin', content: '承知いたしました。準備でき次第お送りします。', timestamp: '2025-10-13 09:15' },
+    { id: 3, sender: 'user', content: 'いつ頃になりそうですか？', timestamp: '2025-10-13 11:00' }
   ],
   6: [
-    { id: 1, sender: 'user', content: 'VIPプランについて教えてください', timestamp: '2024-01-10 15:00' },
-    { id: 2, sender: 'admin', content: 'VIPプランは月額¥29,800で...', timestamp: '2024-01-10 15:10' },
-    { id: 3, sender: 'user', content: '申し込みたいです', timestamp: '2024-01-10 15:20' }
+    { id: 1, sender: 'user', content: 'VIPプランについて教えてください', timestamp: '2025-09-10 15:00' },
+    { id: 2, sender: 'admin', content: 'VIPプランは月額¥29,800で...', timestamp: '2025-09-10 15:10' },
+    { id: 3, sender: 'user', content: '申し込みたいです', timestamp: '2025-09-10 15:20' }
   ],
   13: [
-    { id: 1, sender: 'user', content: '次回の打ち合わせはいつですか？', timestamp: '2024-01-03 10:00' },
-    { id: 2, sender: 'admin', content: '2月1日の14時でいかがでしょうか？', timestamp: '2024-01-03 10:15' }
+    { id: 1, sender: 'user', content: '次回の打ち合わせはいつですか？', timestamp: '2025-06-03 10:00' },
+    { id: 2, sender: 'admin', content: '11月1日の14時でいかがでしょうか？', timestamp: '2025-06-03 10:15' }
   ]
 };
 
@@ -102,11 +102,24 @@ let currentChatUserId = null;
 let currentChatUserName = null;
 let userDraftMessages = {}; // Store draft messages per user
 let currentAccount = "account1"; // Current selected account
+let pendingVerificationEmail = null; // 認証待ちのメールアドレス
+let pendingResetEmail = null; // パスワードリセット待ちのメールアドレス
+let currentBroadcastStatusFilter = '配信予約中'; // Current broadcast status filter
 
 // DOM Elements
 const loginContainer = document.getElementById("login-container");
+const signupContainer = document.getElementById("signup-container");
+const verificationContainer = document.getElementById("verification-container");
+const passwordResetContainer = document.getElementById("password-reset-container");
+const resetCodeContainer = document.getElementById("reset-code-container");
+const newPasswordContainer = document.getElementById("new-password-container");
 const mainApp = document.getElementById("main-app");
 const loginForm = document.getElementById("login-form");
+const signupForm = document.getElementById("signup-form");
+const verificationForm = document.getElementById("verification-form");
+const passwordResetForm = document.getElementById("password-reset-form");
+const resetCodeForm = document.getElementById("reset-code-form");
+const newPasswordForm = document.getElementById("new-password-form");
 const loginBtn = document.getElementById("login-btn");
 const errorMessage = document.getElementById("error-message");
 const logoutBtn = document.getElementById("logout-btn");
@@ -146,6 +159,55 @@ function initializeApp() {
 function setupEventListeners() {
   // Login form submission
   loginForm.addEventListener("submit", handleLogin);
+
+  // Signup form submission
+  signupForm.addEventListener("submit", handleSignup);
+
+  // Verification form submission
+  verificationForm.addEventListener("submit", handleVerification);
+
+  // Password reset form submission
+  passwordResetForm.addEventListener("submit", handlePasswordReset);
+
+  // Reset code form submission
+  resetCodeForm.addEventListener("submit", handleResetCode);
+
+  // New password form submission
+  newPasswordForm.addEventListener("submit", handleNewPassword);
+
+  // Navigation links between login and signup screens
+  const gotoSignupLink = document.getElementById("goto-signup-link");
+  const gotoLoginLink = document.getElementById("goto-login-link");
+  const gotoPasswordResetLink = document.querySelector('a[href="#forgot"]');
+  const gotoLoginFromResetLink = document.getElementById("goto-login-from-reset-link");
+
+  if (gotoSignupLink) {
+    gotoSignupLink.addEventListener("click", function(e) {
+      e.preventDefault();
+      showSignupScreen();
+    });
+  }
+
+  if (gotoLoginLink) {
+    gotoLoginLink.addEventListener("click", function(e) {
+      e.preventDefault();
+      showLoginScreen();
+    });
+  }
+
+  if (gotoPasswordResetLink) {
+    gotoPasswordResetLink.addEventListener("click", function(e) {
+      e.preventDefault();
+      showPasswordResetScreen();
+    });
+  }
+
+  if (gotoLoginFromResetLink) {
+    gotoLoginFromResetLink.addEventListener("click", function(e) {
+      e.preventDefault();
+      showLoginScreen();
+    });
+  }
 
   // Logout button
   logoutBtn.addEventListener("click", handleLogout);
@@ -258,11 +320,89 @@ function handleLogout() {
 
 function showLoginScreen() {
   loginContainer.style.display = "flex";
+  signupContainer.style.display = "none";
+  verificationContainer.style.display = "none";
+  passwordResetContainer.style.display = "none";
+  resetCodeContainer.style.display = "none";
+  newPasswordContainer.style.display = "none";
   mainApp.style.display = "none";
+  hideError();
+}
+
+function showSignupScreen() {
+  loginContainer.style.display = "none";
+  signupContainer.style.display = "flex";
+  verificationContainer.style.display = "none";
+  passwordResetContainer.style.display = "none";
+  resetCodeContainer.style.display = "none";
+  newPasswordContainer.style.display = "none";
+  mainApp.style.display = "none";
+  hideSignupError();
+}
+
+function showVerificationScreen() {
+  loginContainer.style.display = "none";
+  signupContainer.style.display = "none";
+  verificationContainer.style.display = "flex";
+  passwordResetContainer.style.display = "none";
+  resetCodeContainer.style.display = "none";
+  newPasswordContainer.style.display = "none";
+  mainApp.style.display = "none";
+
+  // Set the email address in verification screen
+  if (pendingVerificationEmail) {
+    document.getElementById("verification-email").textContent = pendingVerificationEmail;
+  }
+
+  hideVerificationError();
+}
+
+function showPasswordResetScreen() {
+  loginContainer.style.display = "none";
+  signupContainer.style.display = "none";
+  verificationContainer.style.display = "none";
+  passwordResetContainer.style.display = "flex";
+  resetCodeContainer.style.display = "none";
+  newPasswordContainer.style.display = "none";
+  mainApp.style.display = "none";
+  hidePasswordResetError();
+}
+
+function showResetCodeScreen() {
+  loginContainer.style.display = "none";
+  signupContainer.style.display = "none";
+  verificationContainer.style.display = "none";
+  passwordResetContainer.style.display = "none";
+  resetCodeContainer.style.display = "flex";
+  newPasswordContainer.style.display = "none";
+  mainApp.style.display = "none";
+
+  // Set the email address in reset code screen
+  if (pendingResetEmail) {
+    document.getElementById("reset-code-email").textContent = pendingResetEmail;
+  }
+
+  hideResetCodeError();
+}
+
+function showNewPasswordScreen() {
+  loginContainer.style.display = "none";
+  signupContainer.style.display = "none";
+  verificationContainer.style.display = "none";
+  passwordResetContainer.style.display = "none";
+  resetCodeContainer.style.display = "none";
+  newPasswordContainer.style.display = "flex";
+  mainApp.style.display = "none";
+  hideNewPasswordError();
 }
 
 function showMainApp() {
   loginContainer.style.display = "none";
+  signupContainer.style.display = "none";
+  verificationContainer.style.display = "none";
+  passwordResetContainer.style.display = "none";
+  resetCodeContainer.style.display = "none";
+  newPasswordContainer.style.display = "none";
   mainApp.style.display = "grid";
   navigateToPage("dashboard");
 }
@@ -273,6 +413,260 @@ function showError(message) {
 }
 
 function hideError() {
+  errorMessage.style.display = "none";
+}
+
+// ===== Signup Functions =====
+function handleSignup(e) {
+  e.preventDefault();
+
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+  const signupBtn = document.getElementById("signup-btn");
+
+  // Validate inputs
+  if (!validateRequired(email) || !validateRequired(password)) {
+    showSignupError("メールアドレスとパスワードを入力してください");
+    return;
+  }
+
+  if (!validateEmail(email)) {
+    showSignupError("有効なメールアドレスを入力してください");
+    return;
+  }
+
+  if (password.length < 6) {
+    showSignupError("パスワードは6文字以上で入力してください");
+    return;
+  }
+
+  // Show loading state
+  signupBtn.textContent = "登録中...";
+  signupBtn.disabled = true;
+  hideSignupError();
+
+  // Simulate API call
+  setTimeout(() => {
+    // Successful signup - move to verification
+    pendingVerificationEmail = email;
+    showVerificationScreen();
+
+    // Reset form
+    signupBtn.textContent = "新規登録";
+    signupBtn.disabled = false;
+    document.getElementById("signup-email").value = "";
+    document.getElementById("signup-password").value = "";
+  }, 1000);
+}
+
+function showSignupError(message) {
+  const errorMessage = document.getElementById("signup-error-message");
+  errorMessage.textContent = message;
+  errorMessage.style.display = "block";
+}
+
+function hideSignupError() {
+  const errorMessage = document.getElementById("signup-error-message");
+  errorMessage.style.display = "none";
+}
+
+// ===== Verification Functions =====
+function handleVerification(e) {
+  e.preventDefault();
+
+  const code = document.getElementById("verification-code").value;
+  const verificationBtn = document.getElementById("verification-btn");
+
+  // Validate input
+  if (!validateRequired(code) || code.length !== 6) {
+    showVerificationError("6桁の認証コードを入力してください");
+    return;
+  }
+
+  // Show loading state
+  verificationBtn.textContent = "認証中...";
+  verificationBtn.disabled = true;
+  hideVerificationError();
+
+  // Simulate API call
+  setTimeout(() => {
+    if (code === "123456") {
+      // Successful verification
+      currentUser = { email: pendingVerificationEmail };
+      sessionStorage.setItem("isLoggedIn", "true");
+      sessionStorage.setItem("userEmail", pendingVerificationEmail);
+      showMainApp();
+
+      // Reset form
+      verificationBtn.textContent = "認証";
+      verificationBtn.disabled = false;
+      document.getElementById("verification-code").value = "";
+      pendingVerificationEmail = null;
+    } else {
+      // Failed verification
+      showVerificationError("認証コードが正しくありません");
+      verificationBtn.textContent = "認証";
+      verificationBtn.disabled = false;
+    }
+  }, 1000);
+}
+
+function showVerificationError(message) {
+  const errorMessage = document.getElementById("verification-error-message");
+  errorMessage.textContent = message;
+  errorMessage.style.display = "block";
+}
+
+function hideVerificationError() {
+  const errorMessage = document.getElementById("verification-error-message");
+  errorMessage.style.display = "none";
+}
+
+// ===== Password Reset Functions =====
+function handlePasswordReset(e) {
+  e.preventDefault();
+
+  const email = document.getElementById("reset-email").value;
+  const resetBtn = document.getElementById("password-reset-btn");
+
+  // Validate input
+  if (!validateRequired(email)) {
+    showPasswordResetError("メールアドレスを入力してください");
+    return;
+  }
+
+  if (!validateEmail(email)) {
+    showPasswordResetError("有効なメールアドレスを入力してください");
+    return;
+  }
+
+  // Show loading state
+  resetBtn.textContent = "送信中...";
+  resetBtn.disabled = true;
+  hidePasswordResetError();
+
+  // Simulate API call
+  setTimeout(() => {
+    // Successful - move to reset code screen
+    pendingResetEmail = email;
+    showResetCodeScreen();
+
+    // Reset form
+    resetBtn.textContent = "リセットコードを送信";
+    resetBtn.disabled = false;
+    document.getElementById("reset-email").value = "";
+  }, 1000);
+}
+
+function showPasswordResetError(message) {
+  const errorMessage = document.getElementById("password-reset-error-message");
+  errorMessage.textContent = message;
+  errorMessage.style.display = "block";
+}
+
+function hidePasswordResetError() {
+  const errorMessage = document.getElementById("password-reset-error-message");
+  errorMessage.style.display = "none";
+}
+
+function handleResetCode(e) {
+  e.preventDefault();
+
+  const code = document.getElementById("reset-code").value;
+  const resetCodeBtn = document.getElementById("reset-code-btn");
+
+  // Validate input
+  if (!validateRequired(code) || code.length !== 6) {
+    showResetCodeError("6桁のリセットコードを入力してください");
+    return;
+  }
+
+  // Show loading state
+  resetCodeBtn.textContent = "確認中...";
+  resetCodeBtn.disabled = true;
+  hideResetCodeError();
+
+  // Simulate API call
+  setTimeout(() => {
+    if (code === "654321") {
+      // Successful verification - move to new password screen
+      showNewPasswordScreen();
+
+      // Reset form
+      resetCodeBtn.textContent = "確認";
+      resetCodeBtn.disabled = false;
+      document.getElementById("reset-code").value = "";
+    } else {
+      // Failed verification
+      showResetCodeError("リセットコードが正しくありません");
+      resetCodeBtn.textContent = "確認";
+      resetCodeBtn.disabled = false;
+    }
+  }, 1000);
+}
+
+function showResetCodeError(message) {
+  const errorMessage = document.getElementById("reset-code-error-message");
+  errorMessage.textContent = message;
+  errorMessage.style.display = "block";
+}
+
+function hideResetCodeError() {
+  const errorMessage = document.getElementById("reset-code-error-message");
+  errorMessage.style.display = "none";
+}
+
+function handleNewPassword(e) {
+  e.preventDefault();
+
+  const newPassword = document.getElementById("new-password").value;
+  const confirmPassword = document.getElementById("confirm-password").value;
+  const newPasswordBtn = document.getElementById("new-password-btn");
+
+  // Validate inputs
+  if (!validateRequired(newPassword) || !validateRequired(confirmPassword)) {
+    showNewPasswordError("新しいパスワードを入力してください");
+    return;
+  }
+
+  if (newPassword.length < 6) {
+    showNewPasswordError("パスワードは6文字以上で入力してください");
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    showNewPasswordError("パスワードが一致しません");
+    return;
+  }
+
+  // Show loading state
+  newPasswordBtn.textContent = "設定中...";
+  newPasswordBtn.disabled = true;
+  hideNewPasswordError();
+
+  // Simulate API call
+  setTimeout(() => {
+    // Successful password reset - show login screen with success message
+    alert("パスワードが正常にリセットされました。新しいパスワードでログインしてください。");
+    showLoginScreen();
+
+    // Reset form
+    newPasswordBtn.textContent = "パスワードを設定";
+    newPasswordBtn.disabled = false;
+    document.getElementById("new-password").value = "";
+    document.getElementById("confirm-password").value = "";
+    pendingResetEmail = null;
+  }, 1000);
+}
+
+function showNewPasswordError(message) {
+  const errorMessage = document.getElementById("new-password-error-message");
+  errorMessage.textContent = message;
+  errorMessage.style.display = "block";
+}
+
+function hideNewPasswordError() {
+  const errorMessage = document.getElementById("new-password-error-message");
   errorMessage.style.display = "none";
 }
 
@@ -431,219 +825,70 @@ function filterFriends(searchTerm) {
 
 // Settings functionality
 function initializeSettings() {
-  const saveButtons = document.querySelectorAll("#settings-page .btn-primary");
+  const emailInput = document.getElementById("settings-email");
+  const passwordInput = document.getElementById("settings-password");
+  const editBtn = document.getElementById("settings-edit-btn");
+  const saveCancelGroup = document.getElementById("settings-save-cancel-group");
+  const saveBtn = document.getElementById("settings-save-btn");
+  const cancelBtn = document.getElementById("settings-cancel-btn");
 
-  saveButtons.forEach((btn) => {
-    btn.addEventListener("click", function () {
+  // 元の値を保存する変数
+  let originalEmail = "";
+  let originalPassword = "";
+
+  // 編集ボタンのクリックイベント
+  if (editBtn) {
+    editBtn.addEventListener("click", function () {
+      // 現在の値を保存
+      originalEmail = emailInput.value;
+      originalPassword = passwordInput.value;
+
+      // 入力フィールドを有効化
+      emailInput.disabled = false;
+      passwordInput.disabled = false;
+
+      // ボタンの表示を切り替え
+      editBtn.style.display = "none";
+      saveCancelGroup.style.display = "flex";
+    });
+  }
+
+  // 保存ボタンのクリックイベント
+  if (saveBtn) {
+    saveBtn.addEventListener("click", function () {
       // Here you would implement settings save
       console.log("Saving settings...");
+      console.log("Email:", emailInput.value);
+      console.log("Password:", passwordInput.value);
+
+      // 入力フィールドを無効化
+      emailInput.disabled = true;
+      passwordInput.disabled = true;
+
+      // ボタンの表示を切り替え
+      editBtn.style.display = "inline-block";
+      saveCancelGroup.style.display = "none";
 
       // Show success message (simplified)
       alert("設定を保存しました");
     });
-  });
-}
-
-// History page functionality
-function initializeHistoryPage() {
-  const searchInput = document.getElementById("history-search");
-  const statusFilter = document.getElementById("history-status-filter");
-
-  if (searchInput) {
-    searchInput.addEventListener("input", function () {
-      filterHistoryTable();
-    });
   }
 
-  if (statusFilter) {
-    statusFilter.addEventListener("change", function () {
-      filterHistoryTable();
+  // キャンセルボタンのクリックイベント
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", function () {
+      // 元の値に戻す
+      emailInput.value = originalEmail;
+      passwordInput.value = originalPassword;
+
+      // 入力フィールドを無効化
+      emailInput.disabled = true;
+      passwordInput.disabled = true;
+
+      // ボタンの表示を切り替え
+      editBtn.style.display = "inline-block";
+      saveCancelGroup.style.display = "none";
     });
-  }
-
-  // Initialize detail buttons
-  const detailButtons = document.querySelectorAll(".history-detail-btn");
-  detailButtons.forEach((btn) => {
-    btn.addEventListener("click", function (e) {
-      e.preventDefault();
-      const row = this.closest("tr");
-      const historyId = row.getAttribute("data-history-id");
-      showHistoryDetail(historyId);
-    });
-  });
-
-  // Initialize action buttons
-  const actionButtons = document.querySelectorAll("#history-table .btn");
-  actionButtons.forEach((btn) => {
-    btn.addEventListener("click", function (e) {
-      e.preventDefault();
-      const action = this.textContent.trim();
-      const row = this.closest("tr");
-      const title = row.querySelector("td:first-child").textContent.trim();
-
-      handleHistoryAction(action, title, row);
-    });
-  });
-
-  // History back button
-  const historyBackBtn = document.getElementById("history-back-btn");
-  if (historyBackBtn) {
-    historyBackBtn.addEventListener("click", function () {
-      showPage("history");
-    });
-  }
-}
-
-function filterHistoryTable() {
-  const searchTerm = document
-    .getElementById("history-search")
-    .value.toLowerCase();
-  const statusFilter = document.getElementById("history-status-filter").value;
-
-  const rows = document.querySelectorAll("#history-table tbody tr");
-  let visibleCount = 0;
-
-  rows.forEach((row) => {
-    const title = row
-      .querySelector("td:nth-child(1)")
-      .textContent.toLowerCase();
-    const statusBadge = row.querySelector(".status-badge");
-    const status = statusBadge ? statusBadge.textContent : "";
-
-    const matchesSearch = title.includes(searchTerm);
-    const matchesStatus = !statusFilter || status === statusFilter;
-
-    if (matchesSearch && matchesStatus) {
-      row.style.display = "";
-      visibleCount++;
-    } else {
-      row.style.display = "none";
-    }
-  });
-
-  // Update pagination info (simplified)
-  const paginationInfo = document.querySelector(".pagination-info");
-  if (paginationInfo && visibleCount > 0) {
-    paginationInfo.textContent = `表示中: ${visibleCount} 件`;
-  } else if (paginationInfo) {
-    paginationInfo.textContent = "該当する履歴が見つかりません";
-  }
-}
-
-// Show history detail page
-function showHistoryDetail(historyId) {
-  // Sample data (in production, this would come from API)
-  const historyData = {
-    1: {
-      title: "新商品のお知らせ",
-      date: "2024-01-15 10:00",
-      target: "友だち全員",
-      status: "配信完了",
-      sent: "12,453",
-      opened: "9,234",
-      openRate: "74.1%",
-      clicked: "4,567",
-      clickRate: "36.6%",
-      message: "こんにちは！\n\n新商品のお知らせです。\n本日より新しい商品の販売を開始しました。\n\nぜひチェックしてみてください！",
-    },
-    2: {
-      title: "ウェルカムメッセージ",
-      date: "2024-01-14 09:00",
-      target: "新規登録者",
-      status: "進行中",
-      sent: "234",
-      opened: "145",
-      openRate: "62.0%",
-      clicked: "67",
-      clickRate: "28.6%",
-      message: "ご登録ありがとうございます！\n\nこれから役立つ情報をお届けしていきます。",
-    },
-    3: {
-      title: "キャンペーン情報",
-      date: "2024-01-13 14:30",
-      target: "友だち全員",
-      status: "配信完了",
-      sent: "11,892",
-      opened: "8,543",
-      openRate: "71.8%",
-      clicked: "3,234",
-      clickRate: "27.2%",
-      message: "期間限定キャンペーン開催中！\n\n今だけお得な特典をご用意しています。",
-    },
-  };
-
-  const data = historyData[historyId] || historyData[1];
-
-  // Update detail page content
-  document.getElementById("history-detail-title").textContent = data.title;
-  document.getElementById("history-detail-date").textContent = data.date;
-  document.getElementById("history-detail-target").textContent = data.target;
-
-  const statusElement = document.getElementById("history-detail-status");
-  statusElement.innerHTML = `<span class="status-badge ${
-    data.status === "配信完了"
-      ? "status-active"
-      : data.status === "進行中"
-      ? "status-progress"
-      : "status-error"
-  }">${data.status}</span>`;
-
-  document.getElementById("history-stat-sent").textContent = data.sent;
-  document.getElementById("history-stat-opened").textContent = data.opened;
-  document.getElementById("history-stat-open-rate").textContent =
-    data.openRate;
-  document.getElementById("history-stat-clicked").textContent = data.clicked;
-  document.getElementById("history-stat-click-rate").textContent =
-    data.clickRate;
-  document.getElementById("history-detail-message").textContent = data.message;
-
-  // Show detail page
-  showPage("history-detail");
-}
-
-function handleHistoryAction(action, title, row) {
-  switch (action) {
-    case "詳細":
-      // Show delivery details modal or navigate to details page
-      const historyId = row.getAttribute("data-history-id");
-      showHistoryDetail(historyId);
-      break;
-    case "停止":
-      // Stop ongoing delivery
-      console.log("停止:", title);
-      if (confirm(`${title} の配信を停止しますか？`)) {
-        const statusBadge = row.querySelector(".status-badge");
-        if (statusBadge) {
-          statusBadge.textContent = "停止";
-          statusBadge.className = "status-badge status-error";
-        }
-        // Update action button
-        const actionBtn = row.querySelector(".btn-secondary");
-        if (actionBtn && actionBtn.textContent.trim() === "停止") {
-          actionBtn.textContent = "再開";
-          actionBtn.className = "btn btn-primary btn-sm";
-        }
-      }
-      break;
-    case "再開":
-      // Resume stopped delivery
-      console.log("再開:", title);
-      if (confirm(`${title} の配信を再開しますか？`)) {
-        const statusBadge = row.querySelector(".status-badge");
-        if (statusBadge) {
-          statusBadge.textContent = "進行中";
-          statusBadge.className = "status-badge status-progress";
-        }
-        // Update action button
-        const actionBtn = row.querySelector(".btn-primary");
-        if (actionBtn && actionBtn.textContent.trim() === "再開") {
-          actionBtn.textContent = "停止";
-          actionBtn.className = "btn btn-secondary btn-sm";
-        }
-      }
-      break;
-    default:
-      console.log("Unknown action:", action);
   }
 }
 
@@ -696,6 +941,131 @@ function easeOutCubic(t) {
   return 1 - Math.pow(1 - t, 3);
 }
 
+// Update dashboard statistics from actual data
+function updateDashboardStats() {
+  // 友だち数を1:1チャットのデータから取得
+  const friends = getMockFriends();
+  const friendsCount = friends.length;
+
+  // 今月の配信数を計算（一斉配信とステップ配信の合計）
+  const broadcasts = getMockBroadcasts();
+  const scenarios = loadScenariosFromLocalStorage();
+
+  console.log('[Dashboard] 一斉配信データ:', broadcasts);
+  console.log('[Dashboard] ステップ配信データ:', scenarios);
+
+  // 今月の年月を取得
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1; // 0-indexed, so add 1
+  console.log(`[Dashboard] 現在の年月: ${currentYear}年${currentMonth}月`);
+
+  // 今月の一斉配信をカウント
+  const thisMonthBroadcasts = broadcasts.filter(broadcast => {
+    if (!broadcast.createdAt) return false;
+    const createdDate = new Date(broadcast.createdAt);
+    const match = createdDate.getFullYear() === currentYear &&
+           (createdDate.getMonth() + 1) === currentMonth;
+    console.log(`[Dashboard] 一斉配信 "${broadcast.title}": ${broadcast.createdAt} -> ${match ? '今月' : '対象外'}`);
+    return match;
+  }).length;
+
+  // 今月のステップ配信をカウント
+  const thisMonthScenarios = scenarios.filter(scenario => {
+    if (!scenario.createdAt) return false;
+    // createdAtは 'YYYY/MM/DD' 形式の日本語ロケール文字列
+    const dateParts = scenario.createdAt.split('/');
+    if (dateParts.length !== 3) return false;
+    const year = parseInt(dateParts[0]);
+    const month = parseInt(dateParts[1]);
+    const match = year === currentYear && month === currentMonth;
+    console.log(`[Dashboard] ステップ配信 "${scenario.name}": ${scenario.createdAt} (${year}/${month}) -> ${match ? '今月' : '対象外'}`);
+    return match;
+  }).length;
+
+  const totalDeliveries = thisMonthBroadcasts + thisMonthScenarios;
+
+  console.log(`[Dashboard] 今月の一斉配信: ${thisMonthBroadcasts}件`);
+  console.log(`[Dashboard] 今月のステップ配信: ${thisMonthScenarios}件`);
+  console.log(`[Dashboard] 合計: ${totalDeliveries}件`);
+
+  // DOMを更新
+  const statCards = document.querySelectorAll('.stat-card');
+  if (statCards.length >= 2) {
+    // 友だち数を更新
+    const friendsStatNumber = statCards[0].querySelector('.stat-number');
+    if (friendsStatNumber) {
+      friendsStatNumber.textContent = friendsCount.toLocaleString();
+    }
+
+    // 今月の配信数を更新
+    const deliveriesStatNumber = statCards[1].querySelector('.stat-number');
+    if (deliveriesStatNumber) {
+      deliveriesStatNumber.textContent = totalDeliveries.toString();
+      console.log(`[Dashboard] DOM更新完了: 今月の配信数 = ${totalDeliveries}`);
+    }
+  }
+}
+
+// Load and display broadcast history on dashboard
+function loadDashboardBroadcastHistory() {
+  const tbody = document.getElementById('dashboard-history-tbody');
+  if (!tbody) return;
+
+  const broadcasts = getMockBroadcasts();
+
+  // Sort by createdAt descending (most recent first) and take top 3
+  const recentBroadcasts = broadcasts
+    .sort((a, b) => {
+      const dateA = new Date(a.createdAt || 0);
+      const dateB = new Date(b.createdAt || 0);
+      return dateB - dateA;
+    })
+    .slice(0, 3);
+
+  // Clear existing rows
+  tbody.innerHTML = '';
+
+  if (recentBroadcasts.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #999;">配信履歴がありません</td></tr>';
+    return;
+  }
+
+  // Render rows
+  recentBroadcasts.forEach(broadcast => {
+    const row = document.createElement('tr');
+
+    // Title
+    const titleCell = document.createElement('td');
+    titleCell.textContent = broadcast.title || '(タイトルなし)';
+    row.appendChild(titleCell);
+
+    // Date and time
+    const dateCell = document.createElement('td');
+    if (broadcast.createdAt) {
+      const date = new Date(broadcast.createdAt);
+      dateCell.textContent = date.toLocaleDateString('ja-JP', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }) + ' ' + (broadcast.time || '09:00');
+    } else {
+      dateCell.textContent = '-';
+    }
+    row.appendChild(dateCell);
+
+    // Status
+    const statusCell = document.createElement('td');
+    const statusBadge = document.createElement('span');
+    statusBadge.className = 'status-badge status-active';
+    statusBadge.textContent = broadcast.status || '配信完了';
+    statusCell.appendChild(statusBadge);
+    row.appendChild(statusCell);
+
+    tbody.appendChild(row);
+  });
+}
+
 // Initialize page-specific functionality when navigating
 const originalNavigateToPage = navigateToPage;
 navigateToPage = function (pageId) {
@@ -726,14 +1096,13 @@ navigateToPage = function (pageId) {
       initializeReadStatusButtons();  // 既読・未読ボタンを初期化
       loadIndividualPageUsers('all');  // APIからユーザーリストを取得して表示（デフォルトはすべて）
       break;
-    case "history":
-      initializeHistoryPage();
-      break;
     case "settings":
       initializeSettings();
       break;
     case "dashboard":
-      // Animate stats when dashboard loads
+      // Update stats from actual data, then animate
+      updateDashboardStats();
+      loadDashboardBroadcastHistory();
       setTimeout(animateStats, 100);
       break;
   }
@@ -1930,7 +2299,7 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
   // 仮データ（後でAPIから取得する想定）
   const lineName = userName; // LINE名（仮）
   const stepDeliveries = ['ウェルカムシーケンス', '商品紹介ステップ', 'フォローアップステップ']; // 送信したステップ配信のタイトル（仮）
-  const systemDisplayName = `ユーザー${userId}`; // システム表示名（仮）
+  const systemDisplayName = getUserSystemDisplayName(userId); // システム表示名
 
   // ステップ配信のタイトルリストHTML生成
   const stepDeliveriesHtml = stepDeliveries.map(title =>
@@ -1980,7 +2349,13 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
     </div>
     <div class="user-info-item">
       <div class="user-info-label">システム表示名</div>
-      <div class="user-info-value">${systemDisplayName}</div>
+      <div class="user-info-value user-info-system-display-name" onclick="openSystemDisplayNameModal(${userId})" style="cursor: pointer; display: flex; align-items: center; gap: 8px;">
+        <span>${systemDisplayName}</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5;">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+      </div>
     </div>
     <div class="user-info-item">
       <div class="user-info-label">ステップ</div>
@@ -3572,9 +3947,106 @@ function initializeMemoModal() {
   }
 }
 
+// ===== System Display Name Functions =====
+let currentSystemDisplayNameUserId = null;
+
+// Get user system display name from localStorage
+function getUserSystemDisplayName(userId) {
+  const key = `user_${userId}_system_display_name`;
+  const displayName = localStorage.getItem(key);
+  if (displayName !== null) {
+    return displayName;
+  }
+
+  // デフォルト値を返す
+  return `ユーザー${userId}`;
+}
+
+// Save user system display name to localStorage
+function saveUserSystemDisplayName(userId, displayName) {
+  const key = `user_${userId}_system_display_name`;
+  localStorage.setItem(key, displayName);
+}
+
+// Open system display name modal
+function openSystemDisplayNameModal(userId) {
+  currentSystemDisplayNameUserId = userId;
+  const modal = document.getElementById('system-display-name-modal');
+  const input = document.getElementById('system-display-name-input');
+
+  if (!modal || !input) return;
+
+  // Load existing display name
+  const displayName = getUserSystemDisplayName(userId);
+  input.value = displayName;
+
+  modal.style.display = 'flex';
+  input.focus();
+}
+
+// Close system display name modal
+function closeSystemDisplayNameModal() {
+  const modal = document.getElementById('system-display-name-modal');
+  if (modal) {
+    modal.style.display = 'none';
+    currentSystemDisplayNameUserId = null;
+  }
+}
+
+// Save system display name and close modal
+function saveSystemDisplayNameAndClose() {
+  if (currentSystemDisplayNameUserId === null) return;
+
+  const input = document.getElementById('system-display-name-input');
+  if (!input) return;
+
+  const displayName = input.value.trim();
+  if (displayName) {
+    saveUserSystemDisplayName(currentSystemDisplayNameUserId, displayName);
+
+    // Update the display in user info
+    const displayNameElement = document.querySelector('.user-info-system-display-name');
+    if (displayNameElement) {
+      displayNameElement.textContent = displayName;
+    }
+  }
+
+  closeSystemDisplayNameModal();
+}
+
+// Initialize system display name modal event listeners
+function initializeSystemDisplayNameModal() {
+  const closeBtn = document.getElementById('system-display-name-close-btn');
+  const cancelBtn = document.getElementById('system-display-name-cancel-btn');
+  const saveBtn = document.getElementById('system-display-name-save-btn');
+  const modal = document.getElementById('system-display-name-modal');
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeSystemDisplayNameModal);
+  }
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener('click', closeSystemDisplayNameModal);
+  }
+
+  if (saveBtn) {
+    saveBtn.addEventListener('click', saveSystemDisplayNameAndClose);
+  }
+
+  // Close modal when clicking outside
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeSystemDisplayNameModal();
+      }
+    });
+  }
+}
+
 // Call initializeMemoModal on page load
 document.addEventListener('DOMContentLoaded', function() {
   initializeMemoModal();
+  initializeSystemDisplayNameModal();
   initializeStepMessagePreviewModal();
 });
 
@@ -4219,8 +4691,10 @@ function handleStepAdd() {
 
 // Mock broadcast data
 const MOCK_BROADCASTS = [
-  { id: 1, title: '新商品のお知らせ', target: 'all', targetText: '全員', deliveryTiming: 'immediate', message: 'いつもご利用ありがとうございます。新商品が入荷しました！', createdAt: '2024-01-15', status: '配信完了' },
-  { id: 2, title: 'セール情報', target: 'tags', targetText: 'VIP顧客', selectedTags: [1], deliveryTiming: 'scheduled', days: 1, time: '10:00', message: 'VIPメンバー限定セールのお知らせです', createdAt: '2024-01-10', status: '配信予約中' }
+  { id: 1, title: '新商品のお知らせ', target: 'all', targetText: '全員', deliveryTiming: 'immediate', message: 'いつもご利用ありがとうございます。新商品が入荷しました！', createdAt: '2025-10-15', status: '配信完了' },
+  { id: 2, title: 'セール情報', target: 'tags', targetText: 'VIP顧客', selectedTags: [1], deliveryTiming: 'scheduled', days: 1, time: '10:00', message: 'VIPメンバー限定セールのお知らせです', createdAt: '2025-10-10', status: '配信予約中' },
+  { id: 3, title: '秋のキャンペーン', target: 'all', targetText: '全員', deliveryTiming: 'immediate', message: '秋のキャンペーンを開始しました！', createdAt: '2025-10-05', status: '配信完了' },
+  { id: 4, title: '9月の総括', target: 'all', targetText: '全員', deliveryTiming: 'immediate', message: '9月の活動報告をお送りします。', createdAt: '2025-09-30', status: '配信完了' }
 ];
 
 // Initialize mock broadcast data
@@ -4252,7 +4726,32 @@ function initializeBroadcastListPage() {
     newBtn.addEventListener('click', createNewBroadcast);
   }
 
+  initializeBroadcastStatusToggle();
   renderBroadcastList();
+}
+
+// Initialize broadcast status toggle buttons
+function initializeBroadcastStatusToggle() {
+  const scheduledBtn = document.getElementById('broadcast-status-scheduled');
+  const completedBtn = document.getElementById('broadcast-status-completed');
+
+  if (scheduledBtn) {
+    scheduledBtn.addEventListener('click', () => {
+      currentBroadcastStatusFilter = '配信予約中';
+      scheduledBtn.classList.add('active');
+      completedBtn.classList.remove('active');
+      renderBroadcastList();
+    });
+  }
+
+  if (completedBtn) {
+    completedBtn.addEventListener('click', () => {
+      currentBroadcastStatusFilter = '配信完了';
+      completedBtn.classList.add('active');
+      scheduledBtn.classList.remove('active');
+      renderBroadcastList();
+    });
+  }
 }
 
 // Render broadcast list
@@ -4260,10 +4759,16 @@ function renderBroadcastList() {
   const tbody = document.getElementById('broadcasts-tbody');
   if (!tbody) return;
 
-  const broadcasts = getMockBroadcasts();
+  const allBroadcasts = getMockBroadcasts();
+
+  // Filter based on current status
+  const broadcasts = allBroadcasts.filter(b => b.status === currentBroadcastStatusFilter);
 
   if (broadcasts.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">一斉配信がまだ作成されていません<br>「新規作成」ボタンから作成してください</td></tr>';
+    const emptyMessage = currentBroadcastStatusFilter === '配信予約中'
+      ? '配信予約中の一斉配信がありません<br>「新規作成」ボタンから作成してください'
+      : '配信完了の一斉配信がありません';
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">' + emptyMessage + '</td></tr>';
     return;
   }
 
@@ -4376,6 +4881,29 @@ function deleteBroadcast(id) {
   broadcasts = broadcasts.filter(b => b.id !== id);
   saveMockBroadcasts(broadcasts);
   renderBroadcastList();
+}
+
+// Duplicate broadcast
+function duplicateBroadcast(id) {
+  const broadcasts = getMockBroadcasts();
+  const broadcast = broadcasts.find(b => b.id === id);
+  if (!broadcast) return;
+
+  // Create a copy of the broadcast
+  const duplicatedBroadcast = {
+    ...broadcast,
+    id: Date.now(),
+    title: (broadcast.title || '') + '（コピー）',
+    createdAt: new Date().toISOString().split('T')[0],
+    status: '配信予約中'
+  };
+
+  // Add duplicated broadcast to the list
+  broadcasts.push(duplicatedBroadcast);
+  saveMockBroadcasts(broadcasts);
+  renderBroadcastList();
+
+  alert('一斉配信を複製しました');
 }
 
 // Initialize broadcast detail page
@@ -4508,6 +5036,10 @@ function initializeColorPalette(paletteId, inputId) {
 
   if (!palette || !input) return;
 
+  // Get color picker element (if exists)
+  const pickerIdPrefix = paletteId.replace('-palette', '');
+  const colorPicker = document.getElementById(pickerIdPrefix + '-picker');
+
   // Add click event to all color options
   const colorOptions = palette.querySelectorAll('.color-option');
   colorOptions.forEach(option => {
@@ -4522,8 +5054,26 @@ function initializeColorPalette(paletteId, inputId) {
 
       // Update hidden input value
       input.value = color;
+
+      // Update color picker value (if not transparent)
+      if (colorPicker && color !== 'transparent') {
+        colorPicker.value = color;
+      }
     });
   });
+
+  // Add event listener to color picker (if exists)
+  if (colorPicker) {
+    colorPicker.addEventListener('input', function() {
+      const customColor = this.value;
+
+      // Remove selected class from all palette options
+      colorOptions.forEach(opt => opt.classList.remove('selected'));
+
+      // Update hidden input value
+      input.value = customColor;
+    });
+  }
 }
 
 /**
@@ -4555,15 +5105,29 @@ function setColorPaletteValue(paletteId, color) {
   const palette = document.getElementById(paletteId);
   if (!palette) return;
 
+  // Get color picker element (if exists)
+  const pickerIdPrefix = paletteId.replace('-palette', '');
+  const colorPicker = document.getElementById(pickerIdPrefix + '-picker');
+
   const colorOptions = palette.querySelectorAll('.color-option');
+  let foundInPalette = false;
+
   colorOptions.forEach(option => {
     const optionColor = option.getAttribute('data-color');
     if (optionColor === color) {
       option.classList.add('selected');
+      foundInPalette = true;
     } else {
       option.classList.remove('selected');
     }
   });
+
+  // Update color picker value
+  if (colorPicker) {
+    if (color !== 'transparent') {
+      colorPicker.value = color;
+    }
+  }
 }
 
 // Initialize on load - ensure this runs after DOM is loaded
