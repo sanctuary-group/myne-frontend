@@ -2134,7 +2134,10 @@ async function loadIndividualPageUsers(filter = 'all') {
     }));
 
     friendsListContainer.innerHTML = usersWithLastMessage.map(user => {
-      const avatar = user.user_name.charAt(0);
+      // システム表示名が設定されていない場合はLINE名を表示
+      const displayName = getUserSystemDisplayName(user.id, user.user_name);
+      const avatar = displayName.charAt(0);
+
       const isUnread = getUserReadStatus(user.id) === 'unread';
       const unreadIndicator = isUnread ? '<span class="unread-indicator"></span>' : '';
       const userBookmarked = isBookmarked(user.id);
@@ -2174,7 +2177,7 @@ async function loadIndividualPageUsers(filter = 'all') {
         <div class="friend-item" data-user-id="${user.id}" onclick="selectFriend(${user.id}, '${user.user_name}', '${user.uuid}', '${user.created_at}', this)">
           <div class="friend-avatar">${avatar}</div>
           <div class="friend-info">
-            <div class="friend-name">${user.user_name}</div>
+            <div class="friend-name">${displayName}</div>
             <div class="last-message">
               <span class="message-preview">${lastMessageContent}</span>
             </div>
@@ -2234,9 +2237,10 @@ async function selectFriend(userId, userName, uuid, createdAt, friendElement) {
   const chatMessages = document.getElementById('individual-chat-messages');
   const chatInputArea = document.getElementById('individual-chat-input-area');
 
-  // Set user info
-  if (chatUserName) chatUserName.textContent = userName;
-  if (chatAvatar) chatAvatar.textContent = userName.charAt(0);
+  // Set user info - システム表示名が設定されていない場合はLINE名を表示
+  const displayName = getUserSystemDisplayName(userId, userName);
+  if (chatUserName) chatUserName.textContent = displayName;
+  if (chatAvatar) chatAvatar.textContent = displayName.charAt(0);
 
   // Show loading state
   if (chatMessages) {
@@ -2300,7 +2304,7 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
   // 仮データ（後でAPIから取得する想定）
   const lineName = userName; // LINE名（仮）
   const stepDeliveries = ['ウェルカムシーケンス', '商品紹介ステップ', 'フォローアップステップ']; // 送信したステップ配信のタイトル（仮）
-  const systemDisplayName = getUserSystemDisplayName(userId); // システム表示名
+  const systemDisplayName = getUserSystemDisplayName(userId, userName); // システム表示名
 
   // ステップ配信のタイトルリストHTML生成
   const stepDeliveriesHtml = stepDeliveries.map(title =>
@@ -3952,15 +3956,15 @@ function initializeMemoModal() {
 let currentSystemDisplayNameUserId = null;
 
 // Get user system display name from localStorage
-function getUserSystemDisplayName(userId) {
+function getUserSystemDisplayName(userId, lineName = '') {
   const key = `user_${userId}_system_display_name`;
   const displayName = localStorage.getItem(key);
-  if (displayName !== null) {
+  if (displayName !== null && displayName !== '') {
     return displayName;
   }
 
-  // デフォルト値を返す
-  return `ユーザー${userId}`;
+  // デフォルトはLINE名を返す
+  return lineName;
 }
 
 // Save user system display name to localStorage
@@ -3977,8 +3981,8 @@ function openSystemDisplayNameModal(userId) {
 
   if (!modal || !input) return;
 
-  // Load existing display name
-  const displayName = getUserSystemDisplayName(userId);
+  // Load existing display name - デフォルトはLINE名(currentChatUserName)を使用
+  const displayName = getUserSystemDisplayName(userId, currentChatUserName);
   input.value = displayName;
 
   modal.style.display = 'flex';
