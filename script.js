@@ -3793,7 +3793,7 @@ async function renderFriendListTable(searchTerm = '') {
   if (!tbody) return;
 
   // Show loading state
-  tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">読み込み中...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">読み込み中...</td></tr>';
 
   try {
     // Fetch all users
@@ -3809,7 +3809,7 @@ async function renderFriendListTable(searchTerm = '') {
     }
 
     if (filteredUsers.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px;">友だちが見つかりません</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">友だちが見つかりません</td></tr>';
       return;
     }
 
@@ -3825,6 +3825,9 @@ async function renderFriendListTable(searchTerm = '') {
         hour: '2-digit',
         minute: '2-digit'
       });
+
+      // Get system display name
+      const systemDisplayName = getUserSystemDisplayName(user.id, user.user_name);
 
       // Get user tags
       const userTagIds = getUserTags(user.id);
@@ -3842,6 +3845,7 @@ async function renderFriendListTable(searchTerm = '') {
       return `
         <tr class="friend-list-row">
           <td class="friend-list-name">${user.user_name}</td>
+          <td class="friend-list-system-name">${systemDisplayName}</td>
           <td class="friend-list-uuid">${user.uuid}</td>
           <td class="friend-list-tags">${tagsHtml}</td>
           <td class="friend-list-date">${formattedDate}</td>
