@@ -67,6 +67,12 @@ function initializeMockData() {
   if (!localStorage.getItem('mockMessages')) {
     localStorage.setItem('mockMessages', JSON.stringify(MOCK_MESSAGES));
   }
+
+  // MOCKデータのタグ情報をlocalStorageに保存（常に更新）
+  MOCK_FRIENDS.forEach(friend => {
+    const key = `user_tags_${friend.id}`;
+    localStorage.setItem(key, JSON.stringify(friend.tags || []));
+  });
 }
 
 // データ取得関数
@@ -3338,8 +3344,8 @@ function initializeBroadcastTagSelection() {
   // Add change event listeners
   tagSelectionList.querySelectorAll('.broadcast-tag-checkbox').forEach(checkbox => {
     checkbox.addEventListener('change', function() {
-      const tagId = this.getAttribute('data-tag-id');
-      
+      const tagId = parseInt(this.getAttribute('data-tag-id'));
+
       if (this.checked) {
         selectedBroadcastTags.add(tagId);
       } else {
@@ -3373,18 +3379,19 @@ function calculateTagUserCount(tagId) {
   // Get all users from localStorage (実際にはAPIから取得する想定)
   // ここでは仮実装として、各ユーザーのタグ情報をチェック
   let count = 0;
-  
+  const numericTagId = parseInt(tagId);
+
   // localStorageのキーを列挙してuser_tags_*を探す
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     if (key.startsWith('user_tags_')) {
       const userTags = JSON.parse(localStorage.getItem(key));
-      if (userTags.includes(tagId)) {
+      if (userTags.includes(numericTagId)) {
         count++;
       }
     }
   }
-  
+
   return count;
 }
 
