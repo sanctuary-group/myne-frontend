@@ -846,6 +846,33 @@
             </div>
 
             <div class="card">
+              <h2 class="card-title">配信先設定</h2>
+              <div
+                id="scenario-tag-selection-area"
+                class="form-group"
+              >
+                <label class="form-label">配信先タグを選択 *</label>
+                <div class="form-description" style="margin-bottom: 8px;">
+                  タグで絞り込んで配信します
+                </div>
+                <div class="tag-selection-container">
+                  <div
+                    class="tag-selection-list"
+                    id="scenario-tag-selection-list"
+                  ></div>
+                  <div
+                    class="tag-selection-count"
+                    id="scenario-tag-selection-count"
+                    style="display: none"
+                  >
+                    選択したタグの該当人数:
+                    <span id="scenario-tagged-friends-count">0</span> 人
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
               <div class="card-header-with-action">
                 <button class="btn btn-primary" id="add-step-btn">
                   <i class="fa-solid fa-plus"></i> 次の配信タイミングを追加

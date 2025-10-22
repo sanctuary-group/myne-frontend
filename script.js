@@ -1392,6 +1392,7 @@ function escapeHtml(text) {
 let currentScenario = null;
 let scenarios = [];
 let scenarioHasUnsavedChanges = false;
+let selectedScenarioTags = new Set();
 
 // LocalStorage functions for scenarios
 function saveScenariosToLocalStorage() {
@@ -1402,7 +1403,16 @@ function saveScenariosToLocalStorage() {
 function loadScenariosFromLocalStorage() {
   const saved = localStorage.getItem('scenarios');
   if (saved) {
-    scenarios = JSON.parse(saved);
+    scenarios = JSON.parse(saved).map(scenario => {
+      const normalized = {
+        ...scenario,
+        targetType: 'tags',
+        targetTagIds: Array.isArray(scenario.targetTagIds)
+          ? scenario.targetTagIds.map(id => parseInt(id, 10)).filter(id => !Number.isNaN(id))
+          : []
+      };
+      return normalized;
+    });
     console.log('Scenarios loaded from LocalStorage:', scenarios);
   }
   return scenarios;
@@ -1529,7 +1539,9 @@ function handleScenarioCreation() {
     id: Date.now(),
     name: scenarioName,
     createdAt: new Date().toLocaleDateString('ja-JP'),
-    steps: []
+    steps: [],
+    targetType: 'tags',
+    targetTagIds: []
   };
 
   scenarios.push(newScenario);
@@ -3367,9 +3379,11 @@ function updateTagUserCounts() {
   
   allTags.forEach(tag => {
     const count = calculateTagUserCount(tag.id);
-    const countElement = document.querySelector(`.tag-user-count[data-tag-id="${tag.id}"]`);
-    if (countElement) {
-      countElement.textContent = `${count}人`;
+    const countElements = document.querySelectorAll(`.tag-user-count[data-tag-id="${tag.id}"]`);
+    if (countElements.length > 0) {
+      countElements.forEach(element => {
+        element.textContent = `${count}人`;
+      });
     }
   });
 }
@@ -3415,7 +3429,11 @@ function updateSelectedTagsCount() {
 }
 
 // Calculate total unique users with any of the selected tags
-function calculateTotalTaggedUsers() {
+function calculateTotalUsersForTagSet(tagSet) {
+  if (!tagSet || tagSet.size === 0) {
+    return 0;
+  }
+
   const uniqueUsers = new Set();
   
   for (let i = 0; i < localStorage.length; i++) {
@@ -3425,8 +3443,10 @@ function calculateTotalTaggedUsers() {
       const userTags = JSON.parse(localStorage.getItem(key));
       
       // Check if user has any of the selected tags
-      for (let tagId of selectedBroadcastTags) {
-        if (userTags.includes(tagId)) {
+      for (let tagId of tagSet) {
+        const numericTagId = parseInt(tagId, 10);
+        if (Number.isNaN(numericTagId)) continue;
+        if (userTags.includes(numericTagId)) {
           uniqueUsers.add(userId);
           break;
         }
@@ -3435,6 +3455,10 @@ function calculateTotalTaggedUsers() {
   }
   
   return uniqueUsers.size;
+}
+
+function calculateTotalTaggedUsers() {
+  return calculateTotalUsersForTagSet(selectedBroadcastTags);
 }
 
 // Get selected broadcast tags
@@ -4091,6 +4115,30 @@ function saveUserTagsFromBasicInfo(userId) {
 function showScenarioDetailPage(scenario) {
   // Set current scenario
   currentScenario = scenario;
+  let scenarioNeedsUpdate = false;
+
+  if (!currentScenario.targetType || currentScenario.targetType !== 'tags') {
+    currentScenario.targetType = 'tags';
+    scenarioNeedsUpdate = true;
+  }
+
+  const rawTagIds = Array.isArray(currentScenario.targetTagIds)
+    ? currentScenario.targetTagIds
+    : [];
+  const normalizedTagIds = rawTagIds
+    .map(id => parseInt(id, 10))
+    .filter(id => !Number.isNaN(id));
+
+  if (normalizedTagIds.length !== rawTagIds.length) {
+    scenarioNeedsUpdate = true;
+  }
+
+  currentScenario.targetTagIds = normalizedTagIds;
+  selectedScenarioTags = new Set(normalizedTagIds);
+
+  if (scenarioNeedsUpdate) {
+    updateScenarioInLocalStorage(currentScenario);
+  }
 
   // Reset unsaved changes flag (starting fresh or opening existing)
   scenarioHasUnsavedChanges = false;
@@ -4181,8 +4229,114 @@ function initializeScenarioDetailPage() {
     });
   }
 
+  // Initialize target selection controls
+  initializeScenarioTargetSettings();
+
   // Initialize step timing modal
   initializeStepTimingModal();
+}
+
+function initializeScenarioTargetSettings() {
+  if (!currentScenario) return;
+
+  currentScenario.targetType = 'tags';
+  updateScenarioInLocalStorage(currentScenario);
+  selectedScenarioTags = new Set(
+    (currentScenario.targetTagIds || [])
+      .map(id => parseInt(id, 10))
+      .filter(id => !Number.isNaN(id))
+  );
+  currentScenario.targetTagIds = Array.from(selectedScenarioTags);
+
+  renderScenarioTagSelectionList();
+  updateScenarioSelectedTagsCount();
+}
+
+function renderScenarioTagSelectionList() {
+  const tagSelectionList = document.getElementById('scenario-tag-selection-list');
+  if (!tagSelectionList) return;
+
+  const allTags = getAllTags();
+
+  if (allTags.length === 0) {
+    tagSelectionList.innerHTML = `
+      <div class="empty-state-small">
+        <p>タグが作成されていません</p>
+        <p style="font-size: 12px; margin-top: 8px;">情報管理 > タグ管理 からタグを作成してください</p>
+      </div>
+    `;
+    updateScenarioSelectedTagsCount();
+    return;
+  }
+
+  tagSelectionList.innerHTML = allTags.map(tag => {
+    const isTransparent = tag.color === 'transparent';
+    const styleAttr = isTransparent
+      ? 'background-color: transparent; border: 1px solid #ddd; color: #333;'
+      : `background-color: ${tag.color};`;
+    return `
+      <label class="broadcast-tag-item">
+        <input
+          type="checkbox"
+          class="scenario-tag-checkbox"
+          data-tag-id="${tag.id}"
+        />
+        <span class="tag-badge" style="${styleAttr}">
+          ${tag.name}
+        </span>
+        <span class="tag-user-count" data-tag-id="${tag.id}">-</span>
+      </label>
+    `;
+  }).join('');
+
+  updateTagUserCounts();
+
+  tagSelectionList.querySelectorAll('.scenario-tag-checkbox').forEach(checkbox => {
+    const tagId = parseInt(checkbox.getAttribute('data-tag-id'), 10);
+    if (!Number.isNaN(tagId) && selectedScenarioTags.has(tagId)) {
+      checkbox.checked = true;
+    }
+
+    checkbox.addEventListener('change', function() {
+      handleScenarioTagCheckboxChange(this);
+    });
+  });
+}
+
+function handleScenarioTagCheckboxChange(checkbox) {
+  if (!currentScenario || !checkbox) return;
+
+  const tagId = parseInt(checkbox.getAttribute('data-tag-id'), 10);
+  if (Number.isNaN(tagId)) return;
+
+  if (checkbox.checked) {
+    selectedScenarioTags.add(tagId);
+  } else {
+    selectedScenarioTags.delete(tagId);
+  }
+
+  currentScenario.targetTagIds = Array.from(selectedScenarioTags);
+
+  updateScenarioSelectedTagsCount();
+  updateScenarioInLocalStorage(currentScenario);
+  scenarioHasUnsavedChanges = false;
+}
+
+function updateScenarioSelectedTagsCount() {
+  const countContainer = document.getElementById('scenario-tag-selection-count');
+  const countSpan = document.getElementById('scenario-tagged-friends-count');
+
+  if (!countContainer || !countSpan) return;
+
+  if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
+    countContainer.style.display = 'none';
+    countSpan.textContent = '0';
+    return;
+  }
+
+  const totalCount = calculateTotalUsersForTagSet(selectedScenarioTags);
+  countContainer.style.display = 'block';
+  countSpan.textContent = totalCount;
 }
 
 function enableScenarioNameEdit() {
