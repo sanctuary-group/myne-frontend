@@ -759,6 +759,7 @@
                   <tr>
                     <th>管理名</th>
                     <th>ステータス</th>
+                    <th>配信日時</th>
                     <th>作成日</th>
                     <th>操作</th>
                   </tr>
@@ -773,6 +774,7 @@
                     <td>
                       <span class="status-badge status-active">配信中</span>
                     </td>
+                    <td>開始直後</td>
                     <td>2025-10-15</td>
                     <td>
                       <button class="btn btn-outline btn-sm scenario-edit-btn">
@@ -792,6 +794,7 @@
                     <td>
                       <span class="status-badge status-active">配信中</span>
                     </td>
+                    <td>開始から1日後 10:00</td>
                     <td>2025-10-10</td>
                     <td>
                       <button class="btn btn-outline btn-sm scenario-edit-btn">
@@ -885,6 +888,15 @@
                   <p>「次の配信タイミングを追加」ボタンから追加してください</p>
                 </div>
               </div>
+            </div>
+
+            <div class="form-actions">
+              <button id="scenario-preview-btn" class="btn btn-outline btn-large">
+                プレビュー
+              </button>
+              <button id="scenario-save-btn" class="btn btn-primary btn-large">
+                保存して配信
+              </button>
             </div>
           </div>
         </div>
@@ -1848,6 +1860,52 @@
             戻る
           </button>
           <button class="btn btn-primary" id="broadcast-preview-confirm-btn">
+            この内容で配信
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scenario Preview Modal -->
+    <div id="scenario-preview-modal" class="modal" style="display: none">
+      <div class="modal-content modal-preview-size">
+        <div class="modal-header">
+          <h2>ステップ配信プレビュー</h2>
+          <button class="modal-close-btn" id="scenario-preview-close-btn">
+            ×
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <div class="card">
+            <h3 class="card-title">基本情報</h3>
+            <div class="preview-info">
+              <div class="preview-info-item">
+                <span class="preview-info-label">管理名:</span>
+                <span class="preview-info-value" id="scenario-preview-name">-</span>
+              </div>
+              <div class="preview-info-item">
+                <span class="preview-info-label">配信対象タグ:</span>
+                <span class="preview-info-value" id="scenario-preview-tags">-</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title">ステップ一覧</h3>
+            <div class="preview-step-list" id="scenario-preview-steps">
+              <div class="empty-state-small">
+                <p>ステップが設定されていません</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-outline" id="scenario-preview-back-btn">
+            戻る
+          </button>
+          <button class="btn btn-primary" id="scenario-preview-confirm-btn">
             この内容で配信
           </button>
         </div>

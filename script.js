@@ -1393,6 +1393,8 @@ let currentScenario = null;
 let scenarios = [];
 let scenarioHasUnsavedChanges = false;
 let selectedScenarioTags = new Set();
+let originalScenario = null;
+let isNewScenario = false;
 
 // LocalStorage functions for scenarios
 function saveScenariosToLocalStorage() {
@@ -1403,16 +1405,7 @@ function saveScenariosToLocalStorage() {
 function loadScenariosFromLocalStorage() {
   const saved = localStorage.getItem('scenarios');
   if (saved) {
-    scenarios = JSON.parse(saved).map(scenario => {
-      const normalized = {
-        ...scenario,
-        targetType: 'tags',
-        targetTagIds: Array.isArray(scenario.targetTagIds)
-          ? scenario.targetTagIds.map(id => parseInt(id, 10)).filter(id => !Number.isNaN(id))
-          : []
-      };
-      return normalized;
-    });
+    scenarios = JSON.parse(saved).map(normalizeScenarioData);
     console.log('Scenarios loaded from LocalStorage:', scenarios);
   }
   return scenarios;
@@ -1429,23 +1422,64 @@ function updateScenarioInLocalStorage(scenario) {
   console.log('Scenario updated in LocalStorage:', scenario);
 }
 
+function normalizeScenarioData(scenario) {
+  if (!scenario) return scenario;
+  const clone = JSON.parse(JSON.stringify(scenario));
+  clone.targetType = 'tags';
+  clone.targetTagIds = Array.isArray(clone.targetTagIds)
+    ? clone.targetTagIds.map(id => parseInt(id, 10)).filter(id => !Number.isNaN(id))
+    : [];
+  clone.steps = Array.isArray(clone.steps) ? clone.steps : [];
+  clone.steps = clone.steps.map(step => {
+    const normalizedStep = { ...step };
+    normalizedStep.timing = step && step.timing === 'scheduled' ? 'scheduled' : 'immediate';
+    normalizedStep.days = normalizedStep.timing === 'scheduled'
+      ? parseInt(step.days, 10) || 0
+      : 0;
+    normalizedStep.time = normalizedStep.timing === 'scheduled'
+      ? (step.time || '09:00')
+      : null;
+    normalizedStep.messages = Array.isArray(step && step.messages) ? step.messages : [];
+    return normalizedStep;
+  });
+  return clone;
+}
+
+function cloneScenarioData(scenario) {
+  if (!scenario) return null;
+  return JSON.parse(JSON.stringify(scenario));
+}
+
+function markScenarioDirty() {
+  scenarioHasUnsavedChanges = true;
+}
+
+function resetScenarioEditingState() {
+  currentScenario = null;
+  originalScenario = null;
+  selectedScenarioTags = new Set();
+  scenarioHasUnsavedChanges = false;
+  isNewScenario = false;
+}
+
 // Render scenario list in table
 function renderScenarioList() {
   const tbody = document.getElementById('scenarios-tbody');
   if (!tbody) return;
 
   if (scenarios.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 30px; color: #999;">シナリオがまだ作成されていません</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 30px; color: #999;">シナリオがまだ作成されていません</td></tr>';
     return;
   }
 
   tbody.innerHTML = scenarios.map(scenario => {
     const statusClass = 'status-active';
-    const stepCount = scenario.steps ? scenario.steps.length : 0;
+    const deliverySummary = getScenarioDeliverySummary(scenario);
     return `
       <tr data-scenario-id="${scenario.id}" data-scenario-name="${scenario.name}">
         <td>${scenario.name}</td>
         <td><span class="status-badge ${statusClass}">配信中</span></td>
+        <td>${deliverySummary}</td>
         <td>${scenario.createdAt}</td>
         <td>
           <button class="btn btn-outline btn-sm scenario-edit-btn" onclick="openScenarioFromList(${scenario.id})">編集</button>
@@ -1454,6 +1488,49 @@ function renderScenarioList() {
       </tr>
     `;
   }).join('');
+}
+
+function getScenarioDeliverySummary(scenario) {
+  if (!scenario || !Array.isArray(scenario.steps) || scenario.steps.length === 0) {
+    return '未設定';
+  }
+
+  const immediateStep = scenario.steps.find(step => !step.timing || step.timing === 'immediate');
+  if (immediateStep) {
+    return '開始直後';
+  }
+
+  const scheduledSteps = scenario.steps
+    .filter(step => step.timing === 'scheduled')
+    .map(step => ({
+      days: Number.isFinite(step.days) ? step.days : parseInt(step.days, 10),
+      time: step.time || '時間未設定'
+    }))
+    .filter(step => !Number.isNaN(step.days));
+
+  if (scheduledSteps.length === 0) {
+    return '未設定';
+  }
+
+  scheduledSteps.sort((a, b) => {
+    if (a.days !== b.days) {
+      return a.days - b.days;
+    }
+    return (a.time || '').localeCompare(b.time || '');
+  });
+
+  const first = scheduledSteps[0];
+  return `開始から${first.days}日後 ${first.time}`;
+}
+
+function formatScenarioStepTiming(step) {
+  if (!step) return '未設定';
+  if (step.timing === 'scheduled') {
+    const days = parseInt(step.days, 10) || 0;
+    const time = step.time || '時間未設定';
+    return `ステップ開始から${days}日後 ${time}`;
+  }
+  return 'ステップ開始直後';
 }
 
 // Open scenario from list
@@ -1544,19 +1621,14 @@ function handleScenarioCreation() {
     targetTagIds: []
   };
 
-  scenarios.push(newScenario);
-  currentScenario = newScenario;
-
-  console.log("Creating new scenario:", newScenario);
-
-  // Save to LocalStorage
-  saveScenariosToLocalStorage();
+  const normalizedScenario = normalizeScenarioData(newScenario);
+  console.log("Creating new scenario draft:", normalizedScenario);
 
   // Close modal
   closeScenarioModal();
 
   // Navigate to scenario detail page
-  showScenarioDetailPage(newScenario);
+  showScenarioDetailPage(normalizedScenario, { isNew: true });
 }
 
 // Update timing preview function
@@ -4112,36 +4184,24 @@ function saveUserTagsFromBasicInfo(userId) {
 }
 
 // ===== Scenario Detail Page =====
-function showScenarioDetailPage(scenario) {
-  // Set current scenario
-  currentScenario = scenario;
-  let scenarioNeedsUpdate = false;
+function showScenarioDetailPage(scenario, options = {}) {
+  if (!scenario) return;
 
-  if (!currentScenario.targetType || currentScenario.targetType !== 'tags') {
-    currentScenario.targetType = 'tags';
-    scenarioNeedsUpdate = true;
-  }
+  // Determine editing mode
+  isNewScenario = options.isNew === true;
 
-  const rawTagIds = Array.isArray(currentScenario.targetTagIds)
-    ? currentScenario.targetTagIds
-    : [];
-  const normalizedTagIds = rawTagIds
-    .map(id => parseInt(id, 10))
-    .filter(id => !Number.isNaN(id));
+  const normalized = normalizeScenarioData(scenario);
+  originalScenario = isNewScenario ? null : cloneScenarioData(normalized);
+  currentScenario = cloneScenarioData(normalized);
 
-  if (normalizedTagIds.length !== rawTagIds.length) {
-    scenarioNeedsUpdate = true;
-  }
+  selectedScenarioTags = new Set(
+    Array.isArray(currentScenario.targetTagIds)
+      ? currentScenario.targetTagIds
+      : []
+  );
 
-  currentScenario.targetTagIds = normalizedTagIds;
-  selectedScenarioTags = new Set(normalizedTagIds);
-
-  if (scenarioNeedsUpdate) {
-    updateScenarioInLocalStorage(currentScenario);
-  }
-
-  // Reset unsaved changes flag (starting fresh or opening existing)
-  scenarioHasUnsavedChanges = false;
+  // Reset unsaved changes flag based on mode
+  scenarioHasUnsavedChanges = isNewScenario;
 
   // Hide all pages
   document.querySelectorAll('.page').forEach(page => {
@@ -4155,13 +4215,13 @@ function showScenarioDetailPage(scenario) {
   detailPage.style.display = 'block';
 
   // Update page title and info
-  document.getElementById('scenario-detail-title').textContent = scenario.name;
-  document.getElementById('detail-scenario-name').textContent = scenario.name;
-  document.getElementById('detail-scenario-date').textContent = scenario.createdAt;
+  document.getElementById('scenario-detail-title').textContent = currentScenario.name;
+  document.getElementById('detail-scenario-name').textContent = currentScenario.name;
+  document.getElementById('detail-scenario-date').textContent = currentScenario.createdAt;
 
   const stepsCountElement = document.getElementById('detail-scenario-steps');
   if (stepsCountElement) {
-    stepsCountElement.textContent = scenario.steps.length;
+    stepsCountElement.textContent = currentScenario.steps.length;
   }
 
   // Update active nav item
@@ -4169,7 +4229,7 @@ function showScenarioDetailPage(scenario) {
   document.querySelector('[data-page="step"]').classList.add('active');
 
   // Render steps list
-  renderStepsList(scenario.steps);
+  renderStepsList(currentScenario.steps);
 
   // Initialize event listeners
   initializeScenarioDetailPage();
@@ -4197,8 +4257,7 @@ function initializeScenarioDetailPage() {
         }
       }
 
-      // Reset unsaved changes flag
-      scenarioHasUnsavedChanges = false;
+      resetScenarioEditingState();
       navigateToPage('step');
     });
   }
@@ -4229,6 +4288,28 @@ function initializeScenarioDetailPage() {
     });
   }
 
+  // Preview button
+  const previewBtn = document.getElementById('scenario-preview-btn');
+  if (previewBtn) {
+    const newPreviewBtn = previewBtn.cloneNode(true);
+    previewBtn.parentNode.replaceChild(newPreviewBtn, previewBtn);
+
+    newPreviewBtn.addEventListener('click', () => {
+      showScenarioPreview();
+    });
+  }
+
+  // Save button
+  const saveBtn = document.getElementById('scenario-save-btn');
+  if (saveBtn) {
+    const newSaveBtn = saveBtn.cloneNode(true);
+    saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
+
+    newSaveBtn.addEventListener('click', () => {
+      saveScenarioChanges();
+    });
+  }
+
   // Initialize target selection controls
   initializeScenarioTargetSettings();
 
@@ -4240,9 +4321,11 @@ function initializeScenarioTargetSettings() {
   if (!currentScenario) return;
 
   currentScenario.targetType = 'tags';
-  updateScenarioInLocalStorage(currentScenario);
+  if (!Array.isArray(currentScenario.targetTagIds)) {
+    currentScenario.targetTagIds = [];
+  }
   selectedScenarioTags = new Set(
-    (currentScenario.targetTagIds || [])
+    currentScenario.targetTagIds
       .map(id => parseInt(id, 10))
       .filter(id => !Number.isNaN(id))
   );
@@ -4318,8 +4401,7 @@ function handleScenarioTagCheckboxChange(checkbox) {
   currentScenario.targetTagIds = Array.from(selectedScenarioTags);
 
   updateScenarioSelectedTagsCount();
-  updateScenarioInLocalStorage(currentScenario);
-  scenarioHasUnsavedChanges = false;
+  markScenarioDirty();
 }
 
 function updateScenarioSelectedTagsCount() {
@@ -4337,6 +4419,147 @@ function updateScenarioSelectedTagsCount() {
   const totalCount = calculateTotalUsersForTagSet(selectedScenarioTags);
   countContainer.style.display = 'block';
   countSpan.textContent = totalCount;
+}
+
+let scenarioPreviewModalInitialized = false;
+
+function initializeScenarioPreviewModal() {
+  if (scenarioPreviewModalInitialized) return;
+
+  const modal = document.getElementById('scenario-preview-modal');
+  if (!modal) return;
+
+  const closeBtn = document.getElementById('scenario-preview-close-btn');
+  const backBtn = document.getElementById('scenario-preview-back-btn');
+  const confirmBtn = document.getElementById('scenario-preview-confirm-btn');
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeScenarioPreviewModal);
+  }
+
+  if (backBtn) {
+    backBtn.addEventListener('click', closeScenarioPreviewModal);
+  }
+
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', () => {
+      saveScenarioChanges();
+    });
+  }
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeScenarioPreviewModal();
+    }
+  });
+
+  scenarioPreviewModalInitialized = true;
+}
+
+function closeScenarioPreviewModal() {
+  const modal = document.getElementById('scenario-preview-modal');
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
+
+function showScenarioPreview() {
+  if (!currentScenario) return;
+
+  if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
+    alert('配信先タグを1つ以上選択してください');
+    return;
+  }
+
+  const modal = document.getElementById('scenario-preview-modal');
+  if (!modal) return;
+
+  currentScenario.targetTagIds = Array.from(selectedScenarioTags);
+
+  const scenarioNameElement = document.getElementById('scenario-preview-name');
+  if (scenarioNameElement) {
+    scenarioNameElement.textContent = currentScenario.name || '(管理名なし)';
+  }
+
+  const tagsElement = document.getElementById('scenario-preview-tags');
+  if (tagsElement) {
+    const allTags = getAllTags();
+    const tagNames = currentScenario.targetTagIds
+      .map(id => allTags.find(tag => tag.id === id))
+      .filter(Boolean)
+      .map(tag => tag.name);
+    tagsElement.textContent = tagNames.length > 0 ? tagNames.join(', ') : '未選択';
+  }
+
+  const stepsContainer = document.getElementById('scenario-preview-steps');
+  if (stepsContainer) {
+    if (!currentScenario.steps || currentScenario.steps.length === 0) {
+      stepsContainer.innerHTML = '<div class="empty-state-small"><p>ステップが設定されていません</p></div>';
+    } else {
+      const stepsHtml = currentScenario.steps.map((step, index) => {
+        const timingText = formatScenarioStepTiming(step);
+        const messages = Array.isArray(step.messages) ? step.messages : [];
+        const messageCount = messages.length;
+
+        let messagePreviewHtml = '<div class="empty-state-small"><p>メッセージが設定されていません</p></div>';
+        if (messageCount > 0) {
+          const firstMessage = escapeHtml(messages[0].content || '');
+          const extraCount = messageCount - 1;
+          messagePreviewHtml = `
+            <div class="preview-step-message">${firstMessage}</div>
+            ${extraCount > 0 ? `<div class="preview-step-extra">他${extraCount}件のメッセージ</div>` : ''}
+          `;
+        }
+
+        return `
+          <div class="preview-step-item">
+            <div class="preview-step-header">
+              <span class="preview-step-number">ステップ ${index + 1}</span>
+              <span class="preview-step-timing">${timingText}</span>
+            </div>
+            <div class="preview-step-body">
+              ${messagePreviewHtml}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      stepsContainer.innerHTML = stepsHtml;
+    }
+  }
+
+  initializeScenarioPreviewModal();
+  modal.style.display = 'flex';
+}
+
+function saveScenarioChanges() {
+  if (!currentScenario) return;
+
+  if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
+    alert('配信先タグを1つ以上選択してください');
+    return;
+  }
+
+  const scenarioToSave = normalizeScenarioData({
+    ...currentScenario,
+    targetType: 'tags',
+    targetTagIds: Array.from(selectedScenarioTags)
+  });
+
+  updateScenarioInLocalStorage(scenarioToSave);
+
+  currentScenario = cloneScenarioData(scenarioToSave);
+  originalScenario = cloneScenarioData(scenarioToSave);
+  selectedScenarioTags = new Set(currentScenario.targetTagIds);
+  scenarioHasUnsavedChanges = false;
+  isNewScenario = false;
+
+  closeScenarioPreviewModal();
+
+  alert('ステップ配信を保存しました');
+
+  navigateToPage('step');
+  resetScenarioEditingState();
 }
 
 function enableScenarioNameEdit() {
@@ -4404,6 +4627,7 @@ function enableScenarioNameEdit() {
     // Re-initialize edit button
     initializeScenarioDetailPage();
 
+    markScenarioDirty();
     console.log('Scenario name updated:', newName);
   };
 
@@ -4519,8 +4743,7 @@ function deleteStep(index) {
     currentScenario.steps.splice(index, 1);
     console.log('Steps after delete:', currentScenario.steps);
 
-    updateScenarioInLocalStorage(currentScenario);
-    scenarioHasUnsavedChanges = false;
+    markScenarioDirty();
 
     const stepsCountElement = document.getElementById('detail-scenario-steps');
     if (stepsCountElement) {
@@ -4661,11 +4884,7 @@ function handleMessageAdd() {
 
   console.log('Message added/updated:', { stepIndex: currentStepIndex, content });
 
-  // Auto-save to LocalStorage
-  updateScenarioInLocalStorage(currentScenario);
-
-  // Reset unsaved changes flag after saving
-  scenarioHasUnsavedChanges = false;
+  markScenarioDirty();
 
   // Update UI
   renderStepsList(currentScenario.steps);
@@ -4708,8 +4927,7 @@ function deleteMessage(stepIndex, messageIndex) {
 
   if (confirm('このメッセージを削除しますか？')) {
     currentScenario.steps[stepIndex].messages.splice(messageIndex, 1);
-    updateScenarioInLocalStorage(currentScenario);
-    scenarioHasUnsavedChanges = false;
+    markScenarioDirty();
     renderStepsList(currentScenario.steps);
   }
 }
@@ -4840,11 +5058,7 @@ function handleStepAdd() {
     console.log('Adding step:', newStep);
   }
 
-  // Auto-save to LocalStorage
-  updateScenarioInLocalStorage(currentScenario);
-
-  // Reset unsaved changes flag after saving
-  scenarioHasUnsavedChanges = false;
+  markScenarioDirty();
 
   // Update UI
   const stepsCountElement = document.getElementById('detail-scenario-steps');
