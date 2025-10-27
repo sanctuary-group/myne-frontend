@@ -4242,7 +4242,7 @@ function showScenarioDetailPage(scenario, options = {}) {
   detailPage.style.display = 'block';
 
   // Update page title and info
-  document.getElementById('scenario-detail-title').textContent = currentScenario.name;
+  updateScenarioDetailTitle();
   document.getElementById('detail-scenario-name').textContent = currentScenario.name;
   document.getElementById('detail-scenario-date').textContent = currentScenario.createdAt;
 
@@ -4260,6 +4260,12 @@ function showScenarioDetailPage(scenario, options = {}) {
 
   // Initialize event listeners
   initializeScenarioDetailPage();
+}
+
+function updateScenarioDetailTitle() {
+  const titleElement = document.getElementById('scenario-detail-title');
+  if (!titleElement) return;
+  titleElement.textContent = isNewScenario ? 'ステップ配信を作成' : 'ステップ配信を編集';
 }
 
 function initializeScenarioDetailPage() {
@@ -4648,8 +4654,8 @@ function enableScenarioNameEdit() {
       </button>
     `;
 
-    // Update page title
-    document.getElementById('scenario-detail-title').textContent = newName;
+    // Keep header aligned with current mode (作成/編集)
+    updateScenarioDetailTitle();
 
     // Re-initialize edit button
     initializeScenarioDetailPage();
