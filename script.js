@@ -1468,18 +1468,20 @@ function renderScenarioList() {
   if (!tbody) return;
 
   if (scenarios.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 30px; color: #999;">シナリオがまだ作成されていません</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">シナリオがまだ作成されていません</td></tr>';
     return;
   }
 
   tbody.innerHTML = scenarios.map(scenario => {
     const statusClass = 'status-active';
     const deliverySummary = getScenarioDeliverySummary(scenario);
+    const targetSummary = getScenarioTargetSummary(scenario);
     return `
       <tr data-scenario-id="${scenario.id}" data-scenario-name="${scenario.name}">
         <td>${scenario.name}</td>
-        <td><span class="status-badge ${statusClass}">配信中</span></td>
+        <td>${targetSummary}</td>
         <td>${deliverySummary}</td>
+        <td><span class="status-badge ${statusClass}">配信中</span></td>
         <td>${scenario.createdAt}</td>
         <td>
           <button class="btn btn-outline btn-sm scenario-edit-btn" onclick="openScenarioFromList(${scenario.id})">編集</button>
@@ -1521,6 +1523,31 @@ function getScenarioDeliverySummary(scenario) {
 
   const first = scheduledSteps[0];
   return `開始から${first.days}日後 ${first.time}`;
+}
+
+function getScenarioTargetSummary(scenario) {
+  if (!scenario) return '未設定';
+
+  if (scenario.targetType === 'all') {
+    return '友だち全員';
+  }
+
+  const tagIds = Array.isArray(scenario.targetTagIds) ? scenario.targetTagIds : [];
+  if (tagIds.length === 0) {
+    return 'タグ未選択';
+  }
+
+  const allTags = getAllTags();
+  const tagNames = tagIds
+    .map(id => allTags.find(tag => tag.id === id))
+    .filter(Boolean)
+    .map(tag => tag.name);
+
+  if (tagNames.length === 0) {
+    return 'タグ未選択';
+  }
+
+  return tagNames.join(', ');
 }
 
 function formatScenarioStepTiming(step) {
