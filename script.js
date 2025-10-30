@@ -3738,7 +3738,7 @@ function renderUrlManagementList() {
   const urls = getAllUrls();
 
   if (urls.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 30px; color: #999;">URLがまだ作成されていません</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">URLがまだ作成されていません</td></tr>';
     return;
   }
 
@@ -3772,7 +3772,6 @@ function renderUrlManagementList() {
             </button>
           </div>
         </td>
-        <td>${totalClicks} / ${clickRate}%</td>
         <td>${uniqueClicks} / ${uniqueClickRate}%</td>
         <td>${createdDate}</td>
         <td>
