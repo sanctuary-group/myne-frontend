@@ -5113,10 +5113,120 @@ const MOCK_BROADCASTS = [
   { id: 4, title: '9月の総括', target: 'all', targetText: '全員', deliveryTiming: 'immediate', message: '9月の活動報告をお送りします。', createdAt: '2025-09-30', status: '配信完了' }
 ];
 
+// Mock scenario data
+const MOCK_SCENARIOS = [
+  {
+    id: 1,
+    name: 'ウェルカムシーケンス',
+    createdAt: '2025/10/15',
+    steps: [
+      {
+        timing: 'immediate',
+        days: 0,
+        time: null,
+        messages: []
+      }
+    ],
+    targetType: 'tags',
+    targetTagIds: [1]  // VIP顧客
+  },
+  {
+    id: 2,
+    name: '商品紹介シリーズ',
+    createdAt: '2025/10/10',
+    steps: [
+      {
+        timing: 'scheduled',
+        days: 1,
+        time: '10:00',
+        messages: []
+      }
+    ],
+    targetType: 'tags',
+    targetTagIds: [2]  // 問い合わせ対応中
+  },
+  {
+    id: 3,
+    name: 'フォローアップキャンペーン',
+    createdAt: '2025/10/05',
+    steps: [
+      {
+        timing: 'scheduled',
+        days: 3,
+        time: '14:00',
+        messages: []
+      },
+      {
+        timing: 'scheduled',
+        days: 7,
+        time: '10:00',
+        messages: []
+      }
+    ],
+    targetType: 'tags',
+    targetTagIds: [3]  // 資料送付済み
+  },
+  {
+    id: 4,
+    name: 'リピーター育成プログラム',
+    createdAt: '2025/09/28',
+    steps: [
+      {
+        timing: 'immediate',
+        days: 0,
+        time: null,
+        messages: []
+      },
+      {
+        timing: 'scheduled',
+        days: 2,
+        time: '11:00',
+        messages: []
+      },
+      {
+        timing: 'scheduled',
+        days: 5,
+        time: '15:00',
+        messages: []
+      }
+    ],
+    targetType: 'tags',
+    targetTagIds: [5]  // キャンペーン参加
+  },
+  {
+    id: 5,
+    name: '新規顧客オンボーディング',
+    createdAt: '2025/09/20',
+    steps: [
+      {
+        timing: 'immediate',
+        days: 0,
+        time: null,
+        messages: []
+      },
+      {
+        timing: 'scheduled',
+        days: 1,
+        time: '09:00',
+        messages: []
+      }
+    ],
+    targetType: 'tags',
+    targetTagIds: [1, 2]  // VIP顧客、問い合わせ対応中
+  }
+];
+
 // Initialize mock broadcast data
 function initializeBroadcastData() {
   if (!localStorage.getItem('mockBroadcasts')) {
     localStorage.setItem('mockBroadcasts', JSON.stringify(MOCK_BROADCASTS));
+  }
+}
+
+// Initialize mock scenario data
+function initializeScenarioData() {
+  if (!localStorage.getItem('scenarios')) {
+    localStorage.setItem('scenarios', JSON.stringify(MOCK_SCENARIOS));
   }
 }
 
@@ -5548,7 +5658,11 @@ function setColorPaletteValue(paletteId, color) {
 
 // Initialize on load - ensure this runs after DOM is loaded
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeBroadcastData);
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeBroadcastData();
+    initializeScenarioData();
+  });
 } else {
   initializeBroadcastData();
+  initializeScenarioData();
 }
