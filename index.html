@@ -336,6 +336,13 @@
       <header class="app-header">
         <div class="header-content">
           <h1 class="header-logo-text">MyNE</h1>
+          <div class="header-account-selector">
+            <select id="account-select" class="account-select">
+              <option value="account1">アカウントA</option>
+              <option value="account2">アカウントB</option>
+              <option value="account3">アカウントC</option>
+            </select>
+          </div>
           <button id="logout-btn" class="logout-btn">ログアウト</button>
         </div>
       </header>
@@ -377,19 +384,6 @@
         <!-- Dashboard Page -->
         <div id="dashboard-page" class="page-container page">
           <h1 class="page-title">ダッシュボード</h1>
-
-          <div class="card dashboard-account-selector">
-            <div class="account-selector-content">
-              <label for="account-select" class="account-label"
-                >アカウント:</label
-              >
-              <select id="account-select" class="account-select">
-                <option value="account1">アカウントA</option>
-                <option value="account2">アカウントB</option>
-                <option value="account3">アカウントC</option>
-              </select>
-            </div>
-          </div>
 
           <div class="stats-grid">
             <div class="stat-card">
