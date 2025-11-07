@@ -1,75 +1,285 @@
 // ===== MOCK DATA =====
 // 友だちデータ
 const MOCK_FRIENDS = [
-  { id: 1, name: '田中太郎', lineId: 'U001', tags: [1, 3], registeredAt: '2025-10-15', memo: '製品Aに興味あり', bookmarked: true, readStatus: 'unread' },
-  { id: 2, name: '鈴木花子', lineId: 'U002', tags: [2], registeredAt: '2025-10-14', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 3, name: '佐藤次郎', lineId: 'U003', tags: [1, 2], registeredAt: '2025-10-13', memo: '月次レポート希望', bookmarked: true, readStatus: 'unread' },
-  { id: 4, name: '高橋美咲', lineId: 'U004', tags: [], registeredAt: '2025-10-12', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 5, name: '伊藤健一', lineId: 'U005', tags: [3], registeredAt: '2025-10-11', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 6, name: '渡辺さくら', lineId: 'U006', tags: [1], registeredAt: '2025-09-10', memo: 'VIP対応', bookmarked: true, readStatus: 'unread' },
-  { id: 7, name: '山本太一', lineId: 'U007', tags: [2, 3], registeredAt: '2025-09-09', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 8, name: '中村結衣', lineId: 'U008', tags: [], registeredAt: '2025-08-08', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 9, name: '小林大輔', lineId: 'U009', tags: [1], registeredAt: '2025-08-07', memo: '請求書発行済み', bookmarked: false, readStatus: 'read' },
-  { id: 10, name: '加藤愛', lineId: 'U010', tags: [3], registeredAt: '2025-07-06', memo: '', bookmarked: false, readStatus: 'unread' },
-  { id: 11, name: '吉田悠斗', lineId: 'U011', tags: [2], registeredAt: '2025-07-05', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 12, name: '山田陽菜', lineId: 'U012', tags: [], registeredAt: '2025-06-04', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 13, name: '佐々木蓮', lineId: 'U013', tags: [1, 2], registeredAt: '2025-06-03', memo: '次回フォロー: 11/1', bookmarked: true, readStatus: 'unread' },
-  { id: 14, name: '松本葵', lineId: 'U014', tags: [], registeredAt: '2025-05-02', memo: '', bookmarked: false, readStatus: 'read' },
-  { id: 15, name: '井上颯太', lineId: 'U015', tags: [3], registeredAt: '2025-05-01', memo: '', bookmarked: false, readStatus: 'read' }
+  {
+    id: 1,
+    name: "田中太郎",
+    lineId: "U001",
+    tags: [1, 3],
+    registeredAt: "2025-10-15",
+    memo: "製品Aに興味あり",
+    bookmarked: true,
+    readStatus: "unread",
+  },
+  {
+    id: 2,
+    name: "鈴木花子",
+    lineId: "U002",
+    tags: [2],
+    registeredAt: "2025-10-14",
+    memo: "",
+    bookmarked: false,
+    readStatus: "read",
+  },
+  {
+    id: 3,
+    name: "佐藤次郎",
+    lineId: "U003",
+    tags: [1, 2],
+    registeredAt: "2025-10-13",
+    memo: "月次レポート希望",
+    bookmarked: true,
+    readStatus: "unread",
+  },
+  {
+    id: 4,
+    name: "高橋美咲",
+    lineId: "U004",
+    tags: [],
+    registeredAt: "2025-10-12",
+    memo: "",
+    bookmarked: false,
+    readStatus: "read",
+  },
+  {
+    id: 5,
+    name: "伊藤健一",
+    lineId: "U005",
+    tags: [3],
+    registeredAt: "2025-10-11",
+    memo: "",
+    bookmarked: false,
+    readStatus: "read",
+  },
+  {
+    id: 6,
+    name: "渡辺さくら",
+    lineId: "U006",
+    tags: [1],
+    registeredAt: "2025-09-10",
+    memo: "VIP対応",
+    bookmarked: true,
+    readStatus: "unread",
+  },
+  {
+    id: 7,
+    name: "山本太一",
+    lineId: "U007",
+    tags: [2, 3],
+    registeredAt: "2025-09-09",
+    memo: "",
+    bookmarked: false,
+    readStatus: "read",
+  },
+  {
+    id: 8,
+    name: "中村結衣",
+    lineId: "U008",
+    tags: [],
+    registeredAt: "2025-08-08",
+    memo: "",
+    bookmarked: false,
+    readStatus: "read",
+  },
+  {
+    id: 9,
+    name: "小林大輔",
+    lineId: "U009",
+    tags: [1],
+    registeredAt: "2025-08-07",
+    memo: "請求書発行済み",
+    bookmarked: false,
+    readStatus: "read",
+  },
+  {
+    id: 10,
+    name: "加藤愛",
+    lineId: "U010",
+    tags: [3],
+    registeredAt: "2025-07-06",
+    memo: "",
+    bookmarked: false,
+    readStatus: "unread",
+  },
+  {
+    id: 11,
+    name: "吉田悠斗",
+    lineId: "U011",
+    tags: [2],
+    registeredAt: "2025-07-05",
+    memo: "",
+    bookmarked: false,
+    readStatus: "read",
+  },
+  {
+    id: 12,
+    name: "山田陽菜",
+    lineId: "U012",
+    tags: [],
+    registeredAt: "2025-06-04",
+    memo: "",
+    bookmarked: false,
+    readStatus: "read",
+  },
+  {
+    id: 13,
+    name: "佐々木蓮",
+    lineId: "U013",
+    tags: [1, 2],
+    registeredAt: "2025-06-03",
+    memo: "次回フォロー: 11/1",
+    bookmarked: true,
+    readStatus: "unread",
+  },
+  {
+    id: 14,
+    name: "松本葵",
+    lineId: "U014",
+    tags: [],
+    registeredAt: "2025-05-02",
+    memo: "",
+    bookmarked: false,
+    readStatus: "read",
+  },
+  {
+    id: 15,
+    name: "井上颯太",
+    lineId: "U015",
+    tags: [3],
+    registeredAt: "2025-05-01",
+    memo: "",
+    bookmarked: false,
+    readStatus: "read",
+  },
 ];
 
 // タグデータ
 const MOCK_TAGS = [
-  { id: 1, name: 'VIP顧客', color: '#00b900' },
-  { id: 2, name: '問い合わせ対応中', color: '#f59e0b' },
-  { id: 3, name: '資料送付済み', color: '#3b82f6' },
-  { id: 4, name: '要フォローアップ', color: '#ef4444' },
-  { id: 5, name: 'キャンペーン参加', color: '#8b5cf6' }
+  { id: 1, name: "VIP顧客", color: "#00b900" },
+  { id: 2, name: "問い合わせ対応中", color: "#f59e0b" },
+  { id: 3, name: "資料送付済み", color: "#3b82f6" },
+  { id: 4, name: "要フォローアップ", color: "#ef4444" },
+  { id: 5, name: "キャンペーン参加", color: "#8b5cf6" },
 ];
 
 // メッセージデータ
 const MOCK_MESSAGES = {
   1: [
-    { id: 1, sender: 'user', content: 'こんにちは！製品Aについて詳しく教えてください。', timestamp: '2025-10-15 10:30' },
-    { id: 2, sender: 'admin', content: 'お問い合わせありがとうございます。製品Aは当社の主力商品で...', timestamp: '2025-10-15 10:35' },
-    { id: 3, sender: 'user', content: '価格はいくらですか？', timestamp: '2025-10-15 10:40' },
-    { id: 4, sender: 'admin', content: '製品Aの価格は¥9,800です。', timestamp: '2025-10-15 10:42' }
+    {
+      id: 1,
+      sender: "user",
+      content: "こんにちは！製品Aについて詳しく教えてください。",
+      timestamp: "2025-10-15 10:30",
+    },
+    {
+      id: 2,
+      sender: "admin",
+      content: "お問い合わせありがとうございます。製品Aは当社の主力商品で...",
+      timestamp: "2025-10-15 10:35",
+    },
+    {
+      id: 3,
+      sender: "user",
+      content: "価格はいくらですか？",
+      timestamp: "2025-10-15 10:40",
+    },
+    {
+      id: 4,
+      sender: "admin",
+      content: "製品Aの価格は¥9,800です。",
+      timestamp: "2025-10-15 10:42",
+    },
   ],
   2: [
-    { id: 1, sender: 'user', content: '配送状況を教えてください', timestamp: '2025-10-14 14:20' },
-    { id: 2, sender: 'admin', content: 'ご注文の商品は本日発送いたしました。', timestamp: '2025-10-14 14:25' },
-    { id: 3, sender: 'user', content: 'ありがとうございます！', timestamp: '2025-10-14 14:30' }
+    {
+      id: 1,
+      sender: "user",
+      content: "配送状況を教えてください",
+      timestamp: "2025-10-14 14:20",
+    },
+    {
+      id: 2,
+      sender: "admin",
+      content: "ご注文の商品は本日発送いたしました。",
+      timestamp: "2025-10-14 14:25",
+    },
+    {
+      id: 3,
+      sender: "user",
+      content: "ありがとうございます！",
+      timestamp: "2025-10-14 14:30",
+    },
   ],
   3: [
-    { id: 1, sender: 'user', content: '月次レポートをお願いします', timestamp: '2025-10-13 09:00' },
-    { id: 2, sender: 'admin', content: '承知いたしました。準備でき次第お送りします。', timestamp: '2025-10-13 09:15' },
-    { id: 3, sender: 'user', content: 'いつ頃になりそうですか？', timestamp: '2025-10-13 11:00' }
+    {
+      id: 1,
+      sender: "user",
+      content: "月次レポートをお願いします",
+      timestamp: "2025-10-13 09:00",
+    },
+    {
+      id: 2,
+      sender: "admin",
+      content: "承知いたしました。準備でき次第お送りします。",
+      timestamp: "2025-10-13 09:15",
+    },
+    {
+      id: 3,
+      sender: "user",
+      content: "いつ頃になりそうですか？",
+      timestamp: "2025-10-13 11:00",
+    },
   ],
   6: [
-    { id: 1, sender: 'user', content: 'VIPプランについて教えてください', timestamp: '2025-09-10 15:00' },
-    { id: 2, sender: 'admin', content: 'VIPプランは月額¥29,800で...', timestamp: '2025-09-10 15:10' },
-    { id: 3, sender: 'user', content: '申し込みたいです', timestamp: '2025-09-10 15:20' }
+    {
+      id: 1,
+      sender: "user",
+      content: "VIPプランについて教えてください",
+      timestamp: "2025-09-10 15:00",
+    },
+    {
+      id: 2,
+      sender: "admin",
+      content: "VIPプランは月額¥29,800で...",
+      timestamp: "2025-09-10 15:10",
+    },
+    {
+      id: 3,
+      sender: "user",
+      content: "申し込みたいです",
+      timestamp: "2025-09-10 15:20",
+    },
   ],
   13: [
-    { id: 1, sender: 'user', content: '次回の打ち合わせはいつですか？', timestamp: '2025-06-03 10:00' },
-    { id: 2, sender: 'admin', content: '11月1日の14時でいかがでしょうか？', timestamp: '2025-06-03 10:15' }
-  ]
+    {
+      id: 1,
+      sender: "user",
+      content: "次回の打ち合わせはいつですか？",
+      timestamp: "2025-06-03 10:00",
+    },
+    {
+      id: 2,
+      sender: "admin",
+      content: "11月1日の14時でいかがでしょうか？",
+      timestamp: "2025-06-03 10:15",
+    },
+  ],
 };
 
 // LocalStorageからデータを読み込むか、初期データを設定
 function initializeMockData() {
-  if (!localStorage.getItem('mockFriends')) {
-    localStorage.setItem('mockFriends', JSON.stringify(MOCK_FRIENDS));
+  if (!localStorage.getItem("mockFriends")) {
+    localStorage.setItem("mockFriends", JSON.stringify(MOCK_FRIENDS));
   }
-  if (!localStorage.getItem('mockTags')) {
-    localStorage.setItem('mockTags', JSON.stringify(MOCK_TAGS));
+  if (!localStorage.getItem("mockTags")) {
+    localStorage.setItem("mockTags", JSON.stringify(MOCK_TAGS));
   }
-  if (!localStorage.getItem('mockMessages')) {
-    localStorage.setItem('mockMessages', JSON.stringify(MOCK_MESSAGES));
+  if (!localStorage.getItem("mockMessages")) {
+    localStorage.setItem("mockMessages", JSON.stringify(MOCK_MESSAGES));
   }
 
   // MOCKデータのタグ情報をlocalStorageに保存（常に更新）
-  MOCK_FRIENDS.forEach(friend => {
+  MOCK_FRIENDS.forEach((friend) => {
     const key = `user_tags_${friend.id}`;
     localStorage.setItem(key, JSON.stringify(friend.tags || []));
   });
@@ -77,28 +287,28 @@ function initializeMockData() {
 
 // データ取得関数
 function getMockFriends() {
-  return JSON.parse(localStorage.getItem('mockFriends') || '[]');
+  return JSON.parse(localStorage.getItem("mockFriends") || "[]");
 }
 
 function getMockTags() {
-  return JSON.parse(localStorage.getItem('mockTags') || '[]');
+  return JSON.parse(localStorage.getItem("mockTags") || "[]");
 }
 
 function getMockMessages(userId) {
-  const allMessages = JSON.parse(localStorage.getItem('mockMessages') || '{}');
+  const allMessages = JSON.parse(localStorage.getItem("mockMessages") || "{}");
   return allMessages[userId] || [];
 }
 
 function saveMockFriends(friends) {
-  localStorage.setItem('mockFriends', JSON.stringify(friends));
+  localStorage.setItem("mockFriends", JSON.stringify(friends));
 }
 
 function saveMockTags(tags) {
-  localStorage.setItem('mockTags', JSON.stringify(tags));
+  localStorage.setItem("mockTags", JSON.stringify(tags));
 }
 
 function saveMockMessages(messages) {
-  localStorage.setItem('mockMessages', JSON.stringify(messages));
+  localStorage.setItem("mockMessages", JSON.stringify(messages));
 }
 
 // Application State
@@ -110,13 +320,15 @@ let userDraftMessages = {}; // Store draft messages per user
 let currentAccount = "account1"; // Current selected account
 let pendingVerificationEmail = null; // 認証待ちのメールアドレス
 let pendingResetEmail = null; // パスワードリセット待ちのメールアドレス
-let currentBroadcastStatusFilter = '配信予約中'; // Current broadcast status filter
+let currentBroadcastStatusFilter = "配信予約中"; // Current broadcast status filter
 
 // DOM Elements
 const loginContainer = document.getElementById("login-container");
 const signupContainer = document.getElementById("signup-container");
 const verificationContainer = document.getElementById("verification-container");
-const passwordResetContainer = document.getElementById("password-reset-container");
+const passwordResetContainer = document.getElementById(
+  "password-reset-container"
+);
 const resetCodeContainer = document.getElementById("reset-code-container");
 const newPasswordContainer = document.getElementById("new-password-container");
 const mainApp = document.getElementById("main-app");
@@ -185,31 +397,33 @@ function setupEventListeners() {
   const gotoSignupLink = document.getElementById("goto-signup-link");
   const gotoLoginLink = document.getElementById("goto-login-link");
   const gotoPasswordResetLink = document.querySelector('a[href="#forgot"]');
-  const gotoLoginFromResetLink = document.getElementById("goto-login-from-reset-link");
+  const gotoLoginFromResetLink = document.getElementById(
+    "goto-login-from-reset-link"
+  );
 
   if (gotoSignupLink) {
-    gotoSignupLink.addEventListener("click", function(e) {
+    gotoSignupLink.addEventListener("click", function (e) {
       e.preventDefault();
       showSignupScreen();
     });
   }
 
   if (gotoLoginLink) {
-    gotoLoginLink.addEventListener("click", function(e) {
+    gotoLoginLink.addEventListener("click", function (e) {
       e.preventDefault();
       showLoginScreen();
     });
   }
 
   if (gotoPasswordResetLink) {
-    gotoPasswordResetLink.addEventListener("click", function(e) {
+    gotoPasswordResetLink.addEventListener("click", function (e) {
       e.preventDefault();
       showPasswordResetScreen();
     });
   }
 
   if (gotoLoginFromResetLink) {
-    gotoLoginFromResetLink.addEventListener("click", function(e) {
+    gotoLoginFromResetLink.addEventListener("click", function (e) {
       e.preventDefault();
       showLoginScreen();
     });
@@ -305,9 +519,9 @@ function handleAccountChange(e) {
 
 function getAccountName(accountId) {
   const accountNames = {
-    'account1': 'メインアカウント',
-    'account2': 'サブアカウント',
-    'account3': 'テストアカウント'
+    account1: "メインアカウント",
+    account2: "サブアカウント",
+    account3: "テストアカウント",
   };
   return accountNames[accountId] || accountId;
 }
@@ -357,7 +571,8 @@ function showVerificationScreen() {
 
   // Set the email address in verification screen
   if (pendingVerificationEmail) {
-    document.getElementById("verification-email").textContent = pendingVerificationEmail;
+    document.getElementById("verification-email").textContent =
+      pendingVerificationEmail;
   }
 
   hideVerificationError();
@@ -653,7 +868,9 @@ function handleNewPassword(e) {
   // Simulate API call
   setTimeout(() => {
     // Successful password reset - show login screen with success message
-    alert("パスワードが正常にリセットされました。新しいパスワードでログインしてください。");
+    alert(
+      "パスワードが正常にリセットされました。新しいパスワードでログインしてください。"
+    );
     showLoginScreen();
 
     // Reset form
@@ -702,6 +919,12 @@ function navigateToPage(pageId) {
   if (activeNavItem) {
     activeNavItem.classList.add("active");
   }
+
+  // Load and render default scenario when navigating to step page
+  if (pageId === "step") {
+    loadDefaultScenarioId();
+    renderDefaultScenarioCard();
+  }
 }
 
 // Broadcast form functionality
@@ -726,7 +949,9 @@ function initializeBroadcastForm() {
   });
 
   // Handle delivery timing changes
-  const deliveryTimingRadios = document.querySelectorAll('input[name="deliveryTiming"]');
+  const deliveryTimingRadios = document.querySelectorAll(
+    'input[name="deliveryTiming"]'
+  );
   deliveryTimingRadios.forEach((radio) => {
     radio.addEventListener("change", function () {
       handleBroadcastDeliveryTimingChange(this.value);
@@ -738,36 +963,40 @@ function initializeBroadcastForm() {
   selectedFriends.clear();
 
   // Hide tag selection area initially
-  const tagSelectionArea = document.getElementById('tag-selection-area');
+  const tagSelectionArea = document.getElementById("tag-selection-area");
   if (tagSelectionArea) {
-    tagSelectionArea.style.display = 'none';
+    tagSelectionArea.style.display = "none";
   }
 
   // Hide scheduled datetime initially
-  const scheduledDatetimeGroup = document.getElementById('scheduled-datetime-group');
+  const scheduledDatetimeGroup = document.getElementById(
+    "scheduled-datetime-group"
+  );
   if (scheduledDatetimeGroup) {
-    scheduledDatetimeGroup.style.display = 'none';
+    scheduledDatetimeGroup.style.display = "none";
   }
 
   // Add event listener for broadcast send button
-  const sendBtn = document.getElementById('broadcast-send-btn');
+  const sendBtn = document.getElementById("broadcast-send-btn");
   if (sendBtn) {
     // Remove existing listeners
     const newSendBtn = sendBtn.cloneNode(true);
     sendBtn.parentNode.replaceChild(newSendBtn, sendBtn);
 
-    newSendBtn.addEventListener('click', sendBroadcast);
+    newSendBtn.addEventListener("click", sendBroadcast);
   }
 }
 
 // Handle broadcast delivery timing change
 function handleBroadcastDeliveryTimingChange(timing) {
-  const scheduledDatetimeGroup = document.getElementById('scheduled-datetime-group');
+  const scheduledDatetimeGroup = document.getElementById(
+    "scheduled-datetime-group"
+  );
 
-  if (timing === 'scheduled') {
-    scheduledDatetimeGroup.style.display = 'block';
+  if (timing === "scheduled") {
+    scheduledDatetimeGroup.style.display = "block";
   } else {
-    scheduledDatetimeGroup.style.display = 'none';
+    scheduledDatetimeGroup.style.display = "none";
   }
 }
 
@@ -777,15 +1006,15 @@ function handleMessageTypeChange(type) {
 }
 
 function handleTargetChange(target) {
-  const tagSelectionArea = document.getElementById('tag-selection-area');
+  const tagSelectionArea = document.getElementById("tag-selection-area");
 
-  if (target === 'tags') {
+  if (target === "tags") {
     // タグで絞り込み選択時はタグ選択UIを表示
-    tagSelectionArea.style.display = 'block';
+    tagSelectionArea.style.display = "block";
     initializeBroadcastTagSelection();
   } else {
     // その他の場合は非表示
-    tagSelectionArea.style.display = 'none';
+    tagSelectionArea.style.display = "none";
   }
 
   console.log("Target changed to:", target);
@@ -957,8 +1186,8 @@ function updateDashboardStats() {
   const broadcasts = getMockBroadcasts();
   const scenarios = loadScenariosFromLocalStorage();
 
-  console.log('[Dashboard] 一斉配信データ:', broadcasts);
-  console.log('[Dashboard] ステップ配信データ:', scenarios);
+  console.log("[Dashboard] 一斉配信データ:", broadcasts);
+  console.log("[Dashboard] ステップ配信データ:", scenarios);
 
   // 今月の年月を取得
   const now = new Date();
@@ -967,25 +1196,34 @@ function updateDashboardStats() {
   console.log(`[Dashboard] 現在の年月: ${currentYear}年${currentMonth}月`);
 
   // 今月の一斉配信をカウント
-  const thisMonthBroadcasts = broadcasts.filter(broadcast => {
+  const thisMonthBroadcasts = broadcasts.filter((broadcast) => {
     if (!broadcast.createdAt) return false;
     const createdDate = new Date(broadcast.createdAt);
-    const match = createdDate.getFullYear() === currentYear &&
-           (createdDate.getMonth() + 1) === currentMonth;
-    console.log(`[Dashboard] 一斉配信 "${broadcast.title}": ${broadcast.createdAt} -> ${match ? '今月' : '対象外'}`);
+    const match =
+      createdDate.getFullYear() === currentYear &&
+      createdDate.getMonth() + 1 === currentMonth;
+    console.log(
+      `[Dashboard] 一斉配信 "${broadcast.title}": ${broadcast.createdAt} -> ${
+        match ? "今月" : "対象外"
+      }`
+    );
     return match;
   }).length;
 
   // 今月のステップ配信をカウント
-  const thisMonthScenarios = scenarios.filter(scenario => {
+  const thisMonthScenarios = scenarios.filter((scenario) => {
     if (!scenario.createdAt) return false;
     // createdAtは 'YYYY/MM/DD' 形式の日本語ロケール文字列
-    const dateParts = scenario.createdAt.split('/');
+    const dateParts = scenario.createdAt.split("/");
     if (dateParts.length !== 3) return false;
     const year = parseInt(dateParts[0]);
     const month = parseInt(dateParts[1]);
     const match = year === currentYear && month === currentMonth;
-    console.log(`[Dashboard] ステップ配信 "${scenario.name}": ${scenario.createdAt} (${year}/${month}) -> ${match ? '今月' : '対象外'}`);
+    console.log(
+      `[Dashboard] ステップ配信 "${scenario.name}": ${
+        scenario.createdAt
+      } (${year}/${month}) -> ${match ? "今月" : "対象外"}`
+    );
     return match;
   }).length;
 
@@ -996,16 +1234,16 @@ function updateDashboardStats() {
   console.log(`[Dashboard] 合計: ${totalDeliveries}件`);
 
   // DOMを更新
-  const statCards = document.querySelectorAll('.stat-card');
+  const statCards = document.querySelectorAll(".stat-card");
   if (statCards.length >= 2) {
     // 友だち数を更新
-    const friendsStatNumber = statCards[0].querySelector('.stat-number');
+    const friendsStatNumber = statCards[0].querySelector(".stat-number");
     if (friendsStatNumber) {
       friendsStatNumber.textContent = friendsCount.toLocaleString();
     }
 
     // 今月の配信数を更新
-    const deliveriesStatNumber = statCards[1].querySelector('.stat-number');
+    const deliveriesStatNumber = statCards[1].querySelector(".stat-number");
     if (deliveriesStatNumber) {
       deliveriesStatNumber.textContent = totalDeliveries.toString();
       console.log(`[Dashboard] DOM更新完了: 今月の配信数 = ${totalDeliveries}`);
@@ -1015,14 +1253,14 @@ function updateDashboardStats() {
 
 // Load and display broadcast history on dashboard
 function loadDashboardBroadcastHistory() {
-  const tbody = document.getElementById('dashboard-history-tbody');
+  const tbody = document.getElementById("dashboard-history-tbody");
   if (!tbody) return;
 
   const broadcasts = getMockBroadcasts();
 
   // Filter only completed broadcasts, sort by createdAt descending (most recent first) and take top 3
   const recentBroadcasts = broadcasts
-    .filter(b => b.status === '配信完了')
+    .filter((b) => b.status === "配信完了")
     .sort((a, b) => {
       const dateA = new Date(a.createdAt || 0);
       const dateB = new Date(b.createdAt || 0);
@@ -1031,41 +1269,45 @@ function loadDashboardBroadcastHistory() {
     .slice(0, 3);
 
   // Clear existing rows
-  tbody.innerHTML = '';
+  tbody.innerHTML = "";
 
   if (recentBroadcasts.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; color: #999;">配信履歴がありません</td></tr>';
+    tbody.innerHTML =
+      '<tr><td colspan="3" style="text-align: center; color: #999;">配信履歴がありません</td></tr>';
     return;
   }
 
   // Render rows
-  recentBroadcasts.forEach(broadcast => {
-    const row = document.createElement('tr');
+  recentBroadcasts.forEach((broadcast) => {
+    const row = document.createElement("tr");
 
     // Title
-    const titleCell = document.createElement('td');
-    titleCell.textContent = broadcast.title || '(タイトルなし)';
+    const titleCell = document.createElement("td");
+    titleCell.textContent = broadcast.title || "(タイトルなし)";
     row.appendChild(titleCell);
 
     // Date and time
-    const dateCell = document.createElement('td');
+    const dateCell = document.createElement("td");
     if (broadcast.createdAt) {
       const date = new Date(broadcast.createdAt);
-      dateCell.textContent = date.toLocaleDateString('ja-JP', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      }) + ' ' + (broadcast.time || '09:00');
+      dateCell.textContent =
+        date.toLocaleDateString("ja-JP", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }) +
+        " " +
+        (broadcast.time || "09:00");
     } else {
-      dateCell.textContent = '-';
+      dateCell.textContent = "-";
     }
     row.appendChild(dateCell);
 
     // Status
-    const statusCell = document.createElement('td');
-    const statusBadge = document.createElement('span');
-    statusBadge.className = 'status-badge status-active';
-    statusBadge.textContent = broadcast.status || '配信完了';
+    const statusCell = document.createElement("td");
+    const statusBadge = document.createElement("span");
+    statusBadge.className = "status-badge status-active";
+    statusBadge.textContent = broadcast.status || "配信完了";
     statusCell.appendChild(statusBadge);
     row.appendChild(statusCell);
 
@@ -1097,11 +1339,11 @@ navigateToPage = function (pageId) {
       break;
     case "individual":
       initializeIndividualSupport();
-      initializeRightColumnTabs();  // タブ機能を初期化
-      initializeBookmarkButton();  // ブックマークボタンを初期化
-      initializeBookmarkFilter();  // ブックマークフィルターを初期化
-      initializeReadStatusButtons();  // 既読・未読ボタンを初期化
-      loadIndividualPageUsers('all');  // APIからユーザーリストを取得して表示（デフォルトはすべて）
+      initializeRightColumnTabs(); // タブ機能を初期化
+      initializeBookmarkButton(); // ブックマークボタンを初期化
+      initializeBookmarkFilter(); // ブックマークフィルターを初期化
+      initializeReadStatusButtons(); // 既読・未読ボタンを初期化
+      loadIndividualPageUsers("all"); // APIからユーザーリストを取得して表示（デフォルトはすべて）
       break;
     case "settings":
       initializeSettings();
@@ -1266,23 +1508,23 @@ function initializeChatEventListeners() {
 
 // New API-based sendMessage function for individual support
 async function sendMessage() {
-  console.log('=== sendMessage() called ===');
+  console.log("=== sendMessage() called ===");
 
   const chatInput = document.getElementById("chat-input");
   const messageText = chatInput.value.trim();
-  console.log('Message text:', messageText);
+  console.log("Message text:", messageText);
 
   if (!messageText) {
-    console.warn('Message is empty');
+    console.warn("Message is empty");
     return;
   }
 
-  console.log('currentChatUserId:', currentChatUserId);
-  console.log('currentChatUserName:', currentChatUserName);
+  console.log("currentChatUserId:", currentChatUserId);
+  console.log("currentChatUserName:", currentChatUserName);
 
   // Check if we have a current user
   if (!currentChatUserId) {
-    console.error('❌ No user selected for chat');
+    console.error("❌ No user selected for chat");
     return;
   }
 
@@ -1324,56 +1566,56 @@ async function sendMessage() {
   const apiUrl = `${API_BASE_URL}/send-message`;
   const payload = {
     user_id: currentChatUserId,
-    message: messageText
+    message: messageText,
   };
 
-  console.log('API URL:', apiUrl);
-  console.log('Payload:', payload);
+  console.log("API URL:", apiUrl);
+  console.log("Payload:", payload);
 
   // Send message to API
   try {
-    console.log('Starting fetch...');
+    console.log("Starting fetch...");
 
     const response = await fetch(apiUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
 
-    console.log('Response status:', response.status);
-    console.log('Response statusText:', response.statusText);
-    console.log('Response:', response);
+    console.log("Response status:", response.status);
+    console.log("Response statusText:", response.statusText);
+    console.log("Response:", response);
 
     // Get response text first
     const responseText = await response.text();
-    console.log('Response text:', responseText);
+    console.log("Response text:", responseText);
 
     // Try to parse JSON
     let result;
     try {
       result = JSON.parse(responseText);
-      console.log('Parsed result:', result);
+      console.log("Parsed result:", result);
     } catch (parseError) {
-      console.error('❌ JSON parse error:', parseError);
-      console.error('Response was:', responseText);
+      console.error("❌ JSON parse error:", parseError);
+      console.error("Response was:", responseText);
       return;
     }
 
     if (result.success) {
-      console.log('✅ Message saved successfully!');
-      console.log('Data:', result.data);
-      console.log('Message ID:', result.data.message.id);
-      console.log('Task ID:', result.data.task.id);
+      console.log("✅ Message saved successfully!");
+      console.log("Data:", result.data);
+      console.log("Message ID:", result.data.message.id);
+      console.log("Task ID:", result.data.task.id);
     } else {
-      console.error('❌ Failed to save message');
-      console.error('Error message:', result.message);
+      console.error("❌ Failed to save message");
+      console.error("Error message:", result.message);
     }
   } catch (error) {
-    console.error('❌ Error sending message:', error);
-    console.error('Error message:', error.message);
-    console.error('Error stack:', error.stack);
+    console.error("❌ Error sending message:", error);
+    console.error("Error message:", error.message);
+    console.error("Error stack:", error.stack);
   }
 }
 
@@ -1395,51 +1637,80 @@ let scenarioHasUnsavedChanges = false;
 let selectedScenarioTags = new Set();
 let originalScenario = null;
 let isNewScenario = false;
+let defaultScenarioId = null; // 初回メッセージとして設定されたシナリオのID
 
 // LocalStorage functions for scenarios
 function saveScenariosToLocalStorage() {
-  localStorage.setItem('scenarios', JSON.stringify(scenarios));
-  console.log('Scenarios saved to LocalStorage:', scenarios);
+  localStorage.setItem("scenarios", JSON.stringify(scenarios));
+  console.log("Scenarios saved to LocalStorage:", scenarios);
 }
 
 function loadScenariosFromLocalStorage() {
-  const saved = localStorage.getItem('scenarios');
+  const saved = localStorage.getItem("scenarios");
   if (saved) {
     scenarios = JSON.parse(saved).map(normalizeScenarioData);
-    console.log('Scenarios loaded from LocalStorage:', scenarios);
+    console.log("Scenarios loaded from LocalStorage:", scenarios);
   }
   return scenarios;
 }
 
+function saveDefaultScenarioId() {
+  localStorage.setItem(
+    "defaultScenarioId",
+    defaultScenarioId !== null ? String(defaultScenarioId) : ""
+  );
+  console.log("Default scenario ID saved to LocalStorage:", defaultScenarioId);
+}
+
+function loadDefaultScenarioId() {
+  const saved = localStorage.getItem("defaultScenarioId");
+  if (saved && saved !== "") {
+    defaultScenarioId = parseInt(saved, 10);
+    if (Number.isNaN(defaultScenarioId)) {
+      defaultScenarioId = null;
+    }
+  } else {
+    defaultScenarioId = null;
+  }
+  console.log(
+    "Default scenario ID loaded from LocalStorage:",
+    defaultScenarioId
+  );
+  return defaultScenarioId;
+}
+
 function updateScenarioInLocalStorage(scenario) {
-  const index = scenarios.findIndex(s => s.id === scenario.id);
+  const index = scenarios.findIndex((s) => s.id === scenario.id);
   if (index !== -1) {
     scenarios[index] = scenario;
   } else {
     scenarios.push(scenario);
   }
   saveScenariosToLocalStorage();
-  console.log('Scenario updated in LocalStorage:', scenario);
+  console.log("Scenario updated in LocalStorage:", scenario);
 }
 
 function normalizeScenarioData(scenario) {
   if (!scenario) return scenario;
   const clone = JSON.parse(JSON.stringify(scenario));
-  clone.targetType = 'tags';
+  clone.targetType = "tags";
   clone.targetTagIds = Array.isArray(clone.targetTagIds)
-    ? clone.targetTagIds.map(id => parseInt(id, 10)).filter(id => !Number.isNaN(id))
+    ? clone.targetTagIds
+        .map((id) => parseInt(id, 10))
+        .filter((id) => !Number.isNaN(id))
     : [];
   clone.steps = Array.isArray(clone.steps) ? clone.steps : [];
-  clone.steps = clone.steps.map(step => {
+  clone.steps = clone.steps.map((step) => {
     const normalizedStep = { ...step };
-    normalizedStep.timing = step && step.timing === 'scheduled' ? 'scheduled' : 'immediate';
-    normalizedStep.days = normalizedStep.timing === 'scheduled'
-      ? parseInt(step.days, 10) || 0
-      : 0;
-    normalizedStep.time = normalizedStep.timing === 'scheduled'
-      ? (step.time || '09:00')
-      : null;
-    normalizedStep.messages = Array.isArray(step && step.messages) ? step.messages : [];
+    normalizedStep.timing =
+      step && step.timing === "scheduled" ? "scheduled" : "immediate";
+    normalizedStep.days =
+      normalizedStep.timing === "scheduled" ? parseInt(step.days, 10) || 0 : 0;
+    normalizedStep.time =
+      normalizedStep.timing === "scheduled" ? step.time || "09:00" : null;
+    normalizedStep.messages = Array.isArray(step && step.messages)
+      ? step.messages
+      : [];
     return normalizedStep;
   });
   return clone;
@@ -1464,61 +1735,225 @@ function resetScenarioEditingState() {
 
 // Render scenario list in table
 function renderScenarioList() {
-  const tbody = document.getElementById('scenarios-tbody');
+  const tbody = document.getElementById("scenarios-tbody");
   if (!tbody) return;
 
   if (scenarios.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">シナリオがまだ作成されていません</td></tr>';
+    tbody.innerHTML =
+      '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">シナリオがまだ作成されていません</td></tr>';
     return;
   }
 
-  tbody.innerHTML = scenarios.map(scenario => {
-    const statusClass = 'status-active';
-    const deliverySummary = getScenarioDeliverySummary(scenario);
-    const targetSummary = getScenarioTargetSummary(scenario);
-    return `
-      <tr data-scenario-id="${scenario.id}" data-scenario-name="${scenario.name}">
-        <td>${scenario.name}</td>
-        <td>${targetSummary}</td>
-        <td>${deliverySummary}</td>
+  tbody.innerHTML = scenarios
+    .map((scenario) => {
+      const statusClass = "status-active";
+      const deliverySummary = getScenarioDeliverySummary(scenario);
+      const targetSummary = getScenarioTargetSummary(scenario);
+      const isDefault = defaultScenarioId === scenario.id;
+      return `
+      <tr data-scenario-id="${scenario.id}" data-scenario-name="${
+        scenario.name
+      }" class="${isDefault ? "is-default-scenario" : ""}">
+        <td>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span>${escapeHtml(scenario.name)}</span>
+            ${
+              isDefault
+                ? '<span class="badge-default-mini"><i class="fa-solid fa-envelope"></i> 初回メッセージ</span>'
+                : ""
+            }
+          </div>
+        </td>
+        <td>${escapeHtml(targetSummary)}</td>
+        <td>${escapeHtml(deliverySummary)}</td>
         <td><span class="status-badge ${statusClass}">配信中</span></td>
         <td>${scenario.createdAt}</td>
         <td>
-          <button class="btn btn-outline btn-sm scenario-edit-btn" onclick="openScenarioFromList(${scenario.id})">編集</button>
-          <button class="btn btn-secondary btn-sm" onclick="deleteScenario(${scenario.id})">削除</button>
+          <button class="btn btn-outline btn-sm scenario-edit-btn" onclick="openScenarioFromList(${
+            scenario.id
+          })">編集</button>
+          <button class="btn btn-secondary btn-sm" onclick="deleteScenario(${
+            scenario.id
+          })">削除</button>
         </td>
       </tr>
     `;
-  }).join('');
+    })
+    .join("");
+}
+
+function setDefaultScenario(scenarioId) {
+  console.log("setDefaultScenario called with scenarioId:", scenarioId);
+
+  // defaultScenarioIdを更新
+  defaultScenarioId = scenarioId;
+
+  // LocalStorageに保存
+  saveDefaultScenarioId();
+
+  // UIを更新
+  renderDefaultScenarioCard();
+  renderScenarioList();
+
+  console.log("Default scenario set to ID:", scenarioId);
+}
+
+function renderDefaultScenarioCard() {
+  const cardContainer = document.getElementById("default-scenario-card");
+  if (!cardContainer) return;
+
+  // defaultScenarioIdに対応するシナリオを取得
+  const defaultScenario = scenarios.find((s) => s.id === defaultScenarioId);
+
+  if (!defaultScenario) {
+    // 未設定の場合 - ドロップダウンを表示
+    const scenarioOptions = scenarios
+      .map((scenario) => {
+        const deliverySummary = getScenarioDeliverySummary(scenario);
+        const targetSummary = getScenarioTargetSummary(scenario);
+        return `
+        <div class="scenario-select-option" onclick="setDefaultScenario(${
+          scenario.id
+        })">
+          <div class="scenario-select-name">${escapeHtml(scenario.name)}</div>
+          <div class="scenario-select-details">
+            <span><i class="fa-solid fa-tags"></i> ${escapeHtml(
+              targetSummary
+            )}</span>
+            <span><i class="fa-solid fa-clock"></i> ${escapeHtml(
+              deliverySummary
+            )}</span>
+          </div>
+        </div>
+      `;
+      })
+      .join("");
+
+    cardContainer.innerHTML = `
+      <div class="default-scenario-empty">
+        <div class="empty-state-content">
+          <i class="fa-solid fa-envelope-open-text" style="font-size: 48px; color: #00b900; margin-bottom: 16px;"></i>
+          <p class="empty-message">初回メッセージを選択してください</p>
+          <p class="empty-description">友だち追加時に送信されるメッセージを設定できます</p>
+        </div>
+        ${
+          scenarios.length > 0
+            ? `
+          <div class="scenario-selector">
+            <div class="scenario-select-label">
+              <i class="fa-solid fa-hand-pointer"></i> 以下からシナリオを選択
+            </div>
+            <div class="scenario-select-list">
+              ${scenarioOptions}
+            </div>
+          </div>
+        `
+            : `
+          <div class="empty-state-action">
+            <p style="color: #999; margin-bottom: 12px;">まずステップ配信を作成してください</p>
+            <button class="btn btn-primary" onclick="document.getElementById('scenario-new-btn').click()">
+              <i class="fa-solid fa-plus"></i> 新規作成
+            </button>
+          </div>
+        `
+        }
+      </div>
+    `;
+    return;
+  }
+
+  // 設定済みの場合
+  const deliverySummary = getScenarioDeliverySummary(defaultScenario);
+  const targetSummary = getScenarioTargetSummary(defaultScenario);
+
+  cardContainer.innerHTML = `
+    <div class="default-scenario-content">
+      <div class="default-scenario-info">
+        <div class="default-scenario-badge">
+          <i class="fa-solid fa-check-circle"></i> 設定中
+        </div>
+        <h3 class="default-scenario-name">${escapeHtml(
+          defaultScenario.name
+        )}</h3>
+        <div class="default-scenario-details">
+          <div class="detail-item">
+            <i class="fa-solid fa-tags"></i>
+            <span class="detail-label">配信対象:</span>
+            <span class="detail-value">${escapeHtml(targetSummary)}</span>
+          </div>
+          <div class="detail-item">
+            <i class="fa-solid fa-clock"></i>
+            <span class="detail-label">配信タイミング:</span>
+            <span class="detail-value">${escapeHtml(deliverySummary)}</span>
+          </div>
+        </div>
+      </div>
+      <div class="default-scenario-actions">
+        <button class="btn btn-outline btn-sm" onclick="showDefaultScenarioSelector()">
+          <i class="fa-solid fa-repeat"></i> 変更
+        </button>
+        <button class="btn btn-outline btn-sm" onclick="openScenarioFromList(${
+          defaultScenario.id
+        })">
+          <i class="fa-solid fa-pen"></i> 編集
+        </button>
+        <button class="btn btn-secondary btn-sm" onclick="clearDefaultScenario()">
+          <i class="fa-solid fa-times"></i> 解除
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function showDefaultScenarioSelector() {
+  // 一時的に初回メッセージをクリアしてドロップダウンを表示
+  const previousId = defaultScenarioId;
+  defaultScenarioId = null;
+  renderDefaultScenarioCard();
+}
+
+function clearDefaultScenario() {
+  if (confirm("初回メッセージの設定を解除しますか？")) {
+    defaultScenarioId = null;
+    saveDefaultScenarioId();
+    renderDefaultScenarioCard();
+    renderScenarioList();
+  }
 }
 
 function getScenarioDeliverySummary(scenario) {
-  if (!scenario || !Array.isArray(scenario.steps) || scenario.steps.length === 0) {
-    return '未設定';
+  if (
+    !scenario ||
+    !Array.isArray(scenario.steps) ||
+    scenario.steps.length === 0
+  ) {
+    return "未設定";
   }
 
-  const immediateStep = scenario.steps.find(step => !step.timing || step.timing === 'immediate');
+  const immediateStep = scenario.steps.find(
+    (step) => !step.timing || step.timing === "immediate"
+  );
   if (immediateStep) {
-    return '開始直後';
+    return "開始直後";
   }
 
   const scheduledSteps = scenario.steps
-    .filter(step => step.timing === 'scheduled')
-    .map(step => ({
+    .filter((step) => step.timing === "scheduled")
+    .map((step) => ({
       days: Number.isFinite(step.days) ? step.days : parseInt(step.days, 10),
-      time: step.time || '時間未設定'
+      time: step.time || "時間未設定",
     }))
-    .filter(step => !Number.isNaN(step.days));
+    .filter((step) => !Number.isNaN(step.days));
 
   if (scheduledSteps.length === 0) {
-    return '未設定';
+    return "未設定";
   }
 
   scheduledSteps.sort((a, b) => {
     if (a.days !== b.days) {
       return a.days - b.days;
     }
-    return (a.time || '').localeCompare(b.time || '');
+    return (a.time || "").localeCompare(b.time || "");
   });
 
   const first = scheduledSteps[0];
@@ -1526,43 +1961,45 @@ function getScenarioDeliverySummary(scenario) {
 }
 
 function getScenarioTargetSummary(scenario) {
-  if (!scenario) return '未設定';
+  if (!scenario) return "未設定";
 
-  if (scenario.targetType === 'all') {
-    return '友だち全員';
+  if (scenario.targetType === "all") {
+    return "友だち全員";
   }
 
-  const tagIds = Array.isArray(scenario.targetTagIds) ? scenario.targetTagIds : [];
+  const tagIds = Array.isArray(scenario.targetTagIds)
+    ? scenario.targetTagIds
+    : [];
   if (tagIds.length === 0) {
-    return 'タグ未選択';
+    return "タグ未選択";
   }
 
   const allTags = getAllTags();
   const tagNames = tagIds
-    .map(id => allTags.find(tag => tag.id === id))
+    .map((id) => allTags.find((tag) => tag.id === id))
     .filter(Boolean)
-    .map(tag => tag.name);
+    .map((tag) => tag.name);
 
   if (tagNames.length === 0) {
-    return 'タグ未選択';
+    return "タグ未選択";
   }
 
-  return tagNames.join(', ');
+  return tagNames.join(", ");
 }
 
 function formatScenarioStepTiming(step) {
-  if (!step) return '未設定';
-  if (step.timing === 'scheduled') {
+  if (!step) return "未設定";
+  if (step.timing === "scheduled") {
     const days = parseInt(step.days, 10) || 0;
-    const time = step.time || '時間未設定';
+    const time = step.time || "時間未設定";
     return `ステップ開始から${days}日後 ${time}`;
   }
-  return 'ステップ開始直後';
+  return "ステップ開始直後";
 }
 
 // Open scenario from list
 function openScenarioFromList(id) {
-  const scenario = scenarios.find(s => s.id === id);
+  const scenario = scenarios.find((s) => s.id === id);
   if (scenario) {
     showScenarioDetailPage(scenario);
   }
@@ -1570,9 +2007,27 @@ function openScenarioFromList(id) {
 
 // Delete scenario
 function deleteScenario(id) {
-  if (!confirm('このシナリオを削除しますか？')) return;
-  scenarios = scenarios.filter(s => s.id !== id);
+  // Check if this scenario is set as the default initial message
+  const isDefaultScenario = defaultScenarioId === id;
+
+  let confirmMessage = "このシナリオを削除しますか？";
+  if (isDefaultScenario) {
+    confirmMessage = "このシナリオは初回メッセージに設定されています。\n削除すると初回メッセージの設定が解除されます。\n\n削除してもよろしいですか？";
+  }
+
+  if (!confirm(confirmMessage)) return;
+
+  // Delete the scenario
+  scenarios = scenarios.filter((s) => s.id !== id);
   saveScenariosToLocalStorage();
+
+  // If this was the default scenario, clear it
+  if (isDefaultScenario) {
+    defaultScenarioId = null;
+    saveDefaultScenarioId();
+    renderDefaultScenarioCard();
+  }
+
   renderScenarioList();
 }
 
@@ -1642,10 +2097,10 @@ function handleScenarioCreation() {
   const newScenario = {
     id: Date.now(),
     name: scenarioName,
-    createdAt: new Date().toLocaleDateString('ja-JP'),
+    createdAt: new Date().toLocaleDateString("ja-JP"),
     steps: [],
-    targetType: 'tags',
-    targetTagIds: []
+    targetType: "tags",
+    targetTagIds: [],
   };
 
   const normalizedScenario = normalizeScenarioData(newScenario);
@@ -1714,7 +2169,7 @@ function initializeScenarioEditModal() {
       if (scenarioRow) {
         // Get scenario ID and find the scenario data
         const scenarioId = scenarioRow.getAttribute("data-scenario-id");
-        const scenario = scenarios.find(s => s.id == scenarioId);
+        const scenario = scenarios.find((s) => s.id == scenarioId);
 
         if (scenario) {
           // Navigate to scenario detail page instead of opening modal
@@ -1724,8 +2179,8 @@ function initializeScenarioEditModal() {
           const fallbackScenario = {
             id: scenarioId,
             name: scenarioRow.getAttribute("data-scenario-name"),
-            createdAt: new Date().toLocaleDateString('ja-JP'),
-            steps: []
+            createdAt: new Date().toLocaleDateString("ja-JP"),
+            steps: [],
           };
           showScenarioDetailPage(fallbackScenario);
         }
@@ -1909,16 +2364,16 @@ let friendSelectionInitialized = false;
 
 // Sample friends data (in a real app, this would come from an API)
 const sampleFriendsData = [
-  { id: 'U001234', name: '田中太郎', avatar: '田' },
-  { id: 'U005678', name: '佐藤花子', avatar: '佐' },
-  { id: 'U009876', name: '山田次郎', avatar: '山' },
-  { id: 'U005432', name: '鈴木美咲', avatar: '鈴' },
-  { id: 'U001122', name: '高橋健太', avatar: '高' },
-  { id: 'U003344', name: '伊藤麻衣', avatar: '伊' },
-  { id: 'U005566', name: '渡辺晴彦', avatar: '渡' },
-  { id: 'U007788', name: '中村優子', avatar: '中' },
-  { id: 'U009900', name: '小林大輔', avatar: '小' },
-  { id: 'U001199', name: '加藤美穂', avatar: '加' }
+  { id: "U001234", name: "田中太郎", avatar: "田" },
+  { id: "U005678", name: "佐藤花子", avatar: "佐" },
+  { id: "U009876", name: "山田次郎", avatar: "山" },
+  { id: "U005432", name: "鈴木美咲", avatar: "鈴" },
+  { id: "U001122", name: "高橋健太", avatar: "高" },
+  { id: "U003344", name: "伊藤麻衣", avatar: "伊" },
+  { id: "U005566", name: "渡辺晴彦", avatar: "渡" },
+  { id: "U007788", name: "中村優子", avatar: "中" },
+  { id: "U009900", name: "小林大輔", avatar: "小" },
+  { id: "U001199", name: "加藤美穂", avatar: "加" },
 ];
 
 function initializeFriendSelection() {
@@ -1937,13 +2392,13 @@ function initializeFriendSelection() {
 }
 
 function setupFriendSelectionEventListeners() {
-  const searchInput = document.getElementById('friend-search');
-  const selectAllBtn = document.getElementById('select-all-friends');
-  const deselectAllBtn = document.getElementById('deselect-all-friends');
+  const searchInput = document.getElementById("friend-search");
+  const selectAllBtn = document.getElementById("select-all-friends");
+  const deselectAllBtn = document.getElementById("deselect-all-friends");
 
   // Search functionality
   if (searchInput) {
-    searchInput.addEventListener('input', function() {
+    searchInput.addEventListener("input", function () {
       const searchTerm = this.value.toLowerCase();
       filterFriendsList(searchTerm);
     });
@@ -1951,28 +2406,28 @@ function setupFriendSelectionEventListeners() {
 
   // Select all button
   if (selectAllBtn) {
-    selectAllBtn.addEventListener('click', function() {
+    selectAllBtn.addEventListener("click", function () {
       selectAllVisibleFriends();
     });
   }
 
   // Deselect all button
   if (deselectAllBtn) {
-    deselectAllBtn.addEventListener('click', function() {
+    deselectAllBtn.addEventListener("click", function () {
       deselectAllFriends();
     });
   }
 }
 
 function renderFriendsList(filteredFriends = null) {
-  const friendsList = document.getElementById('friends-selection-list');
+  const friendsList = document.getElementById("friends-selection-list");
   if (!friendsList) return;
 
   const friendsToRender = filteredFriends || friendsData;
 
-  friendsList.innerHTML = '';
+  friendsList.innerHTML = "";
 
-  friendsToRender.forEach(friend => {
+  friendsToRender.forEach((friend) => {
     const friendItem = createFriendSelectionItem(friend);
     friendsList.appendChild(friendItem);
   });
@@ -1981,17 +2436,19 @@ function renderFriendsList(filteredFriends = null) {
 }
 
 function createFriendSelectionItem(friend) {
-  const itemDiv = document.createElement('div');
-  itemDiv.className = 'friend-selection-item';
-  itemDiv.setAttribute('data-friend-id', friend.id);
+  const itemDiv = document.createElement("div");
+  itemDiv.className = "friend-selection-item";
+  itemDiv.setAttribute("data-friend-id", friend.id);
 
   const isSelected = selectedFriends.has(friend.id);
   if (isSelected) {
-    itemDiv.classList.add('selected');
+    itemDiv.classList.add("selected");
   }
 
   itemDiv.innerHTML = `
-    <input type="checkbox" class="friend-checkbox" ${isSelected ? 'checked' : ''}>
+    <input type="checkbox" class="friend-checkbox" ${
+      isSelected ? "checked" : ""
+    }>
     <div class="friend-selection-avatar">${friend.avatar}</div>
     <div class="friend-selection-info">
       <div class="friend-selection-name">${friend.name}</div>
@@ -2000,13 +2457,13 @@ function createFriendSelectionItem(friend) {
   `;
 
   // Add click event listener
-  itemDiv.addEventListener('click', function() {
+  itemDiv.addEventListener("click", function () {
     toggleFriendSelection(friend.id);
   });
 
   // Prevent checkbox click from bubbling
-  const checkbox = itemDiv.querySelector('.friend-checkbox');
-  checkbox.addEventListener('click', function(e) {
+  const checkbox = itemDiv.querySelector(".friend-checkbox");
+  checkbox.addEventListener("click", function (e) {
     e.stopPropagation();
     toggleFriendSelection(friend.id);
   });
@@ -2016,15 +2473,15 @@ function createFriendSelectionItem(friend) {
 
 function toggleFriendSelection(friendId) {
   const friendItem = document.querySelector(`[data-friend-id="${friendId}"]`);
-  const checkbox = friendItem.querySelector('.friend-checkbox');
+  const checkbox = friendItem.querySelector(".friend-checkbox");
 
   if (selectedFriends.has(friendId)) {
     selectedFriends.delete(friendId);
-    friendItem.classList.remove('selected');
+    friendItem.classList.remove("selected");
     checkbox.checked = false;
   } else {
     selectedFriends.add(friendId);
-    friendItem.classList.add('selected');
+    friendItem.classList.add("selected");
     checkbox.checked = true;
   }
 
@@ -2032,14 +2489,14 @@ function toggleFriendSelection(friendId) {
 }
 
 function selectAllVisibleFriends() {
-  const visibleItems = document.querySelectorAll('.friend-selection-item');
+  const visibleItems = document.querySelectorAll(".friend-selection-item");
 
-  visibleItems.forEach(item => {
-    const friendId = item.getAttribute('data-friend-id');
+  visibleItems.forEach((item) => {
+    const friendId = item.getAttribute("data-friend-id");
     if (!selectedFriends.has(friendId)) {
       selectedFriends.add(friendId);
-      item.classList.add('selected');
-      item.querySelector('.friend-checkbox').checked = true;
+      item.classList.add("selected");
+      item.querySelector(".friend-checkbox").checked = true;
     }
   });
 
@@ -2049,10 +2506,10 @@ function selectAllVisibleFriends() {
 function deselectAllFriends() {
   selectedFriends.clear();
 
-  const allItems = document.querySelectorAll('.friend-selection-item');
-  allItems.forEach(item => {
-    item.classList.remove('selected');
-    item.querySelector('.friend-checkbox').checked = false;
+  const allItems = document.querySelectorAll(".friend-selection-item");
+  allItems.forEach((item) => {
+    item.classList.remove("selected");
+    item.querySelector(".friend-checkbox").checked = false;
   });
 
   updateSelectedCount();
@@ -2064,16 +2521,17 @@ function filterFriendsList(searchTerm) {
     return;
   }
 
-  const filteredFriends = friendsData.filter(friend =>
-    friend.name.toLowerCase().includes(searchTerm) ||
-    friend.id.toLowerCase().includes(searchTerm)
+  const filteredFriends = friendsData.filter(
+    (friend) =>
+      friend.name.toLowerCase().includes(searchTerm) ||
+      friend.id.toLowerCase().includes(searchTerm)
   );
 
   renderFriendsList(filteredFriends);
 }
 
 function updateSelectedCount() {
-  const countElement = document.getElementById('selected-friends-count');
+  const countElement = document.getElementById("selected-friends-count");
   if (countElement) {
     countElement.textContent = selectedFriends.size;
   }
@@ -2081,106 +2539,110 @@ function updateSelectedCount() {
 
 // Helper function to get selected friends data
 function getSelectedFriendsData() {
-  return friendsData.filter(friend => selectedFriends.has(friend.id));
+  return friendsData.filter((friend) => selectedFriends.has(friend.id));
 }
 
 // ===== Broadcast Function =====
 async function sendBroadcast() {
-  console.log('=== sendBroadcast() called ===');
+  console.log("=== sendBroadcast() called ===");
 
-  const titleInput = document.getElementById('broadcast-title');
-  const messageInput = document.getElementById('broadcast-message');
+  const titleInput = document.getElementById("broadcast-title");
+  const messageInput = document.getElementById("broadcast-message");
 
   if (!titleInput || !messageInput) {
-    console.error('❌ Input elements not found');
-    alert('エラー: 入力フォームが見つかりません');
+    console.error("❌ Input elements not found");
+    alert("エラー: 入力フォームが見つかりません");
     return;
   }
 
   const broadcastTitle = titleInput.value.trim();
   const message = messageInput.value.trim();
 
-  console.log('Broadcast title:', broadcastTitle);
-  console.log('Message:', message);
+  console.log("Broadcast title:", broadcastTitle);
+  console.log("Message:", message);
 
   // Validation
   if (!broadcastTitle) {
-    console.warn('⚠️ Broadcast title is empty');
-    alert('配信タイトルを入力してください');
+    console.warn("⚠️ Broadcast title is empty");
+    alert("配信タイトルを入力してください");
     return;
   }
 
   if (!message) {
-    console.warn('⚠️ Message is empty');
-    alert('メッセージ内容を入力してください');
+    console.warn("⚠️ Message is empty");
+    alert("メッセージ内容を入力してください");
     return;
   }
 
   // Confirmation
-  const confirmed = confirm(`一斉配信を送信します。よろしいですか?\n\nタイトル: ${broadcastTitle}\nメッセージ: ${message}`);
+  const confirmed = confirm(
+    `一斉配信を送信します。よろしいですか?\n\nタイトル: ${broadcastTitle}\nメッセージ: ${message}`
+  );
   if (!confirmed) {
-    console.log('User cancelled broadcast');
+    console.log("User cancelled broadcast");
     return;
   }
 
   const apiUrl = `${API_BASE_URL}/broadcast`;
   const payload = {
     broadcast_title: broadcastTitle,
-    message: message
+    message: message,
   };
 
-  console.log('API URL:', apiUrl);
-  console.log('Payload:', payload);
+  console.log("API URL:", apiUrl);
+  console.log("Payload:", payload);
 
   try {
-    console.log('Starting fetch...');
+    console.log("Starting fetch...");
 
     const response = await fetch(apiUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
 
-    console.log('Response status:', response.status);
-    console.log('Response statusText:', response.statusText);
+    console.log("Response status:", response.status);
+    console.log("Response statusText:", response.statusText);
 
     const responseText = await response.text();
-    console.log('Response text:', responseText);
+    console.log("Response text:", responseText);
 
     let result;
     try {
       result = JSON.parse(responseText);
-      console.log('Parsed result:', result);
+      console.log("Parsed result:", result);
     } catch (parseError) {
-      console.error('❌ JSON parse error:', parseError);
-      console.error('Response was:', responseText);
-      alert('エラー: サーバーからの応答が不正です');
+      console.error("❌ JSON parse error:", parseError);
+      console.error("Response was:", responseText);
+      alert("エラー: サーバーからの応答が不正です");
       return;
     }
 
     if (result.success) {
-      console.log('✅ Broadcast sent successfully!');
-      console.log('Total users:', result.data.total_users);
-      console.log('Messages created:', result.data.messages_created);
-      console.log('Tasks created:', result.data.tasks_created);
+      console.log("✅ Broadcast sent successfully!");
+      console.log("Total users:", result.data.total_users);
+      console.log("Messages created:", result.data.messages_created);
+      console.log("Tasks created:", result.data.tasks_created);
 
-      alert(`一斉配信が送信されました!\n\n対象ユーザー数: ${result.data.total_users}人\nメッセージ作成数: ${result.data.messages_created}件\nタスク作成数: ${result.data.tasks_created}件`);
+      alert(
+        `一斉配信が送信されました!\n\n対象ユーザー数: ${result.data.total_users}人\nメッセージ作成数: ${result.data.messages_created}件\nタスク作成数: ${result.data.tasks_created}件`
+      );
 
       // Clear form
-      titleInput.value = '';
-      messageInput.value = '';
+      titleInput.value = "";
+      messageInput.value = "";
     } else {
-      console.error('❌ Failed to send broadcast');
-      console.error('Error message:', result.message);
-      alert('一斉配信の送信に失敗しました: ' + result.message);
+      console.error("❌ Failed to send broadcast");
+      console.error("Error message:", result.message);
+      alert("一斉配信の送信に失敗しました: " + result.message);
     }
   } catch (error) {
-    console.error('❌ Error sending broadcast:', error);
-    console.error('Error message:', error.message);
-    console.error('Error stack:', error.stack);
-    alert('一斉配信の送信中にエラーが発生しました: ' + error.message);
+    console.error("❌ Error sending broadcast:", error);
+    console.error("Error message:", error.message);
+    console.error("Error stack:", error.stack);
+    alert("一斉配信の送信中にエラーが発生しました: " + error.message);
   }
 }
 
@@ -2192,39 +2654,42 @@ const API_BASE_URL = `${window.location.protocol}//${window.location.host}/api`;
 async function fetchUsers() {
   // モックデータを返す
   const friends = getMockFriends();
-  return friends.map(friend => ({
+  return friends.map((friend) => ({
     id: friend.id,
     user_name: friend.name,
     uuid: friend.lineId,
     created_at: friend.registeredAt,
     tags: friend.tags,
-    memo: friend.memo
+    memo: friend.memo,
   }));
 }
 
 // Load users and display in individual page
-async function loadIndividualPageUsers(filter = 'all') {
-  const friendsListContainer = document.querySelector('#individual-page .friends-list');
+async function loadIndividualPageUsers(filter = "all") {
+  const friendsListContainer = document.querySelector(
+    "#individual-page .friends-list"
+  );
 
   if (!friendsListContainer) {
-    console.error('Friends list container not found');
+    console.error("Friends list container not found");
     return;
   }
 
   // Show loading state
-  friendsListContainer.innerHTML = '<div style="padding: 20px; text-align: center;">読み込み中...</div>';
+  friendsListContainer.innerHTML =
+    '<div style="padding: 20px; text-align: center;">読み込み中...</div>';
 
   try {
     let users = await fetchUsers();
 
     // Apply filters
-    if (filter === 'unread') {
-      users = users.filter(user => getUserReadStatus(user.id) === 'unread');
-    } else if (filter === 'read') {
-      users = users.filter(user => getUserReadStatus(user.id) === 'read');
-    } else if (filter === 'bookmarked') {
+    if (filter === "unread") {
+      users = users.filter((user) => getUserReadStatus(user.id) === "unread");
+    } else if (filter === "read") {
+      users = users.filter((user) => getUserReadStatus(user.id) === "read");
+    } else if (filter === "bookmarked") {
       const bookmarks = getBookmarkedFriends();
-      users = users.filter(user => bookmarks[user.id] === true);
+      users = users.filter((user) => bookmarks[user.id] === true);
     }
     // 'all' の場合はフィルタリングしない（全ユーザーを表示）
 
@@ -2239,59 +2704,74 @@ async function loadIndividualPageUsers(filter = 'all') {
 
     // Render users
     if (users.length === 0) {
-      friendsListContainer.innerHTML = '<div style="padding: 20px; text-align: center;">友だちが見つかりません</div>';
+      friendsListContainer.innerHTML =
+        '<div style="padding: 20px; text-align: center;">友だちが見つかりません</div>';
       return;
     }
 
     // Fetch latest messages for all users
-    const usersWithLastMessage = await Promise.all(users.map(async (user) => {
-      const messages = await fetchMessages(user.id);
-      const latestMessage = messages.length > 0 ? messages[messages.length - 1] : null;
-      return { ...user, latestMessage };
-    }));
+    const usersWithLastMessage = await Promise.all(
+      users.map(async (user) => {
+        const messages = await fetchMessages(user.id);
+        const latestMessage =
+          messages.length > 0 ? messages[messages.length - 1] : null;
+        return { ...user, latestMessage };
+      })
+    );
 
-    friendsListContainer.innerHTML = usersWithLastMessage.map(user => {
-      // システム表示名が設定されていない場合はLINE名を表示
-      const displayName = getUserSystemDisplayName(user.id, user.user_name);
-      const avatar = displayName.charAt(0);
+    friendsListContainer.innerHTML = usersWithLastMessage
+      .map((user) => {
+        // システム表示名が設定されていない場合はLINE名を表示
+        const displayName = getUserSystemDisplayName(user.id, user.user_name);
+        const avatar = displayName.charAt(0);
 
-      const isUnread = getUserReadStatus(user.id) === 'unread';
-      const unreadIndicator = isUnread ? '<span class="unread-indicator"></span>' : '';
-      const userBookmarked = isBookmarked(user.id);
-      const bookmarkIconHTML = userBookmarked ? '<i class="friend-bookmark-icon fa-solid fa-bookmark"></i>' : '';
+        const isUnread = getUserReadStatus(user.id) === "unread";
+        const unreadIndicator = isUnread
+          ? '<span class="unread-indicator"></span>'
+          : "";
+        const userBookmarked = isBookmarked(user.id);
+        const bookmarkIconHTML = userBookmarked
+          ? '<i class="friend-bookmark-icon fa-solid fa-bookmark"></i>'
+          : "";
 
-      // Format last message content and time
-      let lastMessageContent = '';
-      let lastMessageTime = '';
+        // Format last message content and time
+        let lastMessageContent = "";
+        let lastMessageTime = "";
 
-      if (user.latestMessage) {
-        // メッセージ内容（長い場合は省略）
-        lastMessageContent = user.latestMessage.message.length > 30
-          ? user.latestMessage.message.substring(0, 30) + '...'
-          : user.latestMessage.message;
+        if (user.latestMessage) {
+          // メッセージ内容（長い場合は省略）
+          lastMessageContent =
+            user.latestMessage.message.length > 30
+              ? user.latestMessage.message.substring(0, 30) + "..."
+              : user.latestMessage.message;
 
-        // 日時（今日の場合は時刻のみ、それ以外は日付も表示）
-        const lastMessageDate = new Date(user.latestMessage.created_at);
-        const today = new Date();
-        const isToday = lastMessageDate.toDateString() === today.toDateString();
+          // 日時（今日の場合は時刻のみ、それ以外は日付も表示）
+          const lastMessageDate = new Date(user.latestMessage.created_at);
+          const today = new Date();
+          const isToday =
+            lastMessageDate.toDateString() === today.toDateString();
 
-        if (isToday) {
-          lastMessageTime = lastMessageDate.toLocaleString('ja-JP', {
-            hour: '2-digit',
-            minute: '2-digit'
-          });
+          if (isToday) {
+            lastMessageTime = lastMessageDate.toLocaleString("ja-JP", {
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+          } else {
+            lastMessageTime = lastMessageDate.toLocaleString("ja-JP", {
+              month: "2-digit",
+              day: "2-digit",
+            });
+          }
         } else {
-          lastMessageTime = lastMessageDate.toLocaleString('ja-JP', {
-            month: '2-digit',
-            day: '2-digit'
-          });
+          lastMessageContent = "まだやりとりがありません";
         }
-      } else {
-        lastMessageContent = 'まだやりとりがありません';
-      }
 
-      return `
-        <div class="friend-item" data-user-id="${user.id}" onclick="selectFriend(${user.id}, '${user.user_name}', '${user.uuid}', '${user.created_at}', this)">
+        return `
+        <div class="friend-item" data-user-id="${
+          user.id
+        }" onclick="selectFriend(${user.id}, '${user.user_name}', '${
+          user.uuid
+        }', '${user.created_at}', this)">
           <div class="friend-avatar">${avatar}</div>
           <div class="friend-info">
             <div class="friend-name">${displayName}</div>
@@ -2299,16 +2779,21 @@ async function loadIndividualPageUsers(filter = 'all') {
               <span class="message-preview">${lastMessageContent}</span>
             </div>
           </div>
-          ${lastMessageTime ? `<div class="friend-time">${lastMessageTime}</div>` : ''}
+          ${
+            lastMessageTime
+              ? `<div class="friend-time">${lastMessageTime}</div>`
+              : ""
+          }
           ${bookmarkIconHTML}
           ${unreadIndicator}
         </div>
       `;
-    }).join('');
-
+      })
+      .join("");
   } catch (error) {
-    console.error('Error loading users:', error);
-    friendsListContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: red;">エラーが発生しました</div>';
+    console.error("Error loading users:", error);
+    friendsListContainer.innerHTML =
+      '<div style="padding: 20px; text-align: center; color: red;">エラーが発生しました</div>';
   }
 }
 
@@ -2316,31 +2801,31 @@ async function loadIndividualPageUsers(filter = 'all') {
 async function fetchMessages(userId) {
   // モックデータを返す
   const messages = getMockMessages(userId);
-  return messages.map(msg => ({
+  return messages.map((msg) => ({
     id: msg.id,
     user_id: userId,
     message: msg.content,
-    is_from_admin: msg.sender === 'admin',
-    created_at: msg.timestamp
+    is_from_admin: msg.sender === "admin",
+    created_at: msg.timestamp,
   }));
 }
 
 // Select friend and show chat in center column
 async function selectFriend(userId, userName, uuid, createdAt, friendElement) {
   // Save current draft before switching
-  const chatInput = document.getElementById('individual-chat-input');
+  const chatInput = document.getElementById("individual-chat-input");
   if (currentChatUserId && chatInput) {
     userDraftMessages[currentChatUserId] = chatInput.value;
   }
 
   // Remove selected class from all friend items
-  document.querySelectorAll('.friend-item').forEach(item => {
-    item.classList.remove('selected');
+  document.querySelectorAll(".friend-item").forEach((item) => {
+    item.classList.remove("selected");
   });
 
   // Add selected class to clicked friend
   if (friendElement) {
-    friendElement.classList.add('selected');
+    friendElement.classList.add("selected");
   }
 
   // Store current user info globally
@@ -2348,11 +2833,11 @@ async function selectFriend(userId, userName, uuid, createdAt, friendElement) {
   currentChatUserName = userName;
 
   // Update center column - chat header
-  const chatUserName = document.getElementById('individual-chat-user-name');
-  const chatUserId = document.getElementById('individual-chat-user-id');
-  const chatAvatar = document.getElementById('individual-chat-avatar');
-  const chatMessages = document.getElementById('individual-chat-messages');
-  const chatInputArea = document.getElementById('individual-chat-input-area');
+  const chatUserName = document.getElementById("individual-chat-user-name");
+  const chatUserId = document.getElementById("individual-chat-user-id");
+  const chatAvatar = document.getElementById("individual-chat-avatar");
+  const chatMessages = document.getElementById("individual-chat-messages");
+  const chatInputArea = document.getElementById("individual-chat-input-area");
 
   // Set user info - システム表示名が設定されていない場合はLINE名を表示
   const displayName = getUserSystemDisplayName(userId, userName);
@@ -2361,27 +2846,28 @@ async function selectFriend(userId, userName, uuid, createdAt, friendElement) {
 
   // Show loading state
   if (chatMessages) {
-    chatMessages.innerHTML = '<div style="padding: 20px; text-align: center;">メッセージを読み込み中...</div>';
+    chatMessages.innerHTML =
+      '<div style="padding: 20px; text-align: center;">メッセージを読み込み中...</div>';
   }
 
   // Show chat input area and restore draft
   if (chatInputArea) {
-    chatInputArea.style.display = 'block';
+    chatInputArea.style.display = "block";
   }
 
   // Restore draft message for this user
   if (chatInput) {
-    chatInput.value = userDraftMessages[userId] || '';
-    chatInput.style.height = '44px';
+    chatInput.value = userDraftMessages[userId] || "";
+    chatInput.style.height = "44px";
     if (chatInput.value) {
-      chatInput.style.height = chatInput.scrollHeight + 'px';
+      chatInput.style.height = chatInput.scrollHeight + "px";
     }
   }
 
   // Show and update bookmark button
-  const chatHeaderActions = document.getElementById('chat-header-actions');
+  const chatHeaderActions = document.getElementById("chat-header-actions");
   if (chatHeaderActions) {
-    chatHeaderActions.style.display = 'flex';
+    chatHeaderActions.style.display = "flex";
   }
   updateChatHeaderBookmark(userId);
 
@@ -2400,60 +2886,70 @@ async function selectFriend(userId, userName, uuid, createdAt, friendElement) {
     const messages = await fetchMessages(userId);
     renderIndividualMessages(messages);
   } catch (error) {
-    console.error('Error loading messages:', error);
+    console.error("Error loading messages:", error);
     if (chatMessages) {
-      chatMessages.innerHTML = '<div style="padding: 20px; text-align: center; color: red;">メッセージの読み込みに失敗しました</div>';
+      chatMessages.innerHTML =
+        '<div style="padding: 20px; text-align: center; color: red;">メッセージの読み込みに失敗しました</div>';
     }
   }
 }
 
 // Update user info in right column
 function updateUserInfo(userId, userName, uuid, createdAt) {
-  const userInfoContent = document.getElementById('individual-user-info');
+  const userInfoContent = document.getElementById("individual-user-info");
   if (!userInfoContent) return;
 
-  const formattedDate = new Date(createdAt).toLocaleDateString('ja-JP', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit'
+  const formattedDate = new Date(createdAt).toLocaleDateString("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
   });
 
   // 仮データ（後でAPIから取得する想定）
   const lineName = userName; // LINE名（仮）
-  const stepDeliveries = ['ウェルカムシーケンス', '商品紹介ステップ', 'フォローアップステップ']; // 送信したステップ配信のタイトル（仮）
+  const stepDeliveries = [
+    "ウェルカムシーケンス",
+    "商品紹介ステップ",
+    "フォローアップステップ",
+  ]; // 送信したステップ配信のタイトル（仮）
   const systemDisplayName = getUserSystemDisplayName(userId, userName); // システム表示名
 
   // ステップ配信のタイトルリストHTML生成
-  const stepDeliveriesHtml = stepDeliveries.map(title =>
-    `<div class="step-delivery-item">${title}</div>`
-  ).join('');
+  const stepDeliveriesHtml = stepDeliveries
+    .map((title) => `<div class="step-delivery-item">${title}</div>`)
+    .join("");
 
   // Get memo for this user
   const memo = getUserMemo(userId);
-  const memoDisplay = memo || 'メモを追加...';
+  const memoDisplay = memo || "メモを追加...";
 
   // Get tags for this user
   const allTags = getAllTags();
   const userTagIds = getUserTags(userId);
 
-  let tagsHtml = '';
+  let tagsHtml = "";
   if (allTags.length === 0) {
-    tagsHtml = '<div class="empty-state-small"><p>タグが作成されていません</p></div>';
+    tagsHtml =
+      '<div class="empty-state-small"><p>タグが作成されていません</p></div>';
   } else {
     tagsHtml = `
       <div class="tag-selection-list">
-        ${allTags.map(tag => {
-          const isTransparent = tag.color === 'transparent';
-          const styleAttr = isTransparent
-            ? 'background-color: transparent; border: 1px solid #ddd; color: #333;'
-            : `background-color: ${tag.color};`;
-          return `
+        ${allTags
+          .map((tag) => {
+            const isTransparent = tag.color === "transparent";
+            const styleAttr = isTransparent
+              ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
+              : `background-color: ${tag.color};`;
+            return `
             <label class="tag-checkbox-item">
-              <input type="checkbox" value="${tag.id}" ${userTagIds.includes(tag.id) ? 'checked' : ''}>
+              <input type="checkbox" value="${tag.id}" ${
+              userTagIds.includes(tag.id) ? "checked" : ""
+            }>
               <span class="tag-badge" style="${styleAttr}">${tag.name}</span>
             </label>
           `;
-        }).join('')}
+          })
+          .join("")}
       </div>
       <div class="tags-save-button-container" style="margin-top: 16px;">
         <button class="btn btn-primary" onclick="saveUserTagsFromBasicInfo(${userId})">保存</button>
@@ -2483,14 +2979,19 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
       <div class="user-info-label">ステップ</div>
       <div class="user-info-value">
         <div class="step-delivery-list">
-          ${stepDeliveriesHtml || '<div class="empty-state-small">送信されたステップ配信はありません</div>'}
+          ${
+            stepDeliveriesHtml ||
+            '<div class="empty-state-small">送信されたステップ配信はありません</div>'
+          }
         </div>
       </div>
     </div>
     <div class="user-info-divider"></div>
     <div class="user-info-item">
       <div class="user-info-label">メモ</div>
-      <div class="user-info-value user-info-memo" onclick="openMemoModal(${userId})" style="cursor: pointer; color: ${memo ? '#333' : '#999'};">${memoDisplay}</div>
+      <div class="user-info-value user-info-memo" onclick="openMemoModal(${userId})" style="cursor: pointer; color: ${
+    memo ? "#333" : "#999"
+  };">${memoDisplay}</div>
     </div>
     <div class="user-info-divider"></div>
     <div class="user-info-item">
@@ -2504,25 +3005,29 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
 
 // Render messages in individual page center column
 function renderIndividualMessages(messages) {
-  const chatMessages = document.getElementById('individual-chat-messages');
+  const chatMessages = document.getElementById("individual-chat-messages");
   if (!chatMessages) return;
 
   if (messages.length === 0) {
-    chatMessages.innerHTML = '<div class="empty-state"><p>まだメッセージがありません</p></div>';
+    chatMessages.innerHTML =
+      '<div class="empty-state"><p>まだメッセージがありません</p></div>';
     return;
   }
 
-  chatMessages.innerHTML = messages.map(msg => {
-    const messageClass = msg.is_from_user ? 'message-received' : 'message-sent';
-    const formattedTime = new Date(msg.created_at).toLocaleString('ja-JP', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+  chatMessages.innerHTML = messages
+    .map((msg) => {
+      const messageClass = msg.is_from_user
+        ? "message-received"
+        : "message-sent";
+      const formattedTime = new Date(msg.created_at).toLocaleString("ja-JP", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
 
-    return `
+      return `
       <div class="message ${messageClass}">
         <div class="message-content">
           <div class="message-text">${msg.message}</div>
@@ -2530,7 +3035,8 @@ function renderIndividualMessages(messages) {
         </div>
       </div>
     `;
-  }).join('');
+    })
+    .join("");
 
   // Scroll to bottom
   chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -2538,25 +3044,29 @@ function renderIndividualMessages(messages) {
 
 // Render messages in chat modal (kept for backward compatibility)
 function renderMessages(messages) {
-  const chatMessages = document.getElementById('chat-messages');
+  const chatMessages = document.getElementById("chat-messages");
   if (!chatMessages) return;
 
   if (messages.length === 0) {
-    chatMessages.innerHTML = '<div style="padding: 20px; text-align: center;">メッセージがありません</div>';
+    chatMessages.innerHTML =
+      '<div style="padding: 20px; text-align: center;">メッセージがありません</div>';
     return;
   }
 
-  chatMessages.innerHTML = messages.map(msg => {
-    const messageClass = msg.is_from_user ? 'message-received' : 'message-sent';
-    const formattedTime = new Date(msg.created_at).toLocaleString('ja-JP', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+  chatMessages.innerHTML = messages
+    .map((msg) => {
+      const messageClass = msg.is_from_user
+        ? "message-received"
+        : "message-sent";
+      const formattedTime = new Date(msg.created_at).toLocaleString("ja-JP", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
 
-    return `
+      return `
       <div class="message ${messageClass}">
         <div class="message-content">
           <div class="message-text">${msg.message}</div>
@@ -2564,7 +3074,8 @@ function renderMessages(messages) {
         </div>
       </div>
     `;
-  }).join('');
+    })
+    .join("");
 
   // Scroll to bottom
   chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -2576,11 +3087,11 @@ function initializeRightColumnTabs() {
   if (window.rightColumnTabsInitialized) return;
   window.rightColumnTabsInitialized = true;
 
-  const tabButtons = document.querySelectorAll('.right-column-tabs .tab-btn');
+  const tabButtons = document.querySelectorAll(".right-column-tabs .tab-btn");
 
-  tabButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      const tabName = this.getAttribute('data-tab');
+  tabButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      const tabName = this.getAttribute("data-tab");
       switchRightColumnTab(tabName);
     });
   });
@@ -2589,29 +3100,33 @@ function initializeRightColumnTabs() {
 // Switch right column tab
 function switchRightColumnTab(tabName) {
   // Remove active class from all buttons
-  document.querySelectorAll('.right-column-tabs .tab-btn').forEach(btn => {
-    btn.classList.remove('active');
+  document.querySelectorAll(".right-column-tabs .tab-btn").forEach((btn) => {
+    btn.classList.remove("active");
   });
 
   // Add active class to clicked button
-  const activeButton = document.querySelector(`.right-column-tabs .tab-btn[data-tab="${tabName}"]`);
+  const activeButton = document.querySelector(
+    `.right-column-tabs .tab-btn[data-tab="${tabName}"]`
+  );
   if (activeButton) {
-    activeButton.classList.add('active');
+    activeButton.classList.add("active");
   }
 
   // Hide all tab contents
-  document.querySelectorAll('.individual-right-column .tab-content').forEach(content => {
-    content.classList.remove('active');
-  });
+  document
+    .querySelectorAll(".individual-right-column .tab-content")
+    .forEach((content) => {
+      content.classList.remove("active");
+    });
 
   // Show selected tab content
   const activeContent = document.getElementById(`${tabName}-tab`);
   if (activeContent) {
-    activeContent.classList.add('active');
+    activeContent.classList.add("active");
   }
 
   // Initialize tab-specific content
-  if (tabName === 'tags') {
+  if (tabName === "tags") {
     initializeTagsTab();
     // Load user tag selection if user is selected
     if (currentChatUserId) {
@@ -2627,66 +3142,66 @@ function initializeIndividualChatEventListeners() {
   window.individualChatEventListenersInitialized = true;
 
   // Send button
-  const sendBtn = document.getElementById('individual-chat-send-btn');
+  const sendBtn = document.getElementById("individual-chat-send-btn");
   if (sendBtn) {
-    sendBtn.addEventListener('click', function(e) {
+    sendBtn.addEventListener("click", function (e) {
       sendIndividualMessage();
     });
   }
 
   // Shift+Enter key to send
-  const chatInput = document.getElementById('individual-chat-input');
+  const chatInput = document.getElementById("individual-chat-input");
   if (chatInput) {
-    chatInput.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' && e.shiftKey) {
+    chatInput.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && e.shiftKey) {
         e.preventDefault();
         sendIndividualMessage();
       }
     });
 
     // Auto-resize textarea
-    chatInput.addEventListener('input', function () {
-      this.style.height = '44px';
-      this.style.height = this.scrollHeight + 'px';
+    chatInput.addEventListener("input", function () {
+      this.style.height = "44px";
+      this.style.height = this.scrollHeight + "px";
     });
   }
 }
 
 // Send message from individual page
 async function sendIndividualMessage() {
-  console.log('=== sendIndividualMessage() called ===');
+  console.log("=== sendIndividualMessage() called ===");
 
-  const chatInput = document.getElementById('individual-chat-input');
+  const chatInput = document.getElementById("individual-chat-input");
   const messageText = chatInput.value.trim();
-  console.log('Message text:', messageText);
+  console.log("Message text:", messageText);
 
   if (!messageText) {
-    console.warn('Message is empty');
+    console.warn("Message is empty");
     return;
   }
 
-  console.log('currentChatUserId:', currentChatUserId);
-  console.log('currentChatUserName:', currentChatUserName);
+  console.log("currentChatUserId:", currentChatUserId);
+  console.log("currentChatUserName:", currentChatUserName);
 
   // Check if we have a current user
   if (!currentChatUserId) {
-    console.error('❌ No user selected for chat');
+    console.error("❌ No user selected for chat");
     return;
   }
 
   // Create message element for immediate display
-  const messageDiv = document.createElement('div');
-  messageDiv.className = 'message message-sent';
+  const messageDiv = document.createElement("div");
+  messageDiv.className = "message message-sent";
 
   const now = new Date();
   const timeString = now
-    .toLocaleString('ja-JP', {
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
+    .toLocaleString("ja-JP", {
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
     })
-    .replace(/\//g, '-');
+    .replace(/\//g, "-");
 
   messageDiv.innerHTML = `
     <div class="message-content">
@@ -2696,12 +3211,12 @@ async function sendIndividualMessage() {
   `;
 
   // Add to chat messages
-  const chatMessages = document.getElementById('individual-chat-messages');
+  const chatMessages = document.getElementById("individual-chat-messages");
   chatMessages.appendChild(messageDiv);
 
   // Clear input and reset height, and clear draft
-  chatInput.value = '';
-  chatInput.style.height = '44px';
+  chatInput.value = "";
+  chatInput.style.height = "44px";
   delete userDraftMessages[currentChatUserId];
 
   // Scroll to bottom
@@ -2713,69 +3228,69 @@ async function sendIndividualMessage() {
   const apiUrl = `${API_BASE_URL}/send-message`;
   const payload = {
     user_id: currentChatUserId,
-    message: messageText
+    message: messageText,
   };
 
-  console.log('API URL:', apiUrl);
-  console.log('Payload:', payload);
+  console.log("API URL:", apiUrl);
+  console.log("Payload:", payload);
 
   // Send message to API
   try {
-    console.log('Starting fetch...');
+    console.log("Starting fetch...");
 
     const response = await fetch(apiUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
 
-    console.log('Response status:', response.status);
-    console.log('Response statusText:', response.statusText);
+    console.log("Response status:", response.status);
+    console.log("Response statusText:", response.statusText);
 
     const responseText = await response.text();
-    console.log('Response text:', responseText);
+    console.log("Response text:", responseText);
 
     let result;
     try {
       result = JSON.parse(responseText);
-      console.log('Parsed result:', result);
+      console.log("Parsed result:", result);
     } catch (parseError) {
-      console.error('❌ JSON parse error:', parseError);
-      console.error('Response was:', responseText);
+      console.error("❌ JSON parse error:", parseError);
+      console.error("Response was:", responseText);
       return;
     }
 
     if (result.success) {
-      console.log('✅ Message saved successfully!');
-      console.log('Data:', result.data);
+      console.log("✅ Message saved successfully!");
+      console.log("Data:", result.data);
     } else {
-      console.error('❌ Failed to save message');
-      console.error('Error message:', result.message);
+      console.error("❌ Failed to save message");
+      console.error("Error message:", result.message);
     }
   } catch (error) {
-    console.error('❌ Error sending message:', error);
-    console.error('Error message:', error.message);
+    console.error("❌ Error sending message:", error);
+    console.error("Error message:", error.message);
   }
 }
 
 // Setup chat modal close button
-document.addEventListener('DOMContentLoaded', function() {
-  const chatCloseBtn = document.getElementById('chat-close-btn');
-  const chatModal = document.getElementById('chat-modal');
+document.addEventListener("DOMContentLoaded", function () {
+  const chatCloseBtn = document.getElementById("chat-close-btn");
+  const chatModal = document.getElementById("chat-modal");
 
   if (chatCloseBtn && chatModal) {
-    chatCloseBtn.addEventListener('click', function() {
-      chatModal.style.display = 'none';
+    chatCloseBtn.addEventListener("click", function () {
+      chatModal.style.display = "none";
     });
   }
 
   // Close modal when clicking outside
   if (chatModal) {
-    chatModal.addEventListener('click', function(e) {
+    chatModal.addEventListener("click", function (e) {
       if (e.target === chatModal) {
-        chatModal.style.display = 'none';
+        chatModal.style.display = "none";
       }
     });
   }
@@ -2789,17 +3304,17 @@ function initializeTagsTab() {
 
   // Sample folder data
   const sampleFolders = [
-    { id: 1, name: '重要顧客', count: 12, icon: '📁' },
-    { id: 2, name: '見込み客', count: 34, icon: '📁' },
-    { id: 3, name: 'VIP', count: 5, icon: '📁' }
+    { id: 1, name: "重要顧客", count: 12, icon: "📁" },
+    { id: 2, name: "見込み客", count: 34, icon: "📁" },
+    { id: 3, name: "VIP", count: 5, icon: "📁" },
   ];
 
   // Sample tag data
   const sampleTags = [
-    { id: 1, name: '興味あり', count: 28, icon: '🏷️' },
-    { id: 2, name: '要フォロー', count: 15, icon: '🏷️' },
-    { id: 3, name: '購入済み', count: 42, icon: '🏷️' },
-    { id: 4, name: '問い合わせ中', count: 8, icon: '🏷️' }
+    { id: 1, name: "興味あり", count: 28, icon: "🏷️" },
+    { id: 2, name: "要フォロー", count: 15, icon: "🏷️" },
+    { id: 3, name: "購入済み", count: 42, icon: "🏷️" },
+    { id: 4, name: "問い合わせ中", count: 8, icon: "🏷️" },
   ];
 
   renderFolderList(sampleFolders);
@@ -2808,27 +3323,32 @@ function initializeTagsTab() {
 
 // Render folder list
 function renderFolderList(folders) {
-  const folderList = document.getElementById('folder-list');
+  const folderList = document.getElementById("folder-list");
   if (!folderList) return;
 
   if (folders.length === 0) {
-    folderList.innerHTML = '<div class="empty-state-small"><p>フォルダがありません</p></div>';
+    folderList.innerHTML =
+      '<div class="empty-state-small"><p>フォルダがありません</p></div>';
     return;
   }
 
-  folderList.innerHTML = folders.map(folder => `
+  folderList.innerHTML = folders
+    .map(
+      (folder) => `
     <div class="folder-item" data-folder-id="${folder.id}">
       <span class="folder-icon">${folder.icon}</span>
       <span class="folder-name">${folder.name}</span>
       <span class="folder-count">${folder.count}</span>
     </div>
-  `).join('');
+  `
+    )
+    .join("");
 
   // Add click event listeners
-  folderList.querySelectorAll('.folder-item').forEach(item => {
-    item.addEventListener('click', function() {
-      const folderId = this.getAttribute('data-folder-id');
-      console.log('Folder clicked:', folderId);
+  folderList.querySelectorAll(".folder-item").forEach((item) => {
+    item.addEventListener("click", function () {
+      const folderId = this.getAttribute("data-folder-id");
+      console.log("Folder clicked:", folderId);
       // TODO: Filter users by folder
     });
   });
@@ -2836,27 +3356,32 @@ function renderFolderList(folders) {
 
 // Render tag list
 function renderTagList(tags) {
-  const tagList = document.getElementById('tag-list');
+  const tagList = document.getElementById("tag-list");
   if (!tagList) return;
 
   if (tags.length === 0) {
-    tagList.innerHTML = '<div class="empty-state-small"><p>タグがありません</p></div>';
+    tagList.innerHTML =
+      '<div class="empty-state-small"><p>タグがありません</p></div>';
     return;
   }
 
-  tagList.innerHTML = tags.map(tag => `
+  tagList.innerHTML = tags
+    .map(
+      (tag) => `
     <div class="tag-item" data-tag-id="${tag.id}">
       <span class="tag-icon">${tag.icon}</span>
       <span class="tag-name">${tag.name}</span>
       <span class="tag-count">${tag.count}</span>
     </div>
-  `).join('');
+  `
+    )
+    .join("");
 
   // Add click event listeners
-  tagList.querySelectorAll('.tag-item').forEach(item => {
-    item.addEventListener('click', function() {
-      const tagId = this.getAttribute('data-tag-id');
-      console.log('Tag clicked:', tagId);
+  tagList.querySelectorAll(".tag-item").forEach((item) => {
+    item.addEventListener("click", function () {
+      const tagId = this.getAttribute("data-tag-id");
+      console.log("Tag clicked:", tagId);
       // TODO: Filter users by tag
     });
   });
@@ -2870,12 +3395,14 @@ function renderTagList(tags) {
 function getAllTags() {
   // モックデータと統合
   const mockTags = getMockTags();
-  const customTags = localStorage.getItem('line_tags');
+  const customTags = localStorage.getItem("line_tags");
   const parsedCustomTags = customTags ? JSON.parse(customTags) : [];
 
   // モックタグとカスタムタグをマージ（IDの重複を避ける）
-  const existingIds = mockTags.map(t => t.id);
-  const filteredCustomTags = parsedCustomTags.filter(t => !existingIds.includes(t.id));
+  const existingIds = mockTags.map((t) => t.id);
+  const filteredCustomTags = parsedCustomTags.filter(
+    (t) => !existingIds.includes(t.id)
+  );
 
   return [...mockTags, ...filteredCustomTags];
 }
@@ -2883,9 +3410,9 @@ function getAllTags() {
 // Save tags to localStorage
 function saveTags(tags) {
   // モックタグを除外してカスタムタグのみ保存
-  const mockTagIds = MOCK_TAGS.map(t => t.id);
-  const customTags = tags.filter(t => !mockTagIds.includes(t.id));
-  localStorage.setItem('line_tags', JSON.stringify(customTags));
+  const mockTagIds = MOCK_TAGS.map((t) => t.id);
+  const customTags = tags.filter((t) => !mockTagIds.includes(t.id));
+  localStorage.setItem("line_tags", JSON.stringify(customTags));
 }
 
 // Get user tags from localStorage
@@ -2897,7 +3424,7 @@ function getUserTags(userId) {
 
   // LocalStorageにない場合、モックデータから取得
   const friends = getMockFriends();
-  const friend = friends.find(f => f.id == userId);
+  const friend = friends.find((f) => f.id == userId);
   return friend ? friend.tags : [];
 }
 
@@ -2909,41 +3436,41 @@ function saveUserTags(userId, tagIds) {
 // Initialize tag management page
 function initializeTagManagement() {
   // Tab switching for data management page
-  const dataTabBtns = document.querySelectorAll('.data-tab-btn');
-  dataTabBtns.forEach(btn => {
-    btn.addEventListener('click', function() {
-      const tabName = this.getAttribute('data-tab');
+  const dataTabBtns = document.querySelectorAll(".data-tab-btn");
+  dataTabBtns.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const tabName = this.getAttribute("data-tab");
 
       // Update active button
-      dataTabBtns.forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
+      dataTabBtns.forEach((b) => b.classList.remove("active"));
+      this.classList.add("active");
 
       // Update active content
-      const dataTabContents = document.querySelectorAll('.data-tab-content');
-      dataTabContents.forEach(content => content.classList.remove('active'));
+      const dataTabContents = document.querySelectorAll(".data-tab-content");
+      dataTabContents.forEach((content) => content.classList.remove("active"));
       const activeContent = document.getElementById(`${tabName}-tab`);
       if (activeContent) {
-        activeContent.classList.add('active');
+        activeContent.classList.add("active");
       }
 
       // Initialize friend list when friend list tab is clicked
-      if (tabName === 'friend-list') {
+      if (tabName === "friend-list") {
         initializeFriendListManagement();
       }
     });
   });
 
   // Initialize color palette for tag creation
-  initializeColorPalette('tag-color-palette', 'tag-color-input');
+  initializeColorPalette("tag-color-palette", "tag-color-input");
 
   // Tag creation form
-  const tagCreateForm = document.getElementById('tag-create-form');
+  const tagCreateForm = document.getElementById("tag-create-form");
   if (tagCreateForm) {
-    tagCreateForm.addEventListener('submit', function(e) {
+    tagCreateForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const tagNameInput = document.getElementById('tag-name-input');
-      const tagColorInput = document.getElementById('tag-color-input');
+      const tagNameInput = document.getElementById("tag-name-input");
+      const tagColorInput = document.getElementById("tag-color-input");
 
       const tagName = tagNameInput.value.trim();
       const tagColor = tagColorInput.value;
@@ -2956,18 +3483,18 @@ function initializeTagManagement() {
         id: Date.now().toString(),
         name: tagName,
         color: tagColor,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
 
       tags.push(newTag);
       saveTags(tags);
 
       // Reset form
-      tagNameInput.value = '';
-      tagColorInput.value = 'transparent';
+      tagNameInput.value = "";
+      tagColorInput.value = "transparent";
 
       // Reset color palette selection
-      resetColorPalette('tag-color-palette', 'transparent');
+      resetColorPalette("tag-color-palette", "transparent");
 
       // Refresh tag list
       renderTagManagementList();
@@ -2983,23 +3510,25 @@ function initializeTagManagement() {
 
 // Render tag management list
 function renderTagManagementList() {
-  const tagList = document.getElementById('tag-management-list');
+  const tagList = document.getElementById("tag-management-list");
   if (!tagList) return;
 
   const tags = getAllTags();
 
   if (tags.length === 0) {
-    tagList.innerHTML = '<div class="empty-state"><p>タグがまだ作成されていません</p></div>';
+    tagList.innerHTML =
+      '<div class="empty-state"><p>タグがまだ作成されていません</p></div>';
     return;
   }
 
-  tagList.innerHTML = tags.map(tag => {
-    const isTransparent = tag.color === 'transparent';
-    const styleAttr = isTransparent
-      ? 'background-color: transparent; border: 1px solid #ddd; color: #333;'
-      : `background-color: ${tag.color};`;
+  tagList.innerHTML = tags
+    .map((tag) => {
+      const isTransparent = tag.color === "transparent";
+      const styleAttr = isTransparent
+        ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
+        : `background-color: ${tag.color};`;
 
-    return `
+      return `
       <div class="tag-management-item">
         <div class="tag-badge" style="${styleAttr}">
           ${tag.name}
@@ -3014,25 +3543,26 @@ function renderTagManagementList() {
         </div>
       </div>
     `;
-  }).join('');
+    })
+    .join("");
 
   // Add delete event listeners
-  tagList.querySelectorAll('.btn-delete-tag').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const tagId = this.getAttribute('data-tag-id');
-      if (confirm('このタグを削除してもよろしいですか？')) {
+  tagList.querySelectorAll(".btn-delete-tag").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const tagId = this.getAttribute("data-tag-id");
+      if (confirm("このタグを削除してもよろしいですか？")) {
         deleteTag(tagId);
       }
     });
   });
 
   // Add edit event listeners
-  const editButtons = tagList.querySelectorAll('.btn-edit-tag');
-  console.log('Found edit buttons:', editButtons.length);
-  editButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
-      const tagId = this.getAttribute('data-tag-id');
-      console.log('Edit button clicked for tag:', tagId);
+  const editButtons = tagList.querySelectorAll(".btn-edit-tag");
+  console.log("Found edit buttons:", editButtons.length);
+  editButtons.forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const tagId = this.getAttribute("data-tag-id");
+      console.log("Edit button clicked for tag:", tagId);
       editTag(tagId);
     });
   });
@@ -3041,7 +3571,7 @@ function renderTagManagementList() {
 // Delete tag
 function deleteTag(tagId) {
   let tags = getAllTags();
-  tags = tags.filter(tag => tag.id !== tagId);
+  tags = tags.filter((tag) => tag.id !== tagId);
   saveTags(tags);
   renderTagManagementList();
 }
@@ -3050,37 +3580,37 @@ function deleteTag(tagId) {
 let currentEditingTagId = null;
 
 function editTag(tagId) {
-  console.log('editTag called with tagId:', tagId, 'type:', typeof tagId);
+  console.log("editTag called with tagId:", tagId, "type:", typeof tagId);
   const tags = getAllTags();
-  console.log('All tags:', tags);
-  const tag = tags.find(t => t.id == tagId); // Use loose equality to handle string/number mismatch
+  console.log("All tags:", tags);
+  const tag = tags.find((t) => t.id == tagId); // Use loose equality to handle string/number mismatch
   if (!tag) {
-    console.log('Tag not found');
+    console.log("Tag not found");
     return;
   }
 
   currentEditingTagId = tagId;
 
   // Fill modal with current tag data
-  const modal = document.getElementById('tag-edit-modal');
-  const nameInput = document.getElementById('tag-edit-name-input');
-  const colorInput = document.getElementById('tag-edit-color-input');
+  const modal = document.getElementById("tag-edit-modal");
+  const nameInput = document.getElementById("tag-edit-name-input");
+  const colorInput = document.getElementById("tag-edit-color-input");
 
-  console.log('Modal element:', modal);
-  console.log('Name input:', nameInput);
-  console.log('Color input:', colorInput);
+  console.log("Modal element:", modal);
+  console.log("Name input:", nameInput);
+  console.log("Color input:", colorInput);
 
   if (nameInput) nameInput.value = tag.name;
-  if (colorInput) colorInput.value = tag.color || 'transparent';
+  if (colorInput) colorInput.value = tag.color || "transparent";
 
   // Update color palette selection
-  setColorPaletteValue('tag-edit-color-palette', tag.color || 'transparent');
+  setColorPaletteValue("tag-edit-color-palette", tag.color || "transparent");
 
   if (modal) {
-    modal.style.display = 'flex';
-    console.log('Modal display set to flex');
+    modal.style.display = "flex";
+    console.log("Modal display set to flex");
   } else {
-    console.error('Modal element not found!');
+    console.error("Modal element not found!");
   }
 }
 
@@ -3092,47 +3622,47 @@ function initializeTagEditModal() {
   tagEditModalInitialized = true;
 
   // Initialize color palette for tag edit modal
-  initializeColorPalette('tag-edit-color-palette', 'tag-edit-color-input');
+  initializeColorPalette("tag-edit-color-palette", "tag-edit-color-input");
 
-  const modal = document.getElementById('tag-edit-modal');
-  const closeBtn = document.getElementById('tag-edit-close-btn');
-  const cancelBtn = document.getElementById('tag-edit-cancel-btn');
-  const saveBtn = document.getElementById('tag-edit-save-btn');
+  const modal = document.getElementById("tag-edit-modal");
+  const closeBtn = document.getElementById("tag-edit-close-btn");
+  const cancelBtn = document.getElementById("tag-edit-cancel-btn");
+  const saveBtn = document.getElementById("tag-edit-save-btn");
 
   // Close button
   if (closeBtn) {
-    closeBtn.onclick = function() {
-      modal.style.display = 'none';
+    closeBtn.onclick = function () {
+      modal.style.display = "none";
       currentEditingTagId = null;
     };
   }
 
   // Cancel button
   if (cancelBtn) {
-    cancelBtn.onclick = function() {
-      modal.style.display = 'none';
+    cancelBtn.onclick = function () {
+      modal.style.display = "none";
       currentEditingTagId = null;
     };
   }
 
   // Save button
   if (saveBtn) {
-    saveBtn.onclick = function() {
+    saveBtn.onclick = function () {
       if (!currentEditingTagId) return;
 
-      const nameInput = document.getElementById('tag-edit-name-input');
-      const colorInput = document.getElementById('tag-edit-color-input');
+      const nameInput = document.getElementById("tag-edit-name-input");
+      const colorInput = document.getElementById("tag-edit-color-input");
 
       const newName = nameInput.value.trim();
       const newColor = colorInput.value;
 
       if (!newName) {
-        alert('タグ名を入力してください');
+        alert("タグ名を入力してください");
         return;
       }
 
       const tags = getAllTags();
-      const tag = tags.find(t => t.id === currentEditingTagId);
+      const tag = tags.find((t) => t.id === currentEditingTagId);
 
       if (tag) {
         tag.name = newName;
@@ -3141,15 +3671,15 @@ function initializeTagEditModal() {
         renderTagManagementList();
       }
 
-      modal.style.display = 'none';
+      modal.style.display = "none";
       currentEditingTagId = null;
     };
   }
 
   // Close modal when clicking outside
-  window.addEventListener('click', function(event) {
+  window.addEventListener("click", function (event) {
     if (event.target === modal) {
-      modal.style.display = 'none';
+      modal.style.display = "none";
       currentEditingTagId = null;
     }
   });
@@ -3157,9 +3687,11 @@ function initializeTagEditModal() {
 
 // Initialize user tag selection in individual chat
 function initializeUserTagSelection(userId) {
-  const tagSelectionContainer = document.getElementById('user-tag-selection');
-  const saveButtonContainer = document.getElementById('tags-save-button-container');
-  const saveButton = document.getElementById('save-user-tags-btn');
+  const tagSelectionContainer = document.getElementById("user-tag-selection");
+  const saveButtonContainer = document.getElementById(
+    "tags-save-button-container"
+  );
+  const saveButton = document.getElementById("save-user-tags-btn");
 
   if (!tagSelectionContainer) return;
 
@@ -3174,38 +3706,40 @@ function initializeUserTagSelection(userId) {
       </div>
     `;
     if (saveButtonContainer) {
-      saveButtonContainer.style.display = 'none';
+      saveButtonContainer.style.display = "none";
     }
     return;
   }
 
   tagSelectionContainer.innerHTML = `
     <div class="tag-selection-list">
-      ${allTags.map(tag => {
-        const isTransparent = tag.color === 'transparent';
-        const styleAttr = isTransparent
-          ? 'background-color: transparent; border: 1px solid #ddd; color: #333;'
-          : `background-color: ${tag.color};`;
-        return `
+      ${allTags
+        .map((tag) => {
+          const isTransparent = tag.color === "transparent";
+          const styleAttr = isTransparent
+            ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
+            : `background-color: ${tag.color};`;
+          return `
           <label class="tag-checkbox-item">
             <input
               type="checkbox"
               class="user-tag-checkbox"
               data-tag-id="${tag.id}"
-              ${userTagIds.includes(tag.id) ? 'checked' : ''}
+              ${userTagIds.includes(tag.id) ? "checked" : ""}
             />
             <span class="tag-badge" style="${styleAttr}">
               ${tag.name}
             </span>
           </label>
         `;
-      }).join('')}
+        })
+        .join("")}
     </div>
   `;
 
   // Show save button
   if (saveButtonContainer) {
-    saveButtonContainer.style.display = 'block';
+    saveButtonContainer.style.display = "block";
   }
 
   // Save button click handler
@@ -3214,24 +3748,26 @@ function initializeUserTagSelection(userId) {
     const newSaveButton = saveButton.cloneNode(true);
     saveButton.parentNode.replaceChild(newSaveButton, saveButton);
 
-    newSaveButton.addEventListener('click', function() {
+    newSaveButton.addEventListener("click", function () {
       // Get all checked tag IDs
       const checkedTagIds = [];
-      tagSelectionContainer.querySelectorAll('.user-tag-checkbox:checked').forEach(checkbox => {
-        checkedTagIds.push(checkbox.getAttribute('data-tag-id'));
-      });
+      tagSelectionContainer
+        .querySelectorAll(".user-tag-checkbox:checked")
+        .forEach((checkbox) => {
+          checkedTagIds.push(checkbox.getAttribute("data-tag-id"));
+        });
 
       // Save to localStorage
       saveUserTags(userId, checkedTagIds);
 
       // Show success feedback
       const originalText = newSaveButton.textContent;
-      newSaveButton.textContent = '保存しました！';
-      newSaveButton.style.backgroundColor = '#10b981';
+      newSaveButton.textContent = "保存しました！";
+      newSaveButton.style.backgroundColor = "#10b981";
 
       setTimeout(() => {
         newSaveButton.textContent = originalText;
-        newSaveButton.style.backgroundColor = '';
+        newSaveButton.style.backgroundColor = "";
       }, 2000);
     });
   }
@@ -3241,7 +3777,7 @@ function initializeUserTagSelection(userId) {
 
 // Get all bookmarked friends from localStorage
 function getBookmarkedFriends() {
-  const bookmarks = localStorage.getItem('bookmarked_friends');
+  const bookmarks = localStorage.getItem("bookmarked_friends");
   if (bookmarks) {
     return JSON.parse(bookmarks);
   }
@@ -3249,7 +3785,7 @@ function getBookmarkedFriends() {
   // LocalStorageにない場合、モックデータから取得
   const friends = getMockFriends();
   const initialBookmarks = {};
-  friends.forEach(friend => {
+  friends.forEach((friend) => {
     if (friend.bookmarked) {
       initialBookmarks[friend.id] = true;
     }
@@ -3259,7 +3795,7 @@ function getBookmarkedFriends() {
 
 // Save bookmarked friends to localStorage
 function saveBookmarkedFriends(bookmarks) {
-  localStorage.setItem('bookmarked_friends', JSON.stringify(bookmarks));
+  localStorage.setItem("bookmarked_friends", JSON.stringify(bookmarks));
 }
 
 // Check if a user is bookmarked
@@ -3285,7 +3821,7 @@ function toggleBookmark(userId) {
 
 // Update bookmark count in the UI
 function updateBookmarkCount() {
-  const bookmarkCountElement = document.getElementById('bookmark-count');
+  const bookmarkCountElement = document.getElementById("bookmark-count");
   if (!bookmarkCountElement) return;
 
   const bookmarks = getBookmarkedFriends();
@@ -3302,17 +3838,21 @@ async function updateFilterCounts() {
     const allCount = users.length;
 
     // Count unread users
-    const unreadCount = users.filter(user => getUserReadStatus(user.id) === 'unread').length;
+    const unreadCount = users.filter(
+      (user) => getUserReadStatus(user.id) === "unread"
+    ).length;
 
     // Count read users
-    const readCount = users.filter(user => getUserReadStatus(user.id) === 'read').length;
+    const readCount = users.filter(
+      (user) => getUserReadStatus(user.id) === "read"
+    ).length;
 
     // Count bookmarked users
     const bookmarks = getBookmarkedFriends();
     const bookmarkCount = Object.keys(bookmarks).length;
 
     // Update select options text
-    const selectElement = document.getElementById('friend-filter-select');
+    const selectElement = document.getElementById("friend-filter-select");
     if (selectElement) {
       selectElement.options[0].text = `すべて (${allCount})`;
       selectElement.options[1].text = `未読 (${unreadCount})`;
@@ -3320,46 +3860,46 @@ async function updateFilterCounts() {
       selectElement.options[3].text = `ブックマーク (${bookmarkCount})`;
     }
   } catch (error) {
-    console.error('Error updating filter counts:', error);
+    console.error("Error updating filter counts:", error);
   }
 }
 
 // Update chat header bookmark button state
 function updateChatHeaderBookmark(userId) {
-  const bookmarkBtn = document.getElementById('chat-bookmark-btn');
-  const bookmarkIcon = bookmarkBtn?.querySelector('.bookmark-icon');
+  const bookmarkBtn = document.getElementById("chat-bookmark-btn");
+  const bookmarkIcon = bookmarkBtn?.querySelector(".bookmark-icon");
 
   if (!bookmarkBtn || !bookmarkIcon) return;
 
   const isUserBookmarked = isBookmarked(userId);
 
   if (isUserBookmarked) {
-    bookmarkIcon.classList.remove('fa-regular');
-    bookmarkIcon.classList.add('fa-solid');
-    bookmarkBtn.classList.add('bookmarked');
+    bookmarkIcon.classList.remove("fa-regular");
+    bookmarkIcon.classList.add("fa-solid");
+    bookmarkBtn.classList.add("bookmarked");
   } else {
-    bookmarkIcon.classList.remove('fa-solid');
-    bookmarkIcon.classList.add('fa-regular');
-    bookmarkBtn.classList.remove('bookmarked');
+    bookmarkIcon.classList.remove("fa-solid");
+    bookmarkIcon.classList.add("fa-regular");
+    bookmarkBtn.classList.remove("bookmarked");
   }
 }
 
 // Initialize bookmark button click handler
 function initializeBookmarkButton() {
-  const bookmarkBtn = document.getElementById('chat-bookmark-btn');
+  const bookmarkBtn = document.getElementById("chat-bookmark-btn");
 
   if (!bookmarkBtn) return;
 
-  bookmarkBtn.addEventListener('click', function() {
+  bookmarkBtn.addEventListener("click", function () {
     if (!currentChatUserId) return;
 
     const newState = toggleBookmark(currentChatUserId);
     updateChatHeaderBookmark(currentChatUserId);
 
     // Refresh friends list to update bookmark icons
-    const selectElement = document.getElementById('friend-filter-select');
-    const currentFilter = selectElement ? selectElement.value : 'all';
-    if (currentFilter === 'bookmarked' && !newState) {
+    const selectElement = document.getElementById("friend-filter-select");
+    const currentFilter = selectElement ? selectElement.value : "all";
+    if (currentFilter === "bookmarked" && !newState) {
       // If user was unbookmarked and we're viewing bookmarked only, reload list
       loadIndividualPageUsers(currentFilter);
     } else {
@@ -3374,31 +3914,33 @@ function initializeBookmarkButton() {
 
 // Update bookmark icon in friends list
 function updateFriendListBookmarkIcon(userId, isBookmarkedStatus) {
-  const friendItem = document.querySelector(`.friend-item[data-user-id="${userId}"]`);
+  const friendItem = document.querySelector(
+    `.friend-item[data-user-id="${userId}"]`
+  );
   if (!friendItem) return;
 
   // Remove existing icon if present
-  const existingIcon = friendItem.querySelector('.friend-bookmark-icon');
+  const existingIcon = friendItem.querySelector(".friend-bookmark-icon");
   if (existingIcon) {
     existingIcon.remove();
   }
 
   // Add icon only if bookmarked
   if (isBookmarkedStatus) {
-    const newIcon = document.createElement('i');
-    newIcon.className = 'friend-bookmark-icon fa-solid fa-bookmark';
+    const newIcon = document.createElement("i");
+    newIcon.className = "friend-bookmark-icon fa-solid fa-bookmark";
     friendItem.appendChild(newIcon);
   }
 }
 
 // Initialize bookmark filter select
 function initializeBookmarkFilter() {
-  const selectElement = document.getElementById('friend-filter-select');
+  const selectElement = document.getElementById("friend-filter-select");
 
   if (!selectElement) return;
 
   // Add change event listener
-  selectElement.addEventListener('change', function() {
+  selectElement.addEventListener("change", function () {
     const filter = this.value;
     loadIndividualPageUsers(filter);
   });
@@ -3414,7 +3956,9 @@ let selectedBroadcastTags = new Set();
 
 // Initialize tag selection for broadcast
 function initializeBroadcastTagSelection() {
-  const tagSelectionList = document.getElementById('broadcast-tag-selection-list');
+  const tagSelectionList = document.getElementById(
+    "broadcast-tag-selection-list"
+  );
   if (!tagSelectionList) return;
 
   const allTags = getAllTags();
@@ -3429,12 +3973,13 @@ function initializeBroadcastTagSelection() {
     return;
   }
 
-  tagSelectionList.innerHTML = allTags.map(tag => {
-    const isTransparent = tag.color === 'transparent';
-    const styleAttr = isTransparent
-      ? 'background-color: transparent; border: 1px solid #ddd; color: #333;'
-      : `background-color: ${tag.color};`;
-    return `
+  tagSelectionList.innerHTML = allTags
+    .map((tag) => {
+      const isTransparent = tag.color === "transparent";
+      const styleAttr = isTransparent
+        ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
+        : `background-color: ${tag.color};`;
+      return `
       <label class="broadcast-tag-item">
         <input
           type="checkbox"
@@ -3447,25 +3992,28 @@ function initializeBroadcastTagSelection() {
         <span class="tag-user-count" data-tag-id="${tag.id}">-</span>
       </label>
     `;
-  }).join('');
+    })
+    .join("");
 
   // Calculate and display user counts for each tag
   updateTagUserCounts();
 
   // Add change event listeners
-  tagSelectionList.querySelectorAll('.broadcast-tag-checkbox').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
-      const tagId = parseInt(this.getAttribute('data-tag-id'));
+  tagSelectionList
+    .querySelectorAll(".broadcast-tag-checkbox")
+    .forEach((checkbox) => {
+      checkbox.addEventListener("change", function () {
+        const tagId = parseInt(this.getAttribute("data-tag-id"));
 
-      if (this.checked) {
-        selectedBroadcastTags.add(tagId);
-      } else {
-        selectedBroadcastTags.delete(tagId);
-      }
+        if (this.checked) {
+          selectedBroadcastTags.add(tagId);
+        } else {
+          selectedBroadcastTags.delete(tagId);
+        }
 
-      updateSelectedTagsCount();
+        updateSelectedTagsCount();
+      });
     });
-  });
 
   // Reset selected tags
   selectedBroadcastTags.clear();
@@ -3475,12 +4023,14 @@ function initializeBroadcastTagSelection() {
 // Update user count for each tag
 function updateTagUserCounts() {
   const allTags = getAllTags();
-  
-  allTags.forEach(tag => {
+
+  allTags.forEach((tag) => {
     const count = calculateTagUserCount(tag.id);
-    const countElements = document.querySelectorAll(`.tag-user-count[data-tag-id="${tag.id}"]`);
+    const countElements = document.querySelectorAll(
+      `.tag-user-count[data-tag-id="${tag.id}"]`
+    );
     if (countElements.length > 0) {
-      countElements.forEach(element => {
+      countElements.forEach((element) => {
         element.textContent = `${count}人`;
       });
     }
@@ -3497,7 +4047,7 @@ function calculateTagUserCount(tagId) {
   // localStorageのキーを列挙してuser_tags_*を探す
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    if (key.startsWith('user_tags_')) {
+    if (key.startsWith("user_tags_")) {
       const userTags = JSON.parse(localStorage.getItem(key));
       if (userTags.includes(numericTagId)) {
         count++;
@@ -3510,20 +4060,20 @@ function calculateTagUserCount(tagId) {
 
 // Update selected tags count display
 function updateSelectedTagsCount() {
-  const countContainer = document.getElementById('tag-selection-count');
-  const countSpan = document.getElementById('tagged-friends-count');
+  const countContainer = document.getElementById("tag-selection-count");
+  const countSpan = document.getElementById("tagged-friends-count");
 
   if (!countContainer || !countSpan) return;
 
   if (selectedBroadcastTags.size === 0) {
-    countContainer.style.display = 'none';
+    countContainer.style.display = "none";
     return;
   }
 
   // Calculate total unique users with selected tags
   const totalCount = calculateTotalTaggedUsers();
-  
-  countContainer.style.display = 'block';
+
+  countContainer.style.display = "block";
   countSpan.textContent = totalCount;
 }
 
@@ -3534,13 +4084,13 @@ function calculateTotalUsersForTagSet(tagSet) {
   }
 
   const uniqueUsers = new Set();
-  
+
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    if (key.startsWith('user_tags_')) {
-      const userId = key.replace('user_tags_', '');
+    if (key.startsWith("user_tags_")) {
+      const userId = key.replace("user_tags_", "");
       const userTags = JSON.parse(localStorage.getItem(key));
-      
+
       // Check if user has any of the selected tags
       for (let tagId of tagSet) {
         const numericTagId = parseInt(tagId, 10);
@@ -3552,7 +4102,7 @@ function calculateTotalUsersForTagSet(tagSet) {
       }
     }
   }
-  
+
   return uniqueUsers.size;
 }
 
@@ -3576,8 +4126,8 @@ function getUserReadStatus(userId) {
 
   // LocalStorageにない場合、モックデータから取得
   const friends = getMockFriends();
-  const friend = friends.find(f => f.id == userId);
-  return friend ? friend.readStatus : 'read';
+  const friend = friends.find((f) => f.id == userId);
+  return friend ? friend.readStatus : "read";
 }
 
 // Set user read status in localStorage
@@ -3587,60 +4137,62 @@ function setUserReadStatus(userId, status) {
 
 // Initialize read status buttons
 function initializeReadStatusButtons() {
-  const toggleBtn = document.getElementById('read-status-toggle-btn');
+  const toggleBtn = document.getElementById("read-status-toggle-btn");
 
   if (!toggleBtn) return;
 
   // Click handler for toggle button
-  toggleBtn.addEventListener('click', function() {
+  toggleBtn.addEventListener("click", function () {
     if (!currentChatUserId) return;
 
     // Get current status and toggle it
     const currentStatus = getUserReadStatus(currentChatUserId);
-    const newStatus = currentStatus === 'read' ? 'unread' : 'read';
+    const newStatus = currentStatus === "read" ? "unread" : "read";
 
     // Update status
     setUserReadStatus(currentChatUserId, newStatus);
     updateReadStatusButtonState(newStatus);
-    updateFriendListUnreadIndicator(currentChatUserId, newStatus === 'unread');
+    updateFriendListUnreadIndicator(currentChatUserId, newStatus === "unread");
     updateFilterCounts();
   });
 }
 
 // Update read status button visual state
 function updateReadStatusButtonState(status) {
-  const toggleBtn = document.getElementById('read-status-toggle-btn');
+  const toggleBtn = document.getElementById("read-status-toggle-btn");
   if (!toggleBtn) return;
 
-  const icon = toggleBtn.querySelector('i');
+  const icon = toggleBtn.querySelector("i");
   if (!icon) return;
 
-  if (status === 'unread') {
+  if (status === "unread") {
     // 未読: fa-regular fa-envelope（閉じた封筒、塗りつぶしなし）
-    icon.className = 'fa-regular fa-envelope';
-    toggleBtn.classList.add('unread');
+    icon.className = "fa-regular fa-envelope";
+    toggleBtn.classList.add("unread");
   } else {
     // 既読: fa-solid fa-envelope-open（開いた封筒、塗りつぶしあり）
-    icon.className = 'fa-solid fa-envelope-open';
-    toggleBtn.classList.remove('unread');
+    icon.className = "fa-solid fa-envelope-open";
+    toggleBtn.classList.remove("unread");
   }
 }
 
 // Update unread indicator in friends list
 function updateFriendListUnreadIndicator(userId, showIndicator) {
-  const friendItem = document.querySelector(`.friend-item[data-user-id="${userId}"]`);
+  const friendItem = document.querySelector(
+    `.friend-item[data-user-id="${userId}"]`
+  );
   if (!friendItem) return;
 
   // Remove existing indicator
-  const existingIndicator = friendItem.querySelector('.unread-indicator');
+  const existingIndicator = friendItem.querySelector(".unread-indicator");
   if (existingIndicator) {
     existingIndicator.remove();
   }
 
   // Add new indicator if needed
   if (showIndicator) {
-    const indicator = document.createElement('span');
-    indicator.className = 'unread-indicator';
+    const indicator = document.createElement("span");
+    indicator.className = "unread-indicator";
     friendItem.appendChild(indicator);
   }
 }
@@ -3649,45 +4201,45 @@ function updateFriendListUnreadIndicator(userId, showIndicator) {
 
 // Get all URLs from localStorage
 function getAllUrls() {
-  const urls = localStorage.getItem('line_urls');
+  const urls = localStorage.getItem("line_urls");
   return urls ? JSON.parse(urls) : [];
 }
 
 // Save URLs to localStorage
 function saveUrls(urls) {
-  localStorage.setItem('line_urls', JSON.stringify(urls));
+  localStorage.setItem("line_urls", JSON.stringify(urls));
 }
 
 // Initialize URL management page
 function initializeUrlManagement() {
   // URL creation form
-  const urlCreateForm = document.getElementById('url-create-form');
+  const urlCreateForm = document.getElementById("url-create-form");
   if (urlCreateForm && !urlCreateForm.dataset.initialized) {
-    urlCreateForm.dataset.initialized = 'true';
+    urlCreateForm.dataset.initialized = "true";
 
-    urlCreateForm.addEventListener('submit', function(e) {
+    urlCreateForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      console.log('URL create form submitted');
+      console.log("URL create form submitted");
 
-      const urlTitleInput = document.getElementById('url-title-input');
-      const urlLinkInput = document.getElementById('url-link-input');
+      const urlTitleInput = document.getElementById("url-title-input");
+      const urlLinkInput = document.getElementById("url-link-input");
 
       const title = urlTitleInput.value.trim();
       const link = urlLinkInput.value.trim();
 
-      console.log('Title:', title, 'Link:', link);
+      console.log("Title:", title, "Link:", link);
 
       if (!title || !link) {
-        console.log('Title or link is empty');
+        console.log("Title or link is empty");
         return;
       }
 
       // Create new URL
       const urls = getAllUrls();
-      console.log('Current URLs:', urls);
+      console.log("Current URLs:", urls);
 
       const shortUrl = generateShortUrl();
-      console.log('Generated short URL:', shortUrl);
+      console.log("Generated short URL:", shortUrl);
 
       const newUrl = {
         id: Date.now().toString(),
@@ -3697,19 +4249,19 @@ function initializeUrlManagement() {
         createdAt: new Date().toISOString(),
         totalClicks: 0,
         uniqueClicks: 0,
-        sent: 0  // Number of times URL was sent in messages
+        sent: 0, // Number of times URL was sent in messages
       };
 
-      console.log('New URL object:', newUrl);
+      console.log("New URL object:", newUrl);
 
       urls.push(newUrl);
       saveUrls(urls);
 
-      console.log('URLs after save:', getAllUrls());
+      console.log("URLs after save:", getAllUrls());
 
       // Reset form
-      urlTitleInput.value = '';
-      urlLinkInput.value = '';
+      urlTitleInput.value = "";
+      urlLinkInput.value = "";
 
       // Refresh URL list
       renderUrlManagementList();
@@ -3722,38 +4274,51 @@ function initializeUrlManagement() {
 
 // Generate short URL
 function generateShortUrl() {
-  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let shortCode = '';
+  const characters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let shortCode = "";
   for (let i = 0; i < 6; i++) {
-    shortCode += characters.charAt(Math.floor(Math.random() * characters.length));
+    shortCode += characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
   }
-  return 'https://myne.link/' + shortCode;
+  return "https://myne.link/" + shortCode;
 }
 
 // Render URL management list
 function renderUrlManagementList() {
-  const tbody = document.getElementById('url-management-tbody');
+  const tbody = document.getElementById("url-management-tbody");
   if (!tbody) return;
 
   const urls = getAllUrls();
 
   if (urls.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">URLがまだ作成されていません</td></tr>';
+    tbody.innerHTML =
+      '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">URLがまだ作成されていません</td></tr>';
     return;
   }
 
-  tbody.innerHTML = urls.map(url => {
-    const shortUrl = url.shortUrl || generateShortUrl(); // Generate if not exists for old data
-    const createdDate = new Date(url.createdAt).toLocaleString('ja-JP', {year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit'});
+  tbody.innerHTML = urls
+    .map((url) => {
+      const shortUrl = url.shortUrl || generateShortUrl(); // Generate if not exists for old data
+      const createdDate = new Date(url.createdAt).toLocaleString("ja-JP", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
 
-    // Calculate statistics
-    const totalClicks = url.totalClicks || 0;
-    const uniqueClicks = url.uniqueClicks || 0;
-    const sent = url.sent || 0;
-    const clickRate = sent > 0 ? ((totalClicks / sent) * 100).toFixed(1) : '0.0';
-    const uniqueClickRate = sent > 0 ? ((uniqueClicks / sent) * 100).toFixed(1) : '0.0';
+      // Calculate statistics
+      const totalClicks = url.totalClicks || 0;
+      const uniqueClicks = url.uniqueClicks || 0;
+      const sent = url.sent || 0;
+      const clickRate =
+        sent > 0 ? ((totalClicks / sent) * 100).toFixed(1) : "0.0";
+      const uniqueClickRate =
+        sent > 0 ? ((uniqueClicks / sent) * 100).toFixed(1) : "0.0";
 
-    return `
+      return `
       <tr>
         <td>${url.title}</td>
         <td>
@@ -3779,30 +4344,31 @@ function renderUrlManagementList() {
         </td>
       </tr>
     `;
-  }).join('');
+    })
+    .join("");
 
   // Add event listeners for delete buttons
-  tbody.querySelectorAll('.btn-delete-url').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const urlId = this.getAttribute('data-url-id');
-      if (confirm('このURLを削除しますか？')) {
+  tbody.querySelectorAll(".btn-delete-url").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const urlId = this.getAttribute("data-url-id");
+      if (confirm("このURLを削除しますか？")) {
         deleteUrl(urlId);
       }
     });
   });
 
   // Add event listeners for copy buttons (original URL)
-  tbody.querySelectorAll('.btn-copy-url').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const url = this.getAttribute('data-url');
+  tbody.querySelectorAll(".btn-copy-url").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const url = this.getAttribute("data-url");
       copyToClipboard(url);
     });
   });
 
   // Add event listeners for copy buttons (short URL)
-  tbody.querySelectorAll('.btn-copy-short-url').forEach(btn => {
-    btn.addEventListener('click', function() {
-      const shortUrl = this.getAttribute('data-short-url');
+  tbody.querySelectorAll(".btn-copy-short-url").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const shortUrl = this.getAttribute("data-short-url");
       copyToClipboard(shortUrl);
     });
   });
@@ -3811,19 +4377,22 @@ function renderUrlManagementList() {
 // Delete URL
 function deleteUrl(urlId) {
   const urls = getAllUrls();
-  const updatedUrls = urls.filter(url => url.id !== urlId);
+  const updatedUrls = urls.filter((url) => url.id !== urlId);
   saveUrls(updatedUrls);
   renderUrlManagementList();
 }
 
 // Copy text to clipboard
 function copyToClipboard(text) {
-  navigator.clipboard.writeText(text).then(() => {
-    alert('URLをクリップボードにコピーしました');
-  }).catch(err => {
-    console.error('コピーに失敗しました:', err);
-    alert('コピーに失敗しました');
-  });
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      alert("URLをクリップボードにコピーしました");
+    })
+    .catch((err) => {
+      console.error("コピーに失敗しました:", err);
+      alert("コピーに失敗しました");
+    });
 }
 
 // ===== Friend List Management System =====
@@ -3832,8 +4401,8 @@ function copyToClipboard(text) {
 function generateUUID() {
   // 既存のUUID形式: U001234567890abcdef###
   // ランダムな文字列を生成（数字とアルファベット）
-  const chars = '0123456789abcdef';
-  let uuid = 'U';
+  const chars = "0123456789abcdef";
+  let uuid = "U";
   for (let i = 0; i < 20; i++) {
     uuid += chars[Math.floor(Math.random() * chars.length)];
   }
@@ -3846,24 +4415,24 @@ async function createFriend(userName) {
     const uuid = generateUUID();
 
     const response = await fetch(`${API_BASE_URL}/users`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         uuid: uuid,
-        user_name: userName
-      })
+        user_name: userName,
+      }),
     });
 
     if (!response.ok) {
-      throw new Error('Failed to create friend');
+      throw new Error("Failed to create friend");
     }
 
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error('Error creating friend:', error);
+    console.error("Error creating friend:", error);
     throw error;
   }
 }
@@ -3871,42 +4440,42 @@ async function createFriend(userName) {
 // Initialize friend list management page
 function initializeFriendListManagement() {
   // Friend creation form
-  const friendCreateForm = document.getElementById('friend-create-form');
+  const friendCreateForm = document.getElementById("friend-create-form");
   if (friendCreateForm && !friendCreateForm.dataset.initialized) {
-    friendCreateForm.dataset.initialized = 'true';
+    friendCreateForm.dataset.initialized = "true";
 
-    friendCreateForm.addEventListener('submit', async function(e) {
+    friendCreateForm.addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      const nameInput = document.getElementById('friend-name-input');
+      const nameInput = document.getElementById("friend-name-input");
       const userName = nameInput.value.trim();
 
       if (!userName) {
-        alert('友だち名を入力してください');
+        alert("友だち名を入力してください");
         return;
       }
 
       try {
         await createFriend(userName);
-        alert('友だちを追加しました！');
+        alert("友だちを追加しました！");
 
         // フォームをリセット
-        nameInput.value = '';
+        nameInput.value = "";
 
         // 友だちリストをリフレッシュ
         renderFriendListTable();
       } catch (error) {
-        alert('友だちの追加に失敗しました: ' + error.message);
+        alert("友だちの追加に失敗しました: " + error.message);
       }
     });
   }
 
   // Friend list search
-  const searchInput = document.getElementById('friend-list-search');
+  const searchInput = document.getElementById("friend-list-search");
   if (searchInput && !searchInput.dataset.initialized) {
-    searchInput.dataset.initialized = 'true';
+    searchInput.dataset.initialized = "true";
 
-    searchInput.addEventListener('input', function() {
+    searchInput.addEventListener("input", function () {
       const searchTerm = this.value.trim().toLowerCase();
       renderFriendListTable(searchTerm);
     });
@@ -3917,12 +4486,13 @@ function initializeFriendListManagement() {
 }
 
 // Render friend list table
-async function renderFriendListTable(searchTerm = '') {
-  const tbody = document.getElementById('friend-list-tbody');
+async function renderFriendListTable(searchTerm = "") {
+  const tbody = document.getElementById("friend-list-tbody");
   if (!tbody) return;
 
   // Show loading state
-  tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">読み込み中...</td></tr>';
+  tbody.innerHTML =
+    '<tr><td colspan="5" style="text-align: center; padding: 20px;">読み込み中...</td></tr>';
 
   try {
     // Fetch all users
@@ -3931,14 +4501,16 @@ async function renderFriendListTable(searchTerm = '') {
     // Filter by search term
     let filteredUsers = users;
     if (searchTerm) {
-      filteredUsers = users.filter(user =>
-        user.user_name.toLowerCase().includes(searchTerm) ||
-        user.uuid.toLowerCase().includes(searchTerm)
+      filteredUsers = users.filter(
+        (user) =>
+          user.user_name.toLowerCase().includes(searchTerm) ||
+          user.uuid.toLowerCase().includes(searchTerm)
       );
     }
 
     if (filteredUsers.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px;">友だちが見つかりません</td></tr>';
+      tbody.innerHTML =
+        '<tr><td colspan="5" style="text-align: center; padding: 20px;">友だちが見つかりません</td></tr>';
       return;
     }
 
@@ -3946,32 +4518,42 @@ async function renderFriendListTable(searchTerm = '') {
     const allTags = getAllTags();
 
     // Render table rows
-    tbody.innerHTML = filteredUsers.map(user => {
-      const formattedDate = new Date(user.created_at).toLocaleString('ja-JP', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
+    tbody.innerHTML = filteredUsers
+      .map((user) => {
+        const formattedDate = new Date(user.created_at).toLocaleString(
+          "ja-JP",
+          {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          }
+        );
 
-      // Get system display name
-      const systemDisplayName = getUserSystemDisplayName(user.id, user.user_name);
+        // Get system display name
+        const systemDisplayName = getUserSystemDisplayName(
+          user.id,
+          user.user_name
+        );
 
-      // Get user tags
-      const userTagIds = getUserTags(user.id);
-      const userTags = allTags.filter(tag => userTagIds.includes(tag.id));
-      const tagsHtml = userTags.length > 0
-        ? userTags.map(tag => {
-            const isTransparent = tag.color === 'transparent';
-            const styleAttr = isTransparent
-              ? 'background-color: transparent; border: 1px solid #ddd; color: #333;'
-              : `background-color: ${tag.color};`;
-            return `<span class="tag-badge" style="${styleAttr}">${tag.name}</span>`;
-          }).join(' ')
-        : '<span style="color: #999;">タグなし</span>';
+        // Get user tags
+        const userTagIds = getUserTags(user.id);
+        const userTags = allTags.filter((tag) => userTagIds.includes(tag.id));
+        const tagsHtml =
+          userTags.length > 0
+            ? userTags
+                .map((tag) => {
+                  const isTransparent = tag.color === "transparent";
+                  const styleAttr = isTransparent
+                    ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
+                    : `background-color: ${tag.color};`;
+                  return `<span class="tag-badge" style="${styleAttr}">${tag.name}</span>`;
+                })
+                .join(" ")
+            : '<span style="color: #999;">タグなし</span>';
 
-      return `
+        return `
         <tr class="friend-list-row">
           <td class="friend-list-name">${user.user_name}</td>
           <td class="friend-list-system-name">${systemDisplayName}</td>
@@ -3980,11 +4562,12 @@ async function renderFriendListTable(searchTerm = '') {
           <td class="friend-list-date">${formattedDate}</td>
         </tr>
       `;
-    }).join('');
-
+      })
+      .join("");
   } catch (error) {
-    console.error('Error loading friend list:', error);
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; padding: 20px; color: red;">エラーが発生しました</td></tr>';
+    console.error("Error loading friend list:", error);
+    tbody.innerHTML =
+      '<tr><td colspan="4" style="text-align: center; padding: 20px; color: red;">エラーが発生しました</td></tr>';
   }
 }
 
@@ -4001,8 +4584,8 @@ function getUserMemo(userId) {
 
   // LocalStorageにない場合、モックデータから取得
   const friends = getMockFriends();
-  const friend = friends.find(f => f.id == userId);
-  return friend ? friend.memo : '';
+  const friend = friends.find((f) => f.id == userId);
+  return friend ? friend.memo : "";
 }
 
 // Save user memo to localStorage
@@ -4014,8 +4597,8 @@ function saveUserMemo(userId, memo) {
 // Open memo modal
 function openMemoModal(userId) {
   currentMemoUserId = userId;
-  const modal = document.getElementById('memo-modal');
-  const textarea = document.getElementById('memo-textarea');
+  const modal = document.getElementById("memo-modal");
+  const textarea = document.getElementById("memo-textarea");
 
   if (!modal || !textarea) return;
 
@@ -4023,15 +4606,15 @@ function openMemoModal(userId) {
   const memo = getUserMemo(userId);
   textarea.value = memo;
 
-  modal.style.display = 'flex';
+  modal.style.display = "flex";
   textarea.focus();
 }
 
 // Close memo modal
 function closeMemoModal() {
-  const modal = document.getElementById('memo-modal');
+  const modal = document.getElementById("memo-modal");
   if (modal) {
-    modal.style.display = 'none';
+    modal.style.display = "none";
     currentMemoUserId = null;
   }
 }
@@ -4040,17 +4623,17 @@ function closeMemoModal() {
 function saveMemoAndClose() {
   if (currentMemoUserId === null) return;
 
-  const textarea = document.getElementById('memo-textarea');
+  const textarea = document.getElementById("memo-textarea");
   if (!textarea) return;
 
   const memo = textarea.value.trim();
   saveUserMemo(currentMemoUserId, memo);
 
   // Update the display in user info
-  const memoDisplay = document.querySelector('.user-info-memo');
+  const memoDisplay = document.querySelector(".user-info-memo");
   if (memoDisplay) {
-    memoDisplay.textContent = memo || 'メモを追加...';
-    memoDisplay.style.color = memo ? '#333' : '#999';
+    memoDisplay.textContent = memo || "メモを追加...";
+    memoDisplay.style.color = memo ? "#333" : "#999";
   }
 
   closeMemoModal();
@@ -4058,26 +4641,26 @@ function saveMemoAndClose() {
 
 // Initialize memo modal event listeners
 function initializeMemoModal() {
-  const closeBtn = document.getElementById('memo-close-btn');
-  const cancelBtn = document.getElementById('memo-cancel-btn');
-  const saveBtn = document.getElementById('memo-save-btn');
-  const modal = document.getElementById('memo-modal');
+  const closeBtn = document.getElementById("memo-close-btn");
+  const cancelBtn = document.getElementById("memo-cancel-btn");
+  const saveBtn = document.getElementById("memo-save-btn");
+  const modal = document.getElementById("memo-modal");
 
   if (closeBtn) {
-    closeBtn.addEventListener('click', closeMemoModal);
+    closeBtn.addEventListener("click", closeMemoModal);
   }
 
   if (cancelBtn) {
-    cancelBtn.addEventListener('click', closeMemoModal);
+    cancelBtn.addEventListener("click", closeMemoModal);
   }
 
   if (saveBtn) {
-    saveBtn.addEventListener('click', saveMemoAndClose);
+    saveBtn.addEventListener("click", saveMemoAndClose);
   }
 
   // Close modal when clicking outside
   if (modal) {
-    modal.addEventListener('click', function(e) {
+    modal.addEventListener("click", function (e) {
       if (e.target === modal) {
         closeMemoModal();
       }
@@ -4089,10 +4672,10 @@ function initializeMemoModal() {
 let currentSystemDisplayNameUserId = null;
 
 // Get user system display name from localStorage
-function getUserSystemDisplayName(userId, lineName = '') {
+function getUserSystemDisplayName(userId, lineName = "") {
   const key = `user_${userId}_system_display_name`;
   const displayName = localStorage.getItem(key);
-  if (displayName !== null && displayName !== '') {
+  if (displayName !== null && displayName !== "") {
     return displayName;
   }
 
@@ -4109,8 +4692,8 @@ function saveUserSystemDisplayName(userId, displayName) {
 // Open system display name modal
 function openSystemDisplayNameModal(userId) {
   currentSystemDisplayNameUserId = userId;
-  const modal = document.getElementById('system-display-name-modal');
-  const input = document.getElementById('system-display-name-input');
+  const modal = document.getElementById("system-display-name-modal");
+  const input = document.getElementById("system-display-name-input");
 
   if (!modal || !input) return;
 
@@ -4118,15 +4701,15 @@ function openSystemDisplayNameModal(userId) {
   const displayName = getUserSystemDisplayName(userId, currentChatUserName);
   input.value = displayName;
 
-  modal.style.display = 'flex';
+  modal.style.display = "flex";
   input.focus();
 }
 
 // Close system display name modal
 function closeSystemDisplayNameModal() {
-  const modal = document.getElementById('system-display-name-modal');
+  const modal = document.getElementById("system-display-name-modal");
   if (modal) {
-    modal.style.display = 'none';
+    modal.style.display = "none";
     currentSystemDisplayNameUserId = null;
   }
 }
@@ -4135,7 +4718,7 @@ function closeSystemDisplayNameModal() {
 function saveSystemDisplayNameAndClose() {
   if (currentSystemDisplayNameUserId === null) return;
 
-  const input = document.getElementById('system-display-name-input');
+  const input = document.getElementById("system-display-name-input");
   if (!input) return;
 
   const displayName = input.value.trim();
@@ -4143,7 +4726,9 @@ function saveSystemDisplayNameAndClose() {
     saveUserSystemDisplayName(currentSystemDisplayNameUserId, displayName);
 
     // Update the display in user info
-    const displayNameElement = document.querySelector('.user-info-system-display-name');
+    const displayNameElement = document.querySelector(
+      ".user-info-system-display-name"
+    );
     if (displayNameElement) {
       displayNameElement.textContent = displayName;
     }
@@ -4154,26 +4739,26 @@ function saveSystemDisplayNameAndClose() {
 
 // Initialize system display name modal event listeners
 function initializeSystemDisplayNameModal() {
-  const closeBtn = document.getElementById('system-display-name-close-btn');
-  const cancelBtn = document.getElementById('system-display-name-cancel-btn');
-  const saveBtn = document.getElementById('system-display-name-save-btn');
-  const modal = document.getElementById('system-display-name-modal');
+  const closeBtn = document.getElementById("system-display-name-close-btn");
+  const cancelBtn = document.getElementById("system-display-name-cancel-btn");
+  const saveBtn = document.getElementById("system-display-name-save-btn");
+  const modal = document.getElementById("system-display-name-modal");
 
   if (closeBtn) {
-    closeBtn.addEventListener('click', closeSystemDisplayNameModal);
+    closeBtn.addEventListener("click", closeSystemDisplayNameModal);
   }
 
   if (cancelBtn) {
-    cancelBtn.addEventListener('click', closeSystemDisplayNameModal);
+    cancelBtn.addEventListener("click", closeSystemDisplayNameModal);
   }
 
   if (saveBtn) {
-    saveBtn.addEventListener('click', saveSystemDisplayNameAndClose);
+    saveBtn.addEventListener("click", saveSystemDisplayNameAndClose);
   }
 
   // Close modal when clicking outside
   if (modal) {
-    modal.addEventListener('click', function(e) {
+    modal.addEventListener("click", function (e) {
       if (e.target === modal) {
         closeSystemDisplayNameModal();
       }
@@ -4182,7 +4767,7 @@ function initializeSystemDisplayNameModal() {
 }
 
 // Call initializeMemoModal on page load
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
   initializeMemoModal();
   initializeSystemDisplayNameModal();
   initializeStepMessagePreviewModal();
@@ -4190,10 +4775,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ===== Save Tags from Basic Info =====
 function saveUserTagsFromBasicInfo(userId) {
-  const checkboxes = document.querySelectorAll('#individual-user-info .tag-checkbox-item input[type="checkbox"]');
+  const checkboxes = document.querySelectorAll(
+    '#individual-user-info .tag-checkbox-item input[type="checkbox"]'
+  );
   const selectedTagIds = [];
 
-  checkboxes.forEach(checkbox => {
+  checkboxes.forEach((checkbox) => {
     if (checkbox.checked) {
       selectedTagIds.push(checkbox.value);
     }
@@ -4203,7 +4790,7 @@ function saveUserTagsFromBasicInfo(userId) {
   localStorage.setItem(`user_${userId}_tags`, JSON.stringify(selectedTagIds));
 
   // Show success message
-  alert('タグを保存しました');
+  alert("タグを保存しました");
 
   // Refresh friends list to update tag badges
   loadIndividualPageUsers();
@@ -4230,29 +4817,33 @@ function showScenarioDetailPage(scenario, options = {}) {
   scenarioHasUnsavedChanges = isNewScenario;
 
   // Hide all pages
-  document.querySelectorAll('.page').forEach(page => {
-    page.classList.remove('active');
-    page.style.display = 'none';
+  document.querySelectorAll(".page").forEach((page) => {
+    page.classList.remove("active");
+    page.style.display = "none";
   });
 
   // Show scenario detail page
-  const detailPage = document.getElementById('scenario-detail-page');
-  detailPage.classList.add('active');
-  detailPage.style.display = 'block';
+  const detailPage = document.getElementById("scenario-detail-page");
+  detailPage.classList.add("active");
+  detailPage.style.display = "block";
 
   // Update page title and info
   updateScenarioDetailTitle();
-  document.getElementById('detail-scenario-name').textContent = currentScenario.name;
-  document.getElementById('detail-scenario-date').textContent = currentScenario.createdAt;
+  document.getElementById("detail-scenario-name").textContent =
+    currentScenario.name;
+  document.getElementById("detail-scenario-date").textContent =
+    currentScenario.createdAt;
 
-  const stepsCountElement = document.getElementById('detail-scenario-steps');
+  const stepsCountElement = document.getElementById("detail-scenario-steps");
   if (stepsCountElement) {
     stepsCountElement.textContent = currentScenario.steps.length;
   }
 
   // Update active nav item
-  document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-  document.querySelector('[data-page="step"]').classList.add('active');
+  document
+    .querySelectorAll(".nav-item")
+    .forEach((item) => item.classList.remove("active"));
+  document.querySelector('[data-page="step"]').classList.add("active");
 
   // Render steps list
   renderStepsList(currentScenario.steps);
@@ -4262,82 +4853,89 @@ function showScenarioDetailPage(scenario, options = {}) {
 }
 
 function updateScenarioDetailTitle() {
-  const titleElement = document.getElementById('scenario-detail-title');
+  const titleElement = document.getElementById("scenario-detail-title");
   if (!titleElement) return;
-  titleElement.textContent = isNewScenario ? 'ステップ配信を作成' : 'ステップ配信を編集';
+  titleElement.textContent = isNewScenario
+    ? "ステップ配信を作成"
+    : "ステップ配信を編集";
 }
 
 function initializeScenarioDetailPage() {
-  console.log('Initializing scenario detail page, currentScenario:', currentScenario);
+  console.log(
+    "Initializing scenario detail page, currentScenario:",
+    currentScenario
+  );
 
   // Back to list button
-  const backBtn = document.getElementById('scenario-back-btn');
-  console.log('Back button element:', backBtn);
+  const backBtn = document.getElementById("scenario-back-btn");
+  console.log("Back button element:", backBtn);
   if (backBtn) {
     // Remove old event listener if exists by cloning the button
     const newBackBtn = backBtn.cloneNode(true);
     backBtn.parentNode.replaceChild(newBackBtn, backBtn);
 
-    newBackBtn.addEventListener('click', () => {
-      console.log('Back button clicked');
+    newBackBtn.addEventListener("click", () => {
+      console.log("Back button clicked");
 
       // Check if there are unsaved changes
       if (scenarioHasUnsavedChanges) {
-        const confirmed = confirm('このサイトを離れますか？\n行った変更が保存されない可能性があります。');
+        const confirmed = confirm(
+          "このサイトを離れますか？\n行った変更が保存されない可能性があります。"
+        );
         if (!confirmed) {
           return; // Cancel navigation
         }
       }
 
       resetScenarioEditingState();
-      navigateToPage('step');
+      navigateToPage("step");
     });
   }
 
   // Add step button
-  const addStepBtn = document.getElementById('add-step-btn');
-  console.log('Add step button element:', addStepBtn);
+  const addStepBtn = document.getElementById("add-step-btn");
+  console.log("Add step button element:", addStepBtn);
   if (addStepBtn) {
     // Remove old event listener if exists by cloning the button
     const newAddStepBtn = addStepBtn.cloneNode(true);
     addStepBtn.parentNode.replaceChild(newAddStepBtn, addStepBtn);
 
-    newAddStepBtn.addEventListener('click', () => {
-      console.log('Add step button clicked, currentScenario:', currentScenario);
+    newAddStepBtn.addEventListener("click", () => {
+      console.log("Add step button clicked, currentScenario:", currentScenario);
       openStepTimingModal();
     });
   }
 
   // Edit scenario name button
-  const editNameBtn = document.getElementById('edit-scenario-name-btn');
+  const editNameBtn = document.getElementById("edit-scenario-name-btn");
   if (editNameBtn) {
     // Remove old event listener if exists by cloning the button
     const newEditNameBtn = editNameBtn.cloneNode(true);
     editNameBtn.parentNode.replaceChild(newEditNameBtn, editNameBtn);
 
-    newEditNameBtn.addEventListener('click', () => {
+    newEditNameBtn.addEventListener("click", () => {
       enableScenarioNameEdit();
     });
   }
 
   // Preview button
-  const previewBtn = document.getElementById('scenario-preview-btn');
+  const previewBtn = document.getElementById("scenario-preview-btn");
   if (previewBtn) {
     const newPreviewBtn = previewBtn.cloneNode(true);
     previewBtn.parentNode.replaceChild(newPreviewBtn, previewBtn);
 
-    newPreviewBtn.addEventListener('click', () => {
+    newPreviewBtn.addEventListener("click", () => {
       showScenarioPreview();
     });
   }
 
   // Save button
-  const saveBtn = document.getElementById('scenario-save-btn');
+  const saveBtn = document.getElementById("scenario-save-btn");
   if (saveBtn) {
     const newSaveBtn = saveBtn.cloneNode(true);
     saveBtn.parentNode.replaceChild(newSaveBtn, saveBtn);
 
-    newSaveBtn.addEventListener('click', () => {
+    newSaveBtn.addEventListener("click", () => {
       saveScenarioChanges();
     });
   }
@@ -4352,14 +4950,14 @@ function initializeScenarioDetailPage() {
 function initializeScenarioTargetSettings() {
   if (!currentScenario) return;
 
-  currentScenario.targetType = 'tags';
+  currentScenario.targetType = "tags";
   if (!Array.isArray(currentScenario.targetTagIds)) {
     currentScenario.targetTagIds = [];
   }
   selectedScenarioTags = new Set(
     currentScenario.targetTagIds
-      .map(id => parseInt(id, 10))
-      .filter(id => !Number.isNaN(id))
+      .map((id) => parseInt(id, 10))
+      .filter((id) => !Number.isNaN(id))
   );
   currentScenario.targetTagIds = Array.from(selectedScenarioTags);
 
@@ -4368,7 +4966,9 @@ function initializeScenarioTargetSettings() {
 }
 
 function renderScenarioTagSelectionList() {
-  const tagSelectionList = document.getElementById('scenario-tag-selection-list');
+  const tagSelectionList = document.getElementById(
+    "scenario-tag-selection-list"
+  );
   if (!tagSelectionList) return;
 
   const allTags = getAllTags();
@@ -4384,12 +4984,13 @@ function renderScenarioTagSelectionList() {
     return;
   }
 
-  tagSelectionList.innerHTML = allTags.map(tag => {
-    const isTransparent = tag.color === 'transparent';
-    const styleAttr = isTransparent
-      ? 'background-color: transparent; border: 1px solid #ddd; color: #333;'
-      : `background-color: ${tag.color};`;
-    return `
+  tagSelectionList.innerHTML = allTags
+    .map((tag) => {
+      const isTransparent = tag.color === "transparent";
+      const styleAttr = isTransparent
+        ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
+        : `background-color: ${tag.color};`;
+      return `
       <label class="broadcast-tag-item">
         <input
           type="checkbox"
@@ -4402,26 +5003,29 @@ function renderScenarioTagSelectionList() {
         <span class="tag-user-count" data-tag-id="${tag.id}">-</span>
       </label>
     `;
-  }).join('');
+    })
+    .join("");
 
   updateTagUserCounts();
 
-  tagSelectionList.querySelectorAll('.scenario-tag-checkbox').forEach(checkbox => {
-    const tagId = parseInt(checkbox.getAttribute('data-tag-id'), 10);
-    if (!Number.isNaN(tagId) && selectedScenarioTags.has(tagId)) {
-      checkbox.checked = true;
-    }
+  tagSelectionList
+    .querySelectorAll(".scenario-tag-checkbox")
+    .forEach((checkbox) => {
+      const tagId = parseInt(checkbox.getAttribute("data-tag-id"), 10);
+      if (!Number.isNaN(tagId) && selectedScenarioTags.has(tagId)) {
+        checkbox.checked = true;
+      }
 
-    checkbox.addEventListener('change', function() {
-      handleScenarioTagCheckboxChange(this);
+      checkbox.addEventListener("change", function () {
+        handleScenarioTagCheckboxChange(this);
+      });
     });
-  });
 }
 
 function handleScenarioTagCheckboxChange(checkbox) {
   if (!currentScenario || !checkbox) return;
 
-  const tagId = parseInt(checkbox.getAttribute('data-tag-id'), 10);
+  const tagId = parseInt(checkbox.getAttribute("data-tag-id"), 10);
   if (Number.isNaN(tagId)) return;
 
   if (checkbox.checked) {
@@ -4437,19 +5041,21 @@ function handleScenarioTagCheckboxChange(checkbox) {
 }
 
 function updateScenarioSelectedTagsCount() {
-  const countContainer = document.getElementById('scenario-tag-selection-count');
-  const countSpan = document.getElementById('scenario-tagged-friends-count');
+  const countContainer = document.getElementById(
+    "scenario-tag-selection-count"
+  );
+  const countSpan = document.getElementById("scenario-tagged-friends-count");
 
   if (!countContainer || !countSpan) return;
 
   if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
-    countContainer.style.display = 'none';
-    countSpan.textContent = '0';
+    countContainer.style.display = "none";
+    countSpan.textContent = "0";
     return;
   }
 
   const totalCount = calculateTotalUsersForTagSet(selectedScenarioTags);
-  countContainer.style.display = 'block';
+  countContainer.style.display = "block";
   countSpan.textContent = totalCount;
 }
 
@@ -4458,28 +5064,28 @@ let scenarioPreviewModalInitialized = false;
 function initializeScenarioPreviewModal() {
   if (scenarioPreviewModalInitialized) return;
 
-  const modal = document.getElementById('scenario-preview-modal');
+  const modal = document.getElementById("scenario-preview-modal");
   if (!modal) return;
 
-  const closeBtn = document.getElementById('scenario-preview-close-btn');
-  const backBtn = document.getElementById('scenario-preview-back-btn');
-  const confirmBtn = document.getElementById('scenario-preview-confirm-btn');
+  const closeBtn = document.getElementById("scenario-preview-close-btn");
+  const backBtn = document.getElementById("scenario-preview-back-btn");
+  const confirmBtn = document.getElementById("scenario-preview-confirm-btn");
 
   if (closeBtn) {
-    closeBtn.addEventListener('click', closeScenarioPreviewModal);
+    closeBtn.addEventListener("click", closeScenarioPreviewModal);
   }
 
   if (backBtn) {
-    backBtn.addEventListener('click', closeScenarioPreviewModal);
+    backBtn.addEventListener("click", closeScenarioPreviewModal);
   }
 
   if (confirmBtn) {
-    confirmBtn.addEventListener('click', () => {
+    confirmBtn.addEventListener("click", () => {
       saveScenarioChanges();
     });
   }
 
-  modal.addEventListener('click', (e) => {
+  modal.addEventListener("click", (e) => {
     if (e.target === modal) {
       closeScenarioPreviewModal();
     }
@@ -4489,9 +5095,9 @@ function initializeScenarioPreviewModal() {
 }
 
 function closeScenarioPreviewModal() {
-  const modal = document.getElementById('scenario-preview-modal');
+  const modal = document.getElementById("scenario-preview-modal");
   if (modal) {
-    modal.style.display = 'none';
+    modal.style.display = "none";
   }
 }
 
@@ -4499,51 +5105,59 @@ function showScenarioPreview() {
   if (!currentScenario) return;
 
   if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
-    alert('配信先タグを1つ以上選択してください');
+    alert("配信先タグを1つ以上選択してください");
     return;
   }
 
-  const modal = document.getElementById('scenario-preview-modal');
+  const modal = document.getElementById("scenario-preview-modal");
   if (!modal) return;
 
   currentScenario.targetTagIds = Array.from(selectedScenarioTags);
 
-  const scenarioNameElement = document.getElementById('scenario-preview-name');
+  const scenarioNameElement = document.getElementById("scenario-preview-name");
   if (scenarioNameElement) {
-    scenarioNameElement.textContent = currentScenario.name || '(管理名なし)';
+    scenarioNameElement.textContent = currentScenario.name || "(管理名なし)";
   }
 
-  const tagsElement = document.getElementById('scenario-preview-tags');
+  const tagsElement = document.getElementById("scenario-preview-tags");
   if (tagsElement) {
     const allTags = getAllTags();
     const tagNames = currentScenario.targetTagIds
-      .map(id => allTags.find(tag => tag.id === id))
+      .map((id) => allTags.find((tag) => tag.id === id))
       .filter(Boolean)
-      .map(tag => tag.name);
-    tagsElement.textContent = tagNames.length > 0 ? tagNames.join(', ') : '未選択';
+      .map((tag) => tag.name);
+    tagsElement.textContent =
+      tagNames.length > 0 ? tagNames.join(", ") : "未選択";
   }
 
-  const stepsContainer = document.getElementById('scenario-preview-steps');
+  const stepsContainer = document.getElementById("scenario-preview-steps");
   if (stepsContainer) {
     if (!currentScenario.steps || currentScenario.steps.length === 0) {
-      stepsContainer.innerHTML = '<div class="empty-state-small"><p>ステップが設定されていません</p></div>';
+      stepsContainer.innerHTML =
+        '<div class="empty-state-small"><p>ステップが設定されていません</p></div>';
     } else {
-      const stepsHtml = currentScenario.steps.map((step, index) => {
-        const timingText = formatScenarioStepTiming(step);
-        const messages = Array.isArray(step.messages) ? step.messages : [];
-        const messageCount = messages.length;
+      const stepsHtml = currentScenario.steps
+        .map((step, index) => {
+          const timingText = formatScenarioStepTiming(step);
+          const messages = Array.isArray(step.messages) ? step.messages : [];
+          const messageCount = messages.length;
 
-        let messagePreviewHtml = '<div class="empty-state-small"><p>メッセージが設定されていません</p></div>';
-        if (messageCount > 0) {
-          const firstMessage = escapeHtml(messages[0].content || '');
-          const extraCount = messageCount - 1;
-          messagePreviewHtml = `
+          let messagePreviewHtml =
+            '<div class="empty-state-small"><p>メッセージが設定されていません</p></div>';
+          if (messageCount > 0) {
+            const firstMessage = escapeHtml(messages[0].content || "");
+            const extraCount = messageCount - 1;
+            messagePreviewHtml = `
             <div class="preview-step-message">${firstMessage}</div>
-            ${extraCount > 0 ? `<div class="preview-step-extra">他${extraCount}件のメッセージ</div>` : ''}
+            ${
+              extraCount > 0
+                ? `<div class="preview-step-extra">他${extraCount}件のメッセージ</div>`
+                : ""
+            }
           `;
-        }
+          }
 
-        return `
+          return `
           <div class="preview-step-item">
             <div class="preview-step-header">
               <span class="preview-step-number">ステップ ${index + 1}</span>
@@ -4554,28 +5168,29 @@ function showScenarioPreview() {
             </div>
           </div>
         `;
-      }).join('');
+        })
+        .join("");
 
       stepsContainer.innerHTML = stepsHtml;
     }
   }
 
   initializeScenarioPreviewModal();
-  modal.style.display = 'flex';
+  modal.style.display = "flex";
 }
 
 function saveScenarioChanges() {
   if (!currentScenario) return;
 
   if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
-    alert('配信先タグを1つ以上選択してください');
+    alert("配信先タグを1つ以上選択してください");
     return;
   }
 
   const scenarioToSave = normalizeScenarioData({
     ...currentScenario,
-    targetType: 'tags',
-    targetTagIds: Array.from(selectedScenarioTags)
+    targetType: "tags",
+    targetTagIds: Array.from(selectedScenarioTags),
   });
 
   updateScenarioInLocalStorage(scenarioToSave);
@@ -4588,44 +5203,44 @@ function saveScenarioChanges() {
 
   closeScenarioPreviewModal();
 
-  alert('ステップ配信を保存しました');
+  alert("ステップ配信を保存しました");
 
-  navigateToPage('step');
+  navigateToPage("step");
   resetScenarioEditingState();
 }
 
 function enableScenarioNameEdit() {
   if (!currentScenario) return;
 
-  const nameElement = document.getElementById('detail-scenario-name');
-  const editBtn = document.getElementById('edit-scenario-name-btn');
+  const nameElement = document.getElementById("detail-scenario-name");
+  const editBtn = document.getElementById("edit-scenario-name-btn");
 
   if (!nameElement || !editBtn) return;
 
   const currentName = currentScenario.name;
 
   // Create input field
-  const input = document.createElement('input');
-  input.type = 'text';
+  const input = document.createElement("input");
+  input.type = "text";
   input.value = currentName;
-  input.className = 'form-input';
-  input.style.flex = '1';
+  input.className = "form-input";
+  input.style.flex = "1";
 
   // Create save button
-  const saveBtn = document.createElement('button');
-  saveBtn.className = 'btn-icon';
+  const saveBtn = document.createElement("button");
+  saveBtn.className = "btn-icon";
   saveBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
-  saveBtn.title = '保存';
+  saveBtn.title = "保存";
 
   // Create cancel button
-  const cancelBtn = document.createElement('button');
-  cancelBtn.className = 'btn-icon';
+  const cancelBtn = document.createElement("button");
+  cancelBtn.className = "btn-icon";
   cancelBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-  cancelBtn.title = 'キャンセル';
+  cancelBtn.title = "キャンセル";
 
   // Replace name element with input
   const parent = nameElement.parentElement;
-  parent.innerHTML = '';
+  parent.innerHTML = "";
   parent.appendChild(input);
   parent.appendChild(saveBtn);
   parent.appendChild(cancelBtn);
@@ -4638,7 +5253,7 @@ function enableScenarioNameEdit() {
   const save = () => {
     const newName = input.value.trim();
     if (!newName) {
-      alert('管理名を入力してください');
+      alert("管理名を入力してください");
       return;
     }
 
@@ -4647,7 +5262,9 @@ function enableScenarioNameEdit() {
 
     // Update UI
     parent.innerHTML = `
-      <span class="info-value" id="detail-scenario-name">${escapeHtml(newName)}</span>
+      <span class="info-value" id="detail-scenario-name">${escapeHtml(
+        newName
+      )}</span>
       <button class="btn-icon" id="edit-scenario-name-btn" title="管理名を編集">
         <i class="fa-solid fa-pen"></i>
       </button>
@@ -4660,13 +5277,15 @@ function enableScenarioNameEdit() {
     initializeScenarioDetailPage();
 
     markScenarioDirty();
-    console.log('Scenario name updated:', newName);
+    console.log("Scenario name updated:", newName);
   };
 
   // Cancel function
   const cancel = () => {
     parent.innerHTML = `
-      <span class="info-value" id="detail-scenario-name">${escapeHtml(currentName)}</span>
+      <span class="info-value" id="detail-scenario-name">${escapeHtml(
+        currentName
+      )}</span>
       <button class="btn-icon" id="edit-scenario-name-btn" title="管理名を編集">
         <i class="fa-solid fa-pen"></i>
       </button>
@@ -4677,30 +5296,30 @@ function enableScenarioNameEdit() {
   };
 
   // Event listeners
-  saveBtn.addEventListener('click', save);
-  cancelBtn.addEventListener('click', cancel);
+  saveBtn.addEventListener("click", save);
+  cancelBtn.addEventListener("click", cancel);
 
   // Enter key to save
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
       save();
-    } else if (e.key === 'Escape') {
+    } else if (e.key === "Escape") {
       cancel();
     }
   });
 }
 
 function renderStepsList(steps) {
-  console.log('renderStepsList called with steps:', steps);
-  const stepsList = document.getElementById('steps-list');
+  console.log("renderStepsList called with steps:", steps);
+  const stepsList = document.getElementById("steps-list");
 
   if (!stepsList) {
-    console.error('steps-list element not found!');
+    console.error("steps-list element not found!");
     return;
   }
 
   if (steps.length === 0) {
-    console.log('No steps, showing empty state');
+    console.log("No steps, showing empty state");
     stepsList.innerHTML = `
       <div class="empty-state-small">
         <p>配信タイミングがまだ追加されていません</p>
@@ -4710,8 +5329,10 @@ function renderStepsList(steps) {
     return;
   }
 
-  console.log('Rendering', steps.length, 'steps');
-  stepsList.innerHTML = steps.map((step, index) => `
+  console.log("Rendering", steps.length, "steps");
+  stepsList.innerHTML = steps
+    .map(
+      (step, index) => `
     <div class="step-item">
       <div class="step-header">
         <span class="step-number">ステップ ${index + 1}</span>
@@ -4721,9 +5342,11 @@ function renderStepsList(steps) {
       </div>
       <div class="step-timing-info">
         <span>
-          ${step.timing === 'immediate'
-            ? 'ステップ開始直後に配信'
-            : `ステップ開始から${step.days}日後の${step.time}に配信`}
+          ${
+            step.timing === "immediate"
+              ? "ステップ開始直後に配信"
+              : `ステップ開始から${step.days}日後の${step.time}に配信`
+          }
         </span>
         <button class="btn btn-outline btn-sm" onclick="editStepTiming(${index})" style="margin-left: 10px;">
           <i class="fa-solid fa-pen"></i> 配信タイミングを変更
@@ -4737,8 +5360,11 @@ function renderStepsList(steps) {
       </div>
 
       <div class="step-messages-list" id="step-${index}-messages">
-        ${step.messages && step.messages.length > 0
-          ? step.messages.map((msg, msgIndex) => `
+        ${
+          step.messages && step.messages.length > 0
+            ? step.messages
+                .map(
+                  (msg, msgIndex) => `
             <div class="step-message-item">
               <div class="step-message-content">${escapeHtml(msg.content)}</div>
               <div class="step-message-item-actions">
@@ -4753,37 +5379,42 @@ function renderStepsList(steps) {
                 </button>
               </div>
             </div>
-          `).join('')
-          : '<div class="empty-state-small"><p>メッセージがまだ追加されていません</p></div>'}
+          `
+                )
+                .join("")
+            : '<div class="empty-state-small"><p>メッセージがまだ追加されていません</p></div>'
+        }
       </div>
     </div>
-  `).join('');
+  `
+    )
+    .join("");
 }
 
 function deleteStep(index) {
-  console.log('deleteStep called with index:', index);
-  console.log('currentScenario:', currentScenario);
+  console.log("deleteStep called with index:", index);
+  console.log("currentScenario:", currentScenario);
 
   if (!currentScenario) {
-    console.error('currentScenario is null!');
+    console.error("currentScenario is null!");
     return;
   }
 
-  console.log('Steps before delete:', currentScenario.steps);
+  console.log("Steps before delete:", currentScenario.steps);
 
   if (confirm(`ステップ ${index + 1} を削除しますか？`)) {
     currentScenario.steps.splice(index, 1);
-    console.log('Steps after delete:', currentScenario.steps);
+    console.log("Steps after delete:", currentScenario.steps);
 
     markScenarioDirty();
 
-    const stepsCountElement = document.getElementById('detail-scenario-steps');
+    const stepsCountElement = document.getElementById("detail-scenario-steps");
     if (stepsCountElement) {
       stepsCountElement.textContent = currentScenario.steps.length;
     }
 
     renderStepsList(currentScenario.steps);
-    console.log('Step deleted successfully');
+    console.log("Step deleted successfully");
   }
 }
 
@@ -4795,32 +5426,36 @@ function editStepTiming(index) {
   currentEditStepIndex = index;
   const step = currentScenario.steps[index];
 
-  const modal = document.getElementById('step-timing-modal');
+  const modal = document.getElementById("step-timing-modal");
 
   // Update modal title
-  document.getElementById('step-timing-title').textContent = `ステップ ${index + 1} の配信タイミングを変更`;
+  document.getElementById("step-timing-title").textContent = `ステップ ${
+    index + 1
+  } の配信タイミングを変更`;
 
   // Set current timing values
-  const timingRadio = document.querySelector(`input[name="stepDeliveryTiming"][value="${step.timing}"]`);
+  const timingRadio = document.querySelector(
+    `input[name="stepDeliveryTiming"][value="${step.timing}"]`
+  );
   if (timingRadio) {
     timingRadio.checked = true;
   }
 
-  if (step.timing === 'scheduled') {
-    document.getElementById('step-days').value = step.days || 0;
-    document.getElementById('step-time').value = step.time || '09:00';
-    document.getElementById('step-scheduled-group').style.display = 'block';
+  if (step.timing === "scheduled") {
+    document.getElementById("step-days").value = step.days || 0;
+    document.getElementById("step-time").value = step.time || "09:00";
+    document.getElementById("step-scheduled-group").style.display = "block";
     updateStepTimingPreview();
   } else {
-    document.getElementById('step-scheduled-group').style.display = 'none';
+    document.getElementById("step-scheduled-group").style.display = "none";
   }
 
   // Change button text to "更新"
-  const addBtn = document.getElementById('step-timing-add-btn');
-  addBtn.textContent = '更新';
+  const addBtn = document.getElementById("step-timing-add-btn");
+  addBtn.textContent = "更新";
 
   // Show modal
-  modal.style.display = 'flex';
+  modal.style.display = "flex";
 }
 
 // ===== Message Management =====
@@ -4832,24 +5467,24 @@ function initializeMessageModal() {
   if (messageModalInitialized) return;
   messageModalInitialized = true;
 
-  const modal = document.getElementById('message-modal');
-  const closeBtn = document.getElementById('message-close-btn');
-  const cancelBtn = document.getElementById('message-cancel-btn');
-  const addBtn = document.getElementById('message-add-btn');
+  const modal = document.getElementById("message-modal");
+  const closeBtn = document.getElementById("message-close-btn");
+  const cancelBtn = document.getElementById("message-cancel-btn");
+  const addBtn = document.getElementById("message-add-btn");
 
   // Close modal events
-  closeBtn.addEventListener('click', closeMessageModal);
-  cancelBtn.addEventListener('click', closeMessageModal);
+  closeBtn.addEventListener("click", closeMessageModal);
+  cancelBtn.addEventListener("click", closeMessageModal);
 
   // Close modal when clicking outside
-  modal.addEventListener('click', function (e) {
+  modal.addEventListener("click", function (e) {
     if (e.target === modal) {
       closeMessageModal();
     }
   });
 
   // Add message handler
-  addBtn.addEventListener('click', handleMessageAdd);
+  addBtn.addEventListener("click", handleMessageAdd);
 }
 
 function addMessageToStep(stepIndex) {
@@ -4860,29 +5495,31 @@ function addMessageToStep(stepIndex) {
   initializeMessageModal();
 
   // Update modal title
-  document.getElementById('message-modal-title').textContent = `ステップ ${stepIndex + 1} にメッセージを追加`;
+  document.getElementById("message-modal-title").textContent = `ステップ ${
+    stepIndex + 1
+  } にメッセージを追加`;
 
   // Reset form
-  document.getElementById('message-content').value = '';
+  document.getElementById("message-content").value = "";
 
   // Update button text
-  document.getElementById('message-add-btn').textContent = '追加';
+  document.getElementById("message-add-btn").textContent = "追加";
 
   // Show modal
-  document.getElementById('message-modal').style.display = 'flex';
+  document.getElementById("message-modal").style.display = "flex";
 
   // Focus on textarea
   setTimeout(() => {
-    document.getElementById('message-content').focus();
+    document.getElementById("message-content").focus();
   }, 100);
 }
 
 function addTemplateToStep(stepIndex) {
-  alert('テンプレート機能は実装予定です');
+  alert("テンプレート機能は実装予定です");
 }
 
 function closeMessageModal() {
-  document.getElementById('message-modal').style.display = 'none';
+  document.getElementById("message-modal").style.display = "none";
   currentStepIndex = null;
   currentMessageIndex = null;
 }
@@ -4890,11 +5527,11 @@ function closeMessageModal() {
 function handleMessageAdd() {
   if (!currentScenario || currentStepIndex === null) return;
 
-  const content = document.getElementById('message-content').value.trim();
+  const content = document.getElementById("message-content").value.trim();
 
   // Validation
   if (!content) {
-    alert('メッセージを入力してください');
+    alert("メッセージを入力してください");
     return;
   }
 
@@ -4909,12 +5546,15 @@ function handleMessageAdd() {
       step.messages = [];
     }
     step.messages.push({
-      type: 'text',
-      content: content
+      type: "text",
+      content: content,
     });
   }
 
-  console.log('Message added/updated:', { stepIndex: currentStepIndex, content });
+  console.log("Message added/updated:", {
+    stepIndex: currentStepIndex,
+    content,
+  });
 
   markScenarioDirty();
 
@@ -4937,27 +5577,29 @@ function editMessage(stepIndex, messageIndex) {
   initializeMessageModal();
 
   // Update modal title
-  document.getElementById('message-modal-title').textContent = `メッセージを編集`;
+  document.getElementById(
+    "message-modal-title"
+  ).textContent = `メッセージを編集`;
 
   // Fill form with existing data
-  document.getElementById('message-content').value = message.content;
+  document.getElementById("message-content").value = message.content;
 
   // Update button text
-  document.getElementById('message-add-btn').textContent = '更新';
+  document.getElementById("message-add-btn").textContent = "更新";
 
   // Show modal
-  document.getElementById('message-modal').style.display = 'flex';
+  document.getElementById("message-modal").style.display = "flex";
 
   // Focus on textarea
   setTimeout(() => {
-    document.getElementById('message-content').focus();
+    document.getElementById("message-content").focus();
   }, 100);
 }
 
 function deleteMessage(stepIndex, messageIndex) {
   if (!currentScenario) return;
 
-  if (confirm('このメッセージを削除しますか？')) {
+  if (confirm("このメッセージを削除しますか？")) {
     currentScenario.steps[stepIndex].messages.splice(messageIndex, 1);
     markScenarioDirty();
     renderStepsList(currentScenario.steps);
@@ -4971,94 +5613,102 @@ function initializeStepTimingModal() {
   if (stepTimingModalInitialized) return;
   stepTimingModalInitialized = true;
 
-  const modal = document.getElementById('step-timing-modal');
-  const closeBtn = document.getElementById('step-timing-close-btn');
-  const cancelBtn = document.getElementById('step-timing-cancel-btn');
-  const addBtn = document.getElementById('step-timing-add-btn');
-  const deliveryTimingRadios = document.querySelectorAll('input[name="stepDeliveryTiming"]');
+  const modal = document.getElementById("step-timing-modal");
+  const closeBtn = document.getElementById("step-timing-close-btn");
+  const cancelBtn = document.getElementById("step-timing-cancel-btn");
+  const addBtn = document.getElementById("step-timing-add-btn");
+  const deliveryTimingRadios = document.querySelectorAll(
+    'input[name="stepDeliveryTiming"]'
+  );
 
   // Close modal events
-  closeBtn.addEventListener('click', closeStepTimingModal);
-  cancelBtn.addEventListener('click', closeStepTimingModal);
+  closeBtn.addEventListener("click", closeStepTimingModal);
+  cancelBtn.addEventListener("click", closeStepTimingModal);
 
   // Close modal when clicking outside
-  modal.addEventListener('click', function (e) {
+  modal.addEventListener("click", function (e) {
     if (e.target === modal) {
       closeStepTimingModal();
     }
   });
 
   // Delivery timing change handler
-  deliveryTimingRadios.forEach(radio => {
-    radio.addEventListener('change', function() {
+  deliveryTimingRadios.forEach((radio) => {
+    radio.addEventListener("change", function () {
       handleStepDeliveryTimingChange(this.value);
     });
   });
 
   // Add step handler
-  addBtn.addEventListener('click', handleStepAdd);
+  addBtn.addEventListener("click", handleStepAdd);
 }
 
 function openStepTimingModal() {
-  console.log('openStepTimingModal called, currentScenario:', currentScenario);
+  console.log("openStepTimingModal called, currentScenario:", currentScenario);
   if (!currentScenario) {
-    console.error('currentScenario is null!');
+    console.error("currentScenario is null!");
     return;
   }
 
   // Reset edit index
   currentEditStepIndex = null;
 
-  const modal = document.getElementById('step-timing-modal');
+  const modal = document.getElementById("step-timing-modal");
   const stepNumber = currentScenario.steps.length + 1;
 
-  console.log('Opening step timing modal, step number:', stepNumber);
+  console.log("Opening step timing modal, step number:", stepNumber);
 
   // Update modal title
-  document.getElementById('step-timing-title').textContent = `ステップ ${stepNumber} の配信タイミング`;
+  document.getElementById(
+    "step-timing-title"
+  ).textContent = `ステップ ${stepNumber} の配信タイミング`;
 
   // Reset form
-  document.querySelector('input[name="stepDeliveryTiming"][value="immediate"]').checked = true;
-  document.getElementById('step-days').value = '0';
-  document.getElementById('step-time').value = '09:00';
-  document.getElementById('step-scheduled-group').style.display = 'none';
+  document.querySelector(
+    'input[name="stepDeliveryTiming"][value="immediate"]'
+  ).checked = true;
+  document.getElementById("step-days").value = "0";
+  document.getElementById("step-time").value = "09:00";
+  document.getElementById("step-scheduled-group").style.display = "none";
 
   // Reset button text
-  document.getElementById('step-timing-add-btn').textContent = '追加';
+  document.getElementById("step-timing-add-btn").textContent = "追加";
 
-  modal.style.display = 'flex';
+  modal.style.display = "flex";
 }
 
 function closeStepTimingModal() {
-  const modal = document.getElementById('step-timing-modal');
-  modal.style.display = 'none';
+  const modal = document.getElementById("step-timing-modal");
+  modal.style.display = "none";
 }
 
 function handleStepDeliveryTimingChange(timing) {
-  const scheduledGroup = document.getElementById('step-scheduled-group');
+  const scheduledGroup = document.getElementById("step-scheduled-group");
 
-  if (timing === 'scheduled') {
-    scheduledGroup.style.display = 'block';
+  if (timing === "scheduled") {
+    scheduledGroup.style.display = "block";
   } else {
-    scheduledGroup.style.display = 'none';
+    scheduledGroup.style.display = "none";
   }
 }
 
 function handleStepAdd() {
   if (!currentScenario) return;
 
-  const deliveryTiming = document.querySelector('input[name="stepDeliveryTiming"]:checked').value;
-  const scheduledDays = document.getElementById('step-days').value;
-  const scheduledTime = document.getElementById('step-time').value;
+  const deliveryTiming = document.querySelector(
+    'input[name="stepDeliveryTiming"]:checked'
+  ).value;
+  const scheduledDays = document.getElementById("step-days").value;
+  const scheduledTime = document.getElementById("step-time").value;
 
   // Validation
-  if (deliveryTiming === 'scheduled') {
+  if (deliveryTiming === "scheduled") {
     if (!scheduledDays || scheduledDays < 0 || scheduledDays > 30) {
-      alert('経過日数を0〜30日の範囲で指定してください');
+      alert("経過日数を0〜30日の範囲で指定してください");
       return;
     }
     if (!scheduledTime) {
-      alert('配信時間を指定してください');
+      alert("配信時間を指定してください");
       return;
     }
   }
@@ -5068,10 +5718,10 @@ function handleStepAdd() {
     // Update existing step
     const step = currentScenario.steps[currentEditStepIndex];
     step.timing = deliveryTiming;
-    step.days = deliveryTiming === 'scheduled' ? parseInt(scheduledDays) : 0;
-    step.time = deliveryTiming === 'scheduled' ? scheduledTime : null;
+    step.days = deliveryTiming === "scheduled" ? parseInt(scheduledDays) : 0;
+    step.time = deliveryTiming === "scheduled" ? scheduledTime : null;
 
-    console.log('Updating step:', step);
+    console.log("Updating step:", step);
 
     // Reset edit index
     currentEditStepIndex = null;
@@ -5079,21 +5729,21 @@ function handleStepAdd() {
     // Create new step object
     const newStep = {
       timing: deliveryTiming,
-      days: deliveryTiming === 'scheduled' ? parseInt(scheduledDays) : 0,
-      time: deliveryTiming === 'scheduled' ? scheduledTime : null,
-      messages: []  // メッセージは別途追加する
+      days: deliveryTiming === "scheduled" ? parseInt(scheduledDays) : 0,
+      time: deliveryTiming === "scheduled" ? scheduledTime : null,
+      messages: [], // メッセージは別途追加する
     };
 
     // Add step to scenario
     currentScenario.steps.push(newStep);
 
-    console.log('Adding step:', newStep);
+    console.log("Adding step:", newStep);
   }
 
   markScenarioDirty();
 
   // Update UI
-  const stepsCountElement = document.getElementById('detail-scenario-steps');
+  const stepsCountElement = document.getElementById("detail-scenario-steps");
   if (stepsCountElement) {
     stepsCountElement.textContent = currentScenario.steps.length;
   }
@@ -5107,135 +5757,174 @@ function handleStepAdd() {
 
 // Mock broadcast data
 const MOCK_BROADCASTS = [
-  { id: 1, title: '新商品のお知らせ', target: 'all', targetText: '全員', deliveryTiming: 'immediate', message: 'いつもご利用ありがとうございます。新商品が入荷しました！', createdAt: '2025-10-15', status: '配信完了' },
-  { id: 2, title: 'セール情報', target: 'tags', targetText: 'VIP顧客', selectedTags: [1], deliveryTiming: 'scheduled', days: 1, time: '10:00', message: 'VIPメンバー限定セールのお知らせです', createdAt: '2025-10-10', status: '配信予約中' },
-  { id: 3, title: '秋のキャンペーン', target: 'all', targetText: '全員', deliveryTiming: 'immediate', message: '秋のキャンペーンを開始しました！', createdAt: '2025-10-05', status: '配信完了' },
-  { id: 4, title: '9月の総括', target: 'all', targetText: '全員', deliveryTiming: 'immediate', message: '9月の活動報告をお送りします。', createdAt: '2025-09-30', status: '配信完了' }
+  {
+    id: 1,
+    title: "新商品のお知らせ",
+    target: "all",
+    targetText: "全員",
+    deliveryTiming: "immediate",
+    message: "いつもご利用ありがとうございます。新商品が入荷しました！",
+    createdAt: "2025-10-15",
+    status: "配信完了",
+  },
+  {
+    id: 2,
+    title: "セール情報",
+    target: "tags",
+    targetText: "VIP顧客",
+    selectedTags: [1],
+    deliveryTiming: "scheduled",
+    days: 1,
+    time: "10:00",
+    message: "VIPメンバー限定セールのお知らせです",
+    createdAt: "2025-10-10",
+    status: "配信予約中",
+  },
+  {
+    id: 3,
+    title: "秋のキャンペーン",
+    target: "all",
+    targetText: "全員",
+    deliveryTiming: "immediate",
+    message: "秋のキャンペーンを開始しました！",
+    createdAt: "2025-10-05",
+    status: "配信完了",
+  },
+  {
+    id: 4,
+    title: "9月の総括",
+    target: "all",
+    targetText: "全員",
+    deliveryTiming: "immediate",
+    message: "9月の活動報告をお送りします。",
+    createdAt: "2025-09-30",
+    status: "配信完了",
+  },
 ];
 
 // Mock scenario data
 const MOCK_SCENARIOS = [
   {
     id: 1,
-    name: 'ウェルカムシーケンス',
-    createdAt: '2025/10/15',
+    name: "ウェルカムシーケンス",
+    createdAt: "2025/10/15",
     steps: [
       {
-        timing: 'immediate',
+        timing: "immediate",
         days: 0,
         time: null,
-        messages: []
-      }
+        messages: [],
+      },
     ],
-    targetType: 'tags',
-    targetTagIds: [1]  // VIP顧客
+    targetType: "tags",
+    targetTagIds: [1], // VIP顧客
   },
   {
     id: 2,
-    name: '商品紹介シリーズ',
-    createdAt: '2025/10/10',
+    name: "商品紹介シリーズ",
+    createdAt: "2025/10/10",
     steps: [
       {
-        timing: 'scheduled',
+        timing: "scheduled",
         days: 1,
-        time: '10:00',
-        messages: []
-      }
+        time: "10:00",
+        messages: [],
+      },
     ],
-    targetType: 'tags',
-    targetTagIds: [2]  // 問い合わせ対応中
+    targetType: "tags",
+    targetTagIds: [2], // 問い合わせ対応中
   },
   {
     id: 3,
-    name: 'フォローアップキャンペーン',
-    createdAt: '2025/10/05',
+    name: "フォローアップキャンペーン",
+    createdAt: "2025/10/05",
     steps: [
       {
-        timing: 'scheduled',
+        timing: "scheduled",
         days: 3,
-        time: '14:00',
-        messages: []
+        time: "14:00",
+        messages: [],
       },
       {
-        timing: 'scheduled',
+        timing: "scheduled",
         days: 7,
-        time: '10:00',
-        messages: []
-      }
+        time: "10:00",
+        messages: [],
+      },
     ],
-    targetType: 'tags',
-    targetTagIds: [3]  // 資料送付済み
+    targetType: "tags",
+    targetTagIds: [3], // 資料送付済み
   },
   {
     id: 4,
-    name: 'リピーター育成プログラム',
-    createdAt: '2025/09/28',
+    name: "リピーター育成プログラム",
+    createdAt: "2025/09/28",
     steps: [
       {
-        timing: 'immediate',
+        timing: "immediate",
         days: 0,
         time: null,
-        messages: []
+        messages: [],
       },
       {
-        timing: 'scheduled',
+        timing: "scheduled",
         days: 2,
-        time: '11:00',
-        messages: []
+        time: "11:00",
+        messages: [],
       },
       {
-        timing: 'scheduled',
+        timing: "scheduled",
         days: 5,
-        time: '15:00',
-        messages: []
-      }
+        time: "15:00",
+        messages: [],
+      },
     ],
-    targetType: 'tags',
-    targetTagIds: [5]  // キャンペーン参加
+    targetType: "tags",
+    targetTagIds: [5], // キャンペーン参加
   },
   {
     id: 5,
-    name: '新規顧客オンボーディング',
-    createdAt: '2025/09/20',
+    name: "新規顧客オンボーディング",
+    createdAt: "2025/09/20",
     steps: [
       {
-        timing: 'immediate',
+        timing: "immediate",
         days: 0,
         time: null,
-        messages: []
+        messages: [],
       },
       {
-        timing: 'scheduled',
+        timing: "scheduled",
         days: 1,
-        time: '09:00',
-        messages: []
-      }
+        time: "09:00",
+        messages: [],
+      },
     ],
-    targetType: 'tags',
-    targetTagIds: [1, 2]  // VIP顧客、問い合わせ対応中
-  }
+    targetType: "tags",
+    targetTagIds: [1, 2], // VIP顧客、問い合わせ対応中
+  },
 ];
 
 // Initialize mock broadcast data
 function initializeBroadcastData() {
-  if (!localStorage.getItem('mockBroadcasts')) {
-    localStorage.setItem('mockBroadcasts', JSON.stringify(MOCK_BROADCASTS));
+  if (!localStorage.getItem("mockBroadcasts")) {
+    localStorage.setItem("mockBroadcasts", JSON.stringify(MOCK_BROADCASTS));
   }
 }
 
 // Initialize mock scenario data
 function initializeScenarioData() {
-  if (!localStorage.getItem('scenarios')) {
-    localStorage.setItem('scenarios', JSON.stringify(MOCK_SCENARIOS));
+  if (!localStorage.getItem("scenarios")) {
+    localStorage.setItem("scenarios", JSON.stringify(MOCK_SCENARIOS));
   }
 }
 
 function getMockBroadcasts() {
-  return JSON.parse(localStorage.getItem('mockBroadcasts') || '[]');
+  return JSON.parse(localStorage.getItem("mockBroadcasts") || "[]");
 }
 
 function saveMockBroadcasts(broadcasts) {
-  localStorage.setItem('mockBroadcasts', JSON.stringify(broadcasts));
+  localStorage.setItem("mockBroadcasts", JSON.stringify(broadcasts));
 }
 
 // Current broadcast being edited
@@ -5247,9 +5936,9 @@ function initializeBroadcastListPage() {
   if (broadcastListInitialized) return;
   broadcastListInitialized = true;
 
-  const newBtn = document.getElementById('broadcast-new-btn');
+  const newBtn = document.getElementById("broadcast-new-btn");
   if (newBtn) {
-    newBtn.addEventListener('click', createNewBroadcast);
+    newBtn.addEventListener("click", createNewBroadcast);
   }
 
   initializeBroadcastStatusToggle();
@@ -5258,23 +5947,23 @@ function initializeBroadcastListPage() {
 
 // Initialize broadcast status toggle buttons
 function initializeBroadcastStatusToggle() {
-  const scheduledBtn = document.getElementById('broadcast-status-scheduled');
-  const completedBtn = document.getElementById('broadcast-status-completed');
+  const scheduledBtn = document.getElementById("broadcast-status-scheduled");
+  const completedBtn = document.getElementById("broadcast-status-completed");
 
   if (scheduledBtn) {
-    scheduledBtn.addEventListener('click', () => {
-      currentBroadcastStatusFilter = '配信予約中';
-      scheduledBtn.classList.add('active');
-      completedBtn.classList.remove('active');
+    scheduledBtn.addEventListener("click", () => {
+      currentBroadcastStatusFilter = "配信予約中";
+      scheduledBtn.classList.add("active");
+      completedBtn.classList.remove("active");
       renderBroadcastList();
     });
   }
 
   if (completedBtn) {
-    completedBtn.addEventListener('click', () => {
-      currentBroadcastStatusFilter = '配信完了';
-      completedBtn.classList.add('active');
-      scheduledBtn.classList.remove('active');
+    completedBtn.addEventListener("click", () => {
+      currentBroadcastStatusFilter = "配信完了";
+      completedBtn.classList.add("active");
+      scheduledBtn.classList.remove("active");
       renderBroadcastList();
     });
   }
@@ -5282,72 +5971,111 @@ function initializeBroadcastStatusToggle() {
 
 // Render broadcast list
 function renderBroadcastList() {
-  const tbody = document.getElementById('broadcasts-tbody');
+  const tbody = document.getElementById("broadcasts-tbody");
   if (!tbody) return;
 
   const allBroadcasts = getMockBroadcasts();
 
   // Filter based on current status
-  const broadcasts = allBroadcasts.filter(b => b.status === currentBroadcastStatusFilter);
+  const broadcasts = allBroadcasts.filter(
+    (b) => b.status === currentBroadcastStatusFilter
+  );
 
   if (broadcasts.length === 0) {
-    const emptyMessage = currentBroadcastStatusFilter === '配信予約中'
-      ? '配信予約中の一斉配信がありません<br>「新規作成」ボタンから作成してください'
-      : '配信完了の一斉配信がありません';
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">' + emptyMessage + '</td></tr>';
+    const emptyMessage =
+      currentBroadcastStatusFilter === "配信予約中"
+        ? "配信予約中の一斉配信がありません<br>「新規作成」ボタンから作成してください"
+        : "配信完了の一斉配信がありません";
+    tbody.innerHTML =
+      '<tr><td colspan="6" style="text-align: center; padding: 30px; color: #999;">' +
+      emptyMessage +
+      "</td></tr>";
     return;
   }
 
-  tbody.innerHTML = broadcasts.map(broadcast => {
-    const timingText = broadcast.deliveryTiming === 'immediate' ? 'すぐに配信' : broadcast.days + '日後 ' + broadcast.time;
-    const statusClass = broadcast.status === '配信完了' ? 'status-active' : 'status-progress';
-    return '<tr data-broadcast-id="' + broadcast.id + '"><td>' + (broadcast.title || '(タイトルなし)') + '</td><td>' + broadcast.targetText + '</td><td>' + timingText + '</td><td><span class="status-badge ' + statusClass + '">' + broadcast.status + '</span></td><td>' + broadcast.createdAt + '</td><td><button class="btn btn-outline btn-sm broadcast-edit-btn" onclick="editBroadcast(' + broadcast.id + ')">編集</button> <button class="btn btn-secondary btn-sm" onclick="deleteBroadcast(' + broadcast.id + ')">削除</button></td></tr>';
-  }).join('');
+  tbody.innerHTML = broadcasts
+    .map((broadcast) => {
+      const timingText =
+        broadcast.deliveryTiming === "immediate"
+          ? "すぐに配信"
+          : broadcast.days + "日後 " + broadcast.time;
+      const statusClass =
+        broadcast.status === "配信完了" ? "status-active" : "status-progress";
+      return (
+        '<tr data-broadcast-id="' +
+        broadcast.id +
+        '"><td>' +
+        (broadcast.title || "(タイトルなし)") +
+        "</td><td>" +
+        broadcast.targetText +
+        "</td><td>" +
+        timingText +
+        '</td><td><span class="status-badge ' +
+        statusClass +
+        '">' +
+        broadcast.status +
+        "</span></td><td>" +
+        broadcast.createdAt +
+        '</td><td><button class="btn btn-outline btn-sm broadcast-edit-btn" onclick="editBroadcast(' +
+        broadcast.id +
+        ')">編集</button> <button class="btn btn-secondary btn-sm" onclick="deleteBroadcast(' +
+        broadcast.id +
+        ')">削除</button></td></tr>'
+      );
+    })
+    .join("");
 }
 
 // Create new broadcast
 function createNewBroadcast() {
   currentBroadcastId = null;
-  navigateToPage('broadcast-detail');
-  document.getElementById('broadcast-detail-title').textContent = '一斉配信を作成';
-  document.getElementById('broadcast-title').value = '';
-  document.getElementById('broadcast-message').value = '';
+  navigateToPage("broadcast-detail");
+  document.getElementById("broadcast-detail-title").textContent =
+    "一斉配信を作成";
+  document.getElementById("broadcast-title").value = "";
+  document.getElementById("broadcast-message").value = "";
   document.querySelector('input[name="target"][value="all"]').checked = true;
-  document.querySelector('input[name="deliveryTiming"][value="immediate"]').checked = true;
-  document.getElementById('tag-selection-area').style.display = 'none';
-  document.getElementById('scheduled-datetime-group').style.display = 'none';
+  document.querySelector(
+    'input[name="deliveryTiming"][value="immediate"]'
+  ).checked = true;
+  document.getElementById("tag-selection-area").style.display = "none";
+  document.getElementById("scheduled-datetime-group").style.display = "none";
   selectedBroadcastTags.clear();
 }
 
 // Initialize step message preview modal
 function initializeStepMessagePreviewModal() {
-  const modal = document.getElementById('step-message-preview-modal');
-  const closeBtn = document.getElementById('step-message-preview-close');
-  const backBtn = document.getElementById('step-message-preview-back-btn');
+  const modal = document.getElementById("step-message-preview-modal");
+  const closeBtn = document.getElementById("step-message-preview-close");
+  const backBtn = document.getElementById("step-message-preview-back-btn");
 
   if (closeBtn) {
     closeBtn.onclick = function () {
-      modal.style.display = 'none';
+      modal.style.display = "none";
     };
   }
 
   if (backBtn) {
     backBtn.onclick = function () {
-      modal.style.display = 'none';
+      modal.style.display = "none";
     };
   }
 
   window.onclick = function (event) {
     if (event.target == modal) {
-      modal.style.display = 'none';
+      modal.style.display = "none";
     }
   };
 }
 
 // Preview step message
 function previewStepMessage(stepIndex, messageIndex) {
-  if (!currentScenario || !currentScenario.steps || !currentScenario.steps[stepIndex]) {
-    alert('メッセージが見つかりません');
+  if (
+    !currentScenario ||
+    !currentScenario.steps ||
+    !currentScenario.steps[stepIndex]
+  ) {
+    alert("メッセージが見つかりません");
     return;
   }
 
@@ -5355,12 +6083,14 @@ function previewStepMessage(stepIndex, messageIndex) {
   const message = step.messages[messageIndex];
 
   if (!message) {
-    alert('メッセージが見つかりません');
+    alert("メッセージが見つかりません");
     return;
   }
 
-  const modal = document.getElementById('step-message-preview-modal');
-  const chatContainer = document.querySelector('#step-message-preview-container .message-preview-chat');
+  const modal = document.getElementById("step-message-preview-modal");
+  const chatContainer = document.querySelector(
+    "#step-message-preview-container .message-preview-chat"
+  );
 
   const messageHtml = `
     <div class="message message-sent">
@@ -5371,40 +6101,45 @@ function previewStepMessage(stepIndex, messageIndex) {
   `;
 
   chatContainer.innerHTML = messageHtml;
-  modal.style.display = 'flex';
+  modal.style.display = "flex";
 }
 
 // Edit broadcast
 function editBroadcast(id) {
   const broadcasts = getMockBroadcasts();
-  const broadcast = broadcasts.find(b => b.id === id);
+  const broadcast = broadcasts.find((b) => b.id === id);
   if (!broadcast) return;
   currentBroadcastId = id;
-  navigateToPage('broadcast-detail');
-  document.getElementById('broadcast-detail-title').textContent = '一斉配信を編集';
-  document.getElementById('broadcast-title').value = broadcast.title || '';
-  document.getElementById('broadcast-message').value = broadcast.message || '';
-  document.querySelector('input[name="target"][value="' + broadcast.target + '"]').checked = true;
-  if (broadcast.target === 'tags') {
-    document.getElementById('tag-selection-area').style.display = 'block';
+  navigateToPage("broadcast-detail");
+  document.getElementById("broadcast-detail-title").textContent =
+    "一斉配信を編集";
+  document.getElementById("broadcast-title").value = broadcast.title || "";
+  document.getElementById("broadcast-message").value = broadcast.message || "";
+  document.querySelector(
+    'input[name="target"][value="' + broadcast.target + '"]'
+  ).checked = true;
+  if (broadcast.target === "tags") {
+    document.getElementById("tag-selection-area").style.display = "block";
     if (broadcast.selectedTags) {
       selectedBroadcastTags = new Set(broadcast.selectedTags);
       initializeBroadcastTagSelection();
     }
   }
-  document.querySelector('input[name="deliveryTiming"][value="' + broadcast.deliveryTiming + '"]').checked = true;
-  if (broadcast.deliveryTiming === 'scheduled') {
-    document.getElementById('scheduled-datetime-group').style.display = 'block';
-    document.getElementById('broadcast-days').value = broadcast.days || 0;
-    document.getElementById('broadcast-time').value = broadcast.time || '09:00';
+  document.querySelector(
+    'input[name="deliveryTiming"][value="' + broadcast.deliveryTiming + '"]'
+  ).checked = true;
+  if (broadcast.deliveryTiming === "scheduled") {
+    document.getElementById("scheduled-datetime-group").style.display = "block";
+    document.getElementById("broadcast-days").value = broadcast.days || 0;
+    document.getElementById("broadcast-time").value = broadcast.time || "09:00";
   }
 }
 
 // Delete broadcast
 function deleteBroadcast(id) {
-  if (!confirm('この一斉配信を削除しますか?')) return;
+  if (!confirm("この一斉配信を削除しますか?")) return;
   let broadcasts = getMockBroadcasts();
-  broadcasts = broadcasts.filter(b => b.id !== id);
+  broadcasts = broadcasts.filter((b) => b.id !== id);
   saveMockBroadcasts(broadcasts);
   renderBroadcastList();
 }
@@ -5412,16 +6147,16 @@ function deleteBroadcast(id) {
 // Duplicate broadcast
 function duplicateBroadcast(id) {
   const broadcasts = getMockBroadcasts();
-  const broadcast = broadcasts.find(b => b.id === id);
+  const broadcast = broadcasts.find((b) => b.id === id);
   if (!broadcast) return;
 
   // Create a copy of the broadcast
   const duplicatedBroadcast = {
     ...broadcast,
     id: Date.now(),
-    title: (broadcast.title || '') + '（コピー）',
-    createdAt: new Date().toISOString().split('T')[0],
-    status: '配信予約中'
+    title: (broadcast.title || "") + "（コピー）",
+    createdAt: new Date().toISOString().split("T")[0],
+    status: "配信予約中",
   };
 
   // Add duplicated broadcast to the list
@@ -5429,7 +6164,7 @@ function duplicateBroadcast(id) {
   saveMockBroadcasts(broadcasts);
   renderBroadcastList();
 
-  alert('一斉配信を複製しました');
+  alert("一斉配信を複製しました");
 }
 
 // Initialize broadcast detail page
@@ -5438,59 +6173,74 @@ let broadcastDetailInitialized = false;
 function initializeBroadcastDetailPage() {
   if (broadcastDetailInitialized) return;
   broadcastDetailInitialized = true;
-  const backBtn = document.getElementById('broadcast-back-btn');
+  const backBtn = document.getElementById("broadcast-back-btn");
   if (backBtn) {
-    backBtn.addEventListener('click', () => { navigateToPage('broadcast'); });
+    backBtn.addEventListener("click", () => {
+      navigateToPage("broadcast");
+    });
   }
-  const previewBtn = document.getElementById('broadcast-preview-btn');
+  const previewBtn = document.getElementById("broadcast-preview-btn");
   if (previewBtn) {
-    previewBtn.addEventListener('click', showBroadcastPreview);
+    previewBtn.addEventListener("click", showBroadcastPreview);
   }
-  const saveBtn = document.getElementById('broadcast-save-btn');
+  const saveBtn = document.getElementById("broadcast-save-btn");
   if (saveBtn) {
-    saveBtn.addEventListener('click', saveBroadcast);
+    saveBtn.addEventListener("click", saveBroadcast);
   }
   initializeBroadcastForm();
 }
 
 // Save broadcast
 function saveBroadcast() {
-  const title = document.getElementById('broadcast-title').value;
-  const message = document.getElementById('broadcast-message').value;
+  const title = document.getElementById("broadcast-title").value;
+  const message = document.getElementById("broadcast-message").value;
   if (!message.trim()) {
-    alert('メッセージ内容を入力してください');
+    alert("メッセージ内容を入力してください");
     return;
   }
   const target = document.querySelector('input[name="target"]:checked').value;
-  const deliveryTiming = document.querySelector('input[name="deliveryTiming"]:checked').value;
-  let targetText = target === 'all' ? '全員' : 'タグ絞り込み';
-  if (target === 'tags' && selectedBroadcastTags.size > 0) {
+  const deliveryTiming = document.querySelector(
+    'input[name="deliveryTiming"]:checked'
+  ).value;
+  let targetText = target === "all" ? "全員" : "タグ絞り込み";
+  if (target === "tags" && selectedBroadcastTags.size > 0) {
     const allTags = getAllTags();
-    const selectedTagNames = Array.from(selectedBroadcastTags).map(tagId => allTags.find(t => t.id === tagId)?.name).filter(Boolean);
-    targetText = selectedTagNames.join(', ');
+    const selectedTagNames = Array.from(selectedBroadcastTags)
+      .map((tagId) => allTags.find((t) => t.id === tagId)?.name)
+      .filter(Boolean);
+    targetText = selectedTagNames.join(", ");
   }
   const broadcastData = {
-    title: title || '(タイトルなし)',
+    title: title || "(タイトルなし)",
     target,
     targetText,
-    selectedTags: target === 'tags' ? Array.from(selectedBroadcastTags) : [],
+    selectedTags: target === "tags" ? Array.from(selectedBroadcastTags) : [],
     deliveryTiming,
-    days: deliveryTiming === 'scheduled' ? parseInt(document.getElementById('broadcast-days').value) : 0,
-    time: deliveryTiming === 'scheduled' ? document.getElementById('broadcast-time').value : '09:00',
+    days:
+      deliveryTiming === "scheduled"
+        ? parseInt(document.getElementById("broadcast-days").value)
+        : 0,
+    time:
+      deliveryTiming === "scheduled"
+        ? document.getElementById("broadcast-time").value
+        : "09:00",
     message,
-    createdAt: new Date().toISOString().split('T')[0],
-    status: deliveryTiming === 'immediate' ? '配信完了' : '配信予約中'
+    createdAt: new Date().toISOString().split("T")[0],
+    status: deliveryTiming === "immediate" ? "配信完了" : "配信予約中",
   };
   let broadcasts = getMockBroadcasts();
   if (currentBroadcastId) {
-    broadcasts = broadcasts.map(b => b.id === currentBroadcastId ? { ...b, ...broadcastData } : b);
+    broadcasts = broadcasts.map((b) =>
+      b.id === currentBroadcastId ? { ...b, ...broadcastData } : b
+    );
   } else {
-    const newId = broadcasts.length > 0 ? Math.max(...broadcasts.map(b => b.id)) + 1 : 1;
+    const newId =
+      broadcasts.length > 0 ? Math.max(...broadcasts.map((b) => b.id)) + 1 : 1;
     broadcasts.push({ id: newId, ...broadcastData });
   }
   saveMockBroadcasts(broadcasts);
-  alert('一斉配信を保存しました');
-  navigateToPage('broadcast');
+  alert("一斉配信を保存しました");
+  navigateToPage("broadcast");
   renderBroadcastList();
 }
 
@@ -5501,50 +6251,74 @@ let broadcastPreviewInitialized = false;
 function initializeBroadcastPreviewModal() {
   if (broadcastPreviewInitialized) return;
   broadcastPreviewInitialized = true;
-  const modal = document.getElementById('broadcast-preview-modal');
-  const closeBtn = document.getElementById('broadcast-preview-close-btn');
-  const backBtn = document.getElementById('broadcast-preview-back-btn');
-  const confirmBtn = document.getElementById('broadcast-preview-confirm-btn');
+  const modal = document.getElementById("broadcast-preview-modal");
+  const closeBtn = document.getElementById("broadcast-preview-close-btn");
+  const backBtn = document.getElementById("broadcast-preview-back-btn");
+  const confirmBtn = document.getElementById("broadcast-preview-confirm-btn");
   if (closeBtn) {
-    closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+    closeBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
   }
   if (backBtn) {
-    backBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+    backBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
   }
   if (confirmBtn) {
-    confirmBtn.addEventListener('click', () => { modal.style.display = 'none'; saveBroadcast(); });
+    confirmBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+      saveBroadcast();
+    });
   }
-  modal.addEventListener('click', (e) => { if (e.target === modal) { modal.style.display = 'none'; } });
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+    }
+  });
 }
 
 // Show broadcast preview
 function showBroadcastPreview() {
-  const title = document.getElementById('broadcast-title').value;
-  const message = document.getElementById('broadcast-message').value;
+  const title = document.getElementById("broadcast-title").value;
+  const message = document.getElementById("broadcast-message").value;
   const target = document.querySelector('input[name="target"]:checked').value;
-  const deliveryTiming = document.querySelector('input[name="deliveryTiming"]:checked').value;
-  let targetText = target === 'all' ? '友だち全員' : 'タグで絞り込み';
-  if (target === 'tags' && selectedBroadcastTags.size > 0) {
+  const deliveryTiming = document.querySelector(
+    'input[name="deliveryTiming"]:checked'
+  ).value;
+  let targetText = target === "all" ? "友だち全員" : "タグで絞り込み";
+  if (target === "tags" && selectedBroadcastTags.size > 0) {
     const allTags = getAllTags();
-    const selectedTagNames = Array.from(selectedBroadcastTags).map(tagId => allTags.find(t => t.id === tagId)?.name).filter(Boolean);
-    targetText = 'タグで絞り込み (' + selectedTagNames.join(', ') + ')';
+    const selectedTagNames = Array.from(selectedBroadcastTags)
+      .map((tagId) => allTags.find((t) => t.id === tagId)?.name)
+      .filter(Boolean);
+    targetText = "タグで絞り込み (" + selectedTagNames.join(", ") + ")";
   }
-  let timingText = deliveryTiming === 'immediate' ? 'メッセージ登録後すぐに配信' : 'メッセージ登録から' + document.getElementById('broadcast-days').value + '日後の' + document.getElementById('broadcast-time').value + 'に配信';
-  document.getElementById('preview-title').textContent = title || '(タイトルなし)';
-  document.getElementById('preview-target').textContent = targetText;
-  document.getElementById('preview-timing').textContent = timingText;
-  document.getElementById('preview-message-text').textContent = message || 'メッセージが入力されていません';
+  let timingText =
+    deliveryTiming === "immediate"
+      ? "メッセージ登録後すぐに配信"
+      : "メッセージ登録から" +
+        document.getElementById("broadcast-days").value +
+        "日後の" +
+        document.getElementById("broadcast-time").value +
+        "に配信";
+  document.getElementById("preview-title").textContent =
+    title || "(タイトルなし)";
+  document.getElementById("preview-target").textContent = targetText;
+  document.getElementById("preview-timing").textContent = timingText;
+  document.getElementById("preview-message-text").textContent =
+    message || "メッセージが入力されていません";
   initializeBroadcastPreviewModal();
-  document.getElementById('broadcast-preview-modal').style.display = 'flex';
+  document.getElementById("broadcast-preview-modal").style.display = "flex";
 }
 
 // Override navigateToPage to initialize broadcast pages
 const originalNavigateToPageForBroadcast = navigateToPage;
-navigateToPage = function(pageId) {
+navigateToPage = function (pageId) {
   originalNavigateToPageForBroadcast(pageId);
-  if (pageId === 'broadcast') {
+  if (pageId === "broadcast") {
     initializeBroadcastListPage();
-  } else if (pageId === 'broadcast-detail') {
+  } else if (pageId === "broadcast-detail") {
     initializeBroadcastDetailPage();
   }
 };
@@ -5563,26 +6337,26 @@ function initializeColorPalette(paletteId, inputId) {
   if (!palette || !input) return;
 
   // Get color picker element (if exists)
-  const pickerIdPrefix = paletteId.replace('-palette', '');
-  const colorPicker = document.getElementById(pickerIdPrefix + '-picker');
+  const pickerIdPrefix = paletteId.replace("-palette", "");
+  const colorPicker = document.getElementById(pickerIdPrefix + "-picker");
 
   // Add click event to all color options
-  const colorOptions = palette.querySelectorAll('.color-option');
-  colorOptions.forEach(option => {
-    option.addEventListener('click', function() {
-      const color = this.getAttribute('data-color');
+  const colorOptions = palette.querySelectorAll(".color-option");
+  colorOptions.forEach((option) => {
+    option.addEventListener("click", function () {
+      const color = this.getAttribute("data-color");
 
       // Remove selected class from all options
-      colorOptions.forEach(opt => opt.classList.remove('selected'));
+      colorOptions.forEach((opt) => opt.classList.remove("selected"));
 
       // Add selected class to clicked option
-      this.classList.add('selected');
+      this.classList.add("selected");
 
       // Update hidden input value
       input.value = color;
 
       // Update color picker value (if not transparent)
-      if (colorPicker && color !== 'transparent') {
+      if (colorPicker && color !== "transparent") {
         colorPicker.value = color;
       }
     });
@@ -5590,11 +6364,11 @@ function initializeColorPalette(paletteId, inputId) {
 
   // Add event listener to color picker (if exists)
   if (colorPicker) {
-    colorPicker.addEventListener('input', function() {
+    colorPicker.addEventListener("input", function () {
       const customColor = this.value;
 
       // Remove selected class from all palette options
-      colorOptions.forEach(opt => opt.classList.remove('selected'));
+      colorOptions.forEach((opt) => opt.classList.remove("selected"));
 
       // Update hidden input value
       input.value = customColor;
@@ -5607,17 +6381,17 @@ function initializeColorPalette(paletteId, inputId) {
  * @param {string} paletteId - ID of the color palette container
  * @param {string} defaultColor - Default color to select (default: 'transparent')
  */
-function resetColorPalette(paletteId, defaultColor = 'transparent') {
+function resetColorPalette(paletteId, defaultColor = "transparent") {
   const palette = document.getElementById(paletteId);
   if (!palette) return;
 
-  const colorOptions = palette.querySelectorAll('.color-option');
-  colorOptions.forEach(option => {
-    const color = option.getAttribute('data-color');
+  const colorOptions = palette.querySelectorAll(".color-option");
+  colorOptions.forEach((option) => {
+    const color = option.getAttribute("data-color");
     if (color === defaultColor) {
-      option.classList.add('selected');
+      option.classList.add("selected");
     } else {
-      option.classList.remove('selected');
+      option.classList.remove("selected");
     }
   });
 }
@@ -5632,33 +6406,33 @@ function setColorPaletteValue(paletteId, color) {
   if (!palette) return;
 
   // Get color picker element (if exists)
-  const pickerIdPrefix = paletteId.replace('-palette', '');
-  const colorPicker = document.getElementById(pickerIdPrefix + '-picker');
+  const pickerIdPrefix = paletteId.replace("-palette", "");
+  const colorPicker = document.getElementById(pickerIdPrefix + "-picker");
 
-  const colorOptions = palette.querySelectorAll('.color-option');
+  const colorOptions = palette.querySelectorAll(".color-option");
   let foundInPalette = false;
 
-  colorOptions.forEach(option => {
-    const optionColor = option.getAttribute('data-color');
+  colorOptions.forEach((option) => {
+    const optionColor = option.getAttribute("data-color");
     if (optionColor === color) {
-      option.classList.add('selected');
+      option.classList.add("selected");
       foundInPalette = true;
     } else {
-      option.classList.remove('selected');
+      option.classList.remove("selected");
     }
   });
 
   // Update color picker value
   if (colorPicker) {
-    if (color !== 'transparent') {
+    if (color !== "transparent") {
       colorPicker.value = color;
     }
   }
 }
 
 // Initialize on load - ensure this runs after DOM is loaded
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
     initializeBroadcastData();
     initializeScenarioData();
   });

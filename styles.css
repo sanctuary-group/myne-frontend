@@ -345,6 +345,232 @@ body {
   text-align: center;
 }
 
+/* Default Scenario Section */
+.default-scenario-section {
+  border: 2px solid #00b900;
+  background: linear-gradient(to bottom, #f9fff9, white);
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-title i {
+  color: #00b900;
+}
+
+.default-scenario-card {
+  min-height: 120px;
+}
+
+.default-scenario-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+}
+
+.empty-message {
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.empty-description {
+  font-size: 14px;
+  color: #999;
+}
+
+.default-scenario-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.default-scenario-info {
+  flex: 1;
+}
+
+.default-scenario-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #d4edda;
+  color: #155724;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.default-scenario-badge i {
+  color: #00b900;
+}
+
+.default-scenario-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.default-scenario-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+.detail-item i {
+  color: #00b900;
+  width: 16px;
+}
+
+.detail-label {
+  font-weight: 500;
+  color: #666;
+}
+
+.detail-value {
+  color: #333;
+}
+
+.default-scenario-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.badge-default {
+  display: inline-block;
+  background-color: #00b900;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.is-default-scenario {
+  background-color: #f9fff9;
+  border-left: 4px solid #00b900;
+}
+
+.badge-default-mini {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #00b900;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-default-mini i {
+  font-size: 10px;
+}
+
+/* Scenario Selector */
+.scenario-selector {
+  margin-top: 24px;
+}
+
+.scenario-select-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scenario-select-label i {
+  color: #00b900;
+}
+
+.scenario-select-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.scenario-select-option {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.scenario-select-option:hover {
+  border-color: #00b900;
+  background-color: #f9fff9;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0, 185, 0, 0.2);
+}
+
+.scenario-select-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.scenario-select-details {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: #666;
+}
+
+.scenario-select-details span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.scenario-select-details i {
+  color: #00b900;
+  font-size: 12px;
+}
+
+.empty-state-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.empty-state-action {
+  text-align: center;
+  padding: 20px;
+}
+
 /* Buttons */
 .btn {
   padding: 10px 20px;
