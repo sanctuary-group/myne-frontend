@@ -919,12 +919,6 @@ function navigateToPage(pageId) {
   if (activeNavItem) {
     activeNavItem.classList.add("active");
   }
-
-  // Load and render default scenario when navigating to step page
-  if (pageId === "step") {
-    loadDefaultScenarioId();
-    renderDefaultScenarioCard();
-  }
 }
 
 // Broadcast form functionality
@@ -1327,6 +1321,8 @@ navigateToPage = function (pageId) {
       break;
     case "step":
       loadScenariosFromLocalStorage();
+      loadDefaultScenarioId();
+      renderDefaultScenarioCard();
       renderScenarioList();
       initializeScenarioModal();
       initializeScenarioEditModal();
