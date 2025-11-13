@@ -970,6 +970,9 @@ function initializeBroadcastForm() {
     scheduledDatetimeGroup.style.display = "none";
   }
 
+  // Initialize time select with 5-minute intervals
+  initializeBroadcastTimeSelect();
+
   // Add event listener for broadcast send button
   const sendBtn = document.getElementById("broadcast-send-btn");
   if (sendBtn) {
@@ -979,6 +982,26 @@ function initializeBroadcastForm() {
 
     newSendBtn.addEventListener("click", sendBroadcast);
   }
+}
+
+// Initialize broadcast time select with 5-minute intervals
+function initializeBroadcastTimeSelect() {
+  const timeSelect = document.getElementById("broadcast-time");
+  if (!timeSelect) return;
+
+  // Generate time options in 5-minute intervals
+  const options = [];
+  for (let hour = 0; hour < 24; hour++) {
+    for (let minute = 0; minute < 60; minute += 5) {
+      const hourStr = String(hour).padStart(2, '0');
+      const minuteStr = String(minute).padStart(2, '0');
+      const timeValue = `${hourStr}:${minuteStr}`;
+      options.push(`<option value="${timeValue}">${timeValue}</option>`);
+    }
+  }
+
+  timeSelect.innerHTML = options.join('');
+  timeSelect.value = "09:00"; // Set default value
 }
 
 // Handle broadcast delivery timing change
@@ -6138,10 +6161,21 @@ function renderBroadcastList() {
 
   tbody.innerHTML = broadcasts
     .map((broadcast) => {
-      const timingText =
-        broadcast.deliveryTiming === "immediate"
-          ? "すぐに配信"
-          : broadcast.days + "日後 " + broadcast.time;
+      let timingText = "";
+      if (broadcast.deliveryTiming === "immediate") {
+        timingText = "すぐに配信";
+      } else if (broadcast.scheduledDate) {
+        const date = new Date(broadcast.scheduledDate);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        timingText = `${year}/${month}/${day} ${broadcast.time}`;
+      } else if (broadcast.days !== undefined) {
+        // 旧データとの互換性
+        timingText = broadcast.days + "日後 " + broadcast.time;
+      } else {
+        timingText = "日時未設定";
+      }
       const statusClass =
         broadcast.status === "配信完了" ? "status-active" : "status-progress";
       return (
@@ -6183,6 +6217,15 @@ function createNewBroadcast() {
   ).checked = true;
   document.getElementById("tag-selection-area").style.display = "none";
   document.getElementById("scheduled-datetime-group").style.display = "none";
+
+  // Set default date to today
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  document.getElementById("broadcast-date").value = `${year}-${month}-${day}`;
+  document.getElementById("broadcast-time").value = "09:00";
+
   selectedBroadcastTags.clear();
 }
 
@@ -6273,7 +6316,7 @@ function editBroadcast(id) {
   ).checked = true;
   if (broadcast.deliveryTiming === "scheduled") {
     document.getElementById("scheduled-datetime-group").style.display = "block";
-    document.getElementById("broadcast-days").value = broadcast.days || 0;
+    document.getElementById("broadcast-date").value = broadcast.scheduledDate || "";
     document.getElementById("broadcast-time").value = broadcast.time || "09:00";
   }
 }
@@ -6359,10 +6402,10 @@ function saveBroadcast() {
     targetText,
     selectedTags: target === "tags" ? Array.from(selectedBroadcastTags) : [],
     deliveryTiming,
-    days:
+    scheduledDate:
       deliveryTiming === "scheduled"
-        ? parseInt(document.getElementById("broadcast-days").value)
-        : 0,
+        ? document.getElementById("broadcast-date").value
+        : "",
     time:
       deliveryTiming === "scheduled"
         ? document.getElementById("broadcast-time").value
@@ -6437,14 +6480,24 @@ function showBroadcastPreview() {
       .filter(Boolean);
     targetText = "タグで絞り込み (" + selectedTagNames.join(", ") + ")";
   }
-  let timingText =
-    deliveryTiming === "immediate"
-      ? "メッセージ登録後すぐに配信"
-      : "メッセージ登録から" +
-        document.getElementById("broadcast-days").value +
-        "日後の" +
-        document.getElementById("broadcast-time").value +
-        "に配信";
+  let timingText = "";
+  if (deliveryTiming === "immediate") {
+    timingText = "メッセージ登録後すぐに配信";
+  } else {
+    const dateValue = document.getElementById("broadcast-date").value;
+    const timeValue = document.getElementById("broadcast-time").value;
+    if (dateValue && timeValue) {
+      const date = new Date(dateValue);
+      const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const weekday = weekdays[date.getDay()];
+      timingText = `${year}年${month}月${day}日(${weekday}) ${timeValue} に配信`;
+    } else {
+      timingText = "配信日時を指定してください";
+    }
+  }
   document.getElementById("preview-title").textContent =
     title || "(タイトルなし)";
   document.getElementById("preview-target").textContent = targetText;
