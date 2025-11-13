@@ -345,10 +345,146 @@ body {
   text-align: center;
 }
 
-/* Default Scenario Section */
-.default-scenario-section {
-  border: 2px solid #00b900;
+/* Default Message Card */
+.default-message-card {
   background: linear-gradient(to bottom, #f9fff9, white);
+}
+
+.default-message-card .form-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.default-message-card .form-label i {
+  color: #00b900;
+}
+
+/* Custom Select Wrapper */
+.custom-select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+}
+
+@media (max-width: 768px) {
+  .custom-select-wrapper {
+    max-width: 100%;
+  }
+}
+
+.custom-select-wrapper .select-arrow {
+  position: absolute;
+  right: 12px;
+  font-size: 12px;
+  color: #999;
+  pointer-events: none;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.custom-select-wrapper:hover .select-arrow {
+  color: #00b900;
+}
+
+/* Custom Enhanced Select */
+.custom-select-enhanced {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 40px 10px 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #333;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.custom-select-enhanced:hover {
+  border-color: #00b900;
+  box-shadow: 0 2px 6px rgba(0, 185, 0, 0.08);
+}
+
+.custom-select-enhanced:focus {
+  outline: none;
+  border-color: #00b900;
+  box-shadow: 0 0 0 3px rgba(0, 185, 0, 0.08);
+}
+
+.custom-select-enhanced:focus + .select-arrow {
+  transform: rotate(180deg);
+  color: #00b900;
+}
+
+.custom-select-enhanced option {
+  padding: 10px;
+  font-size: 15px;
+  background: white;
+  color: #333;
+}
+
+/* Selected Scenario Info */
+.selected-scenario-info {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-radius: 6px;
+}
+
+.selected-scenario-info .info-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #d4edda;
+  color: #155724;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.selected-scenario-info .info-badge i {
+  color: #00b900;
+}
+
+.selected-scenario-info .info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.selected-scenario-info .info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.selected-scenario-info .info-item i {
+  font-size: 14px;
+  color: #00b900;
+  width: 16px;
+}
+
+.selected-scenario-info .info-label {
+  font-weight: 500;
+  color: #666;
+}
+
+.selected-scenario-info .info-value {
+  color: #333;
+  font-weight: 600;
 }
 
 .section-title {
@@ -363,38 +499,6 @@ body {
 
 .section-title i {
   color: #00b900;
-}
-
-.default-scenario-card {
-  min-height: 120px;
-}
-
-.default-scenario-empty {
-  text-align: center;
-  padding: 40px 20px;
-  color: #999;
-}
-
-.empty-message {
-  font-size: 16px;
-  font-weight: 500;
-  color: #666;
-  margin-bottom: 8px;
-}
-
-.empty-description {
-  font-size: 14px;
-  color: #999;
-}
-
-.default-scenario-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 20px;
-  background: white;
-  border-radius: 6px;
-  border: 1px solid #e0e0e0;
 }
 
 .default-scenario-info {
@@ -2809,6 +2913,7 @@ input[type="datetime-local"]:focus {
 .form-description {
   color: #666;
   font-size: 14px;
+  margin-top: 12px;
   margin-bottom: 15px;
   line-height: 1.4;
 }

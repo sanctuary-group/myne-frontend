@@ -1345,7 +1345,7 @@ navigateToPage = function (pageId) {
     case "step":
       loadScenariosFromLocalStorage();
       loadDefaultScenarioId();
-      renderDefaultScenarioCard();
+      initializeDefaultScenarioSelect();
       renderScenarioList();
       initializeScenarioModal();
       initializeScenarioEditModal();
@@ -1706,6 +1706,12 @@ function updateScenarioInLocalStorage(scenario) {
     scenarios.push(scenario);
   }
   saveScenariosToLocalStorage();
+
+  // Update default scenario select dropdown
+  if (document.getElementById("default-scenario-select")) {
+    initializeDefaultScenarioSelect();
+  }
+
   console.log("Scenario updated in LocalStorage:", scenario);
 }
 
@@ -1811,134 +1817,76 @@ function setDefaultScenario(scenarioId) {
   saveDefaultScenarioId();
 
   // UIを更新
-  renderDefaultScenarioCard();
+  initializeDefaultScenarioSelect();
   renderScenarioList();
 
   console.log("Default scenario set to ID:", scenarioId);
 }
 
-function renderDefaultScenarioCard() {
-  const cardContainer = document.getElementById("default-scenario-card");
-  if (!cardContainer) return;
+// Initialize default scenario select dropdown
+function initializeDefaultScenarioSelect() {
+  const select = document.getElementById("default-scenario-select");
+  if (!select) return;
 
-  // defaultScenarioIdに対応するシナリオを取得
-  const defaultScenario = scenarios.find((s) => s.id === defaultScenarioId);
+  const currentDefault = defaultScenarioId;
 
-  if (!defaultScenario) {
-    // 未設定の場合 - ドロップダウンを表示
-    const scenarioOptions = scenarios
-      .map((scenario) => {
-        const deliverySummary = getScenarioDeliverySummary(scenario);
-        const targetSummary = getScenarioTargetSummary(scenario);
-        return `
-        <div class="scenario-select-option" onclick="setDefaultScenario(${
-          scenario.id
-        })">
-          <div class="scenario-select-name">${escapeHtml(scenario.name)}</div>
-          <div class="scenario-select-details">
-            <span><i class="fa-solid fa-tags"></i> ${escapeHtml(
-              targetSummary
-            )}</span>
-            <span><i class="fa-solid fa-clock"></i> ${escapeHtml(
-              deliverySummary
-            )}</span>
-          </div>
-        </div>
-      `;
-      })
-      .join("");
+  // Generate options
+  let options = '<option value="">初回メッセージなし</option>';
+  scenarios.forEach((scenario) => {
+    const selected = scenario.id === currentDefault ? 'selected' : '';
+    options += `<option value="${scenario.id}" ${selected}>${escapeHtml(scenario.name)}</option>`;
+  });
 
-    cardContainer.innerHTML = `
-      <div class="default-scenario-empty">
-        <div class="empty-state-content">
-          <i class="fa-solid fa-envelope-open-text" style="font-size: 48px; color: #00b900; margin-bottom: 16px;"></i>
-          <p class="empty-message">初回メッセージを選択してください</p>
-          <p class="empty-description">友だち追加時に送信されるメッセージを設定できます</p>
-        </div>
-        ${
-          scenarios.length > 0
-            ? `
-          <div class="scenario-selector">
-            <div class="scenario-select-label">
-              <i class="fa-solid fa-hand-pointer"></i> 以下からシナリオを選択
-            </div>
-            <div class="scenario-select-list">
-              ${scenarioOptions}
-            </div>
-          </div>
-        `
-            : `
-          <div class="empty-state-action">
-            <p style="color: #999; margin-bottom: 12px;">まずステップ配信を作成してください</p>
-            <button class="btn btn-primary" onclick="document.getElementById('scenario-new-btn').click()">
-              <i class="fa-solid fa-plus"></i> 新規作成
-            </button>
-          </div>
-        `
-        }
-      </div>
-    `;
+  select.innerHTML = options;
+
+  // Update info display
+  updateSelectedScenarioInfo();
+
+  // Add change event listener (remove old listener first)
+  const newSelect = select.cloneNode(true);
+  select.parentNode.replaceChild(newSelect, select);
+
+  newSelect.addEventListener('change', (e) => {
+    const value = e.target.value;
+    defaultScenarioId = value ? parseInt(value, 10) : null;
+    saveDefaultScenarioId();
+    updateSelectedScenarioInfo();
+    renderScenarioList();
+  });
+}
+
+// Update selected scenario info display
+function updateSelectedScenarioInfo() {
+  const infoContainer = document.getElementById("selected-scenario-info");
+  if (!infoContainer) return;
+
+  if (!defaultScenarioId) {
+    infoContainer.style.display = "none";
     return;
   }
 
-  // 設定済みの場合
-  const deliverySummary = getScenarioDeliverySummary(defaultScenario);
-  const targetSummary = getScenarioTargetSummary(defaultScenario);
+  const selectedScenario = scenarios.find((s) => s.id === defaultScenarioId);
+  if (!selectedScenario) {
+    infoContainer.style.display = "none";
+    return;
+  }
 
-  cardContainer.innerHTML = `
-    <div class="default-scenario-content">
-      <div class="default-scenario-info">
-        <div class="default-scenario-badge">
-          <i class="fa-solid fa-check-circle"></i> 設定中
-        </div>
-        <h3 class="default-scenario-name">${escapeHtml(
-          defaultScenario.name
-        )}</h3>
-        <div class="default-scenario-details">
-          <div class="detail-item">
-            <i class="fa-solid fa-tags"></i>
-            <span class="detail-label">配信対象:</span>
-            <span class="detail-value">${escapeHtml(targetSummary)}</span>
-          </div>
-          <div class="detail-item">
-            <i class="fa-solid fa-clock"></i>
-            <span class="detail-label">配信タイミング:</span>
-            <span class="detail-value">${escapeHtml(deliverySummary)}</span>
-          </div>
-        </div>
-      </div>
-      <div class="default-scenario-actions">
-        <button class="btn btn-outline btn-sm" onclick="showDefaultScenarioSelector()">
-          <i class="fa-solid fa-repeat"></i> 変更
-        </button>
-        <button class="btn btn-outline btn-sm" onclick="openScenarioFromList(${
-          defaultScenario.id
-        })">
-          <i class="fa-solid fa-pen"></i> 編集
-        </button>
-        <button class="btn btn-secondary btn-sm" onclick="clearDefaultScenario()">
-          <i class="fa-solid fa-times"></i> 解除
-        </button>
-      </div>
-    </div>
-  `;
-}
+  // Show info container
+  infoContainer.style.display = "block";
 
-function showDefaultScenarioSelector() {
-  // 一時的に初回メッセージをクリアしてドロップダウンを表示
-  const previousId = defaultScenarioId;
-  defaultScenarioId = null;
-  renderDefaultScenarioCard();
-}
+  // Update target info
+  const targetElement = document.getElementById("selected-scenario-target");
+  if (targetElement) {
+    targetElement.textContent = getScenarioTargetSummary(selectedScenario);
+  }
 
-function clearDefaultScenario() {
-  if (confirm("初回メッセージの設定を解除しますか？")) {
-    defaultScenarioId = null;
-    saveDefaultScenarioId();
-    renderDefaultScenarioCard();
-    renderScenarioList();
+  // Update timing info
+  const timingElement = document.getElementById("selected-scenario-timing");
+  if (timingElement) {
+    timingElement.textContent = getScenarioDeliverySummary(selectedScenario);
   }
 }
+
 
 function getScenarioDeliverySummary(scenario) {
   if (
@@ -2044,7 +1992,7 @@ function deleteScenario(id) {
   if (isDefaultScenario) {
     defaultScenarioId = null;
     saveDefaultScenarioId();
-    renderDefaultScenarioCard();
+    initializeDefaultScenarioSelect();
   }
 
   renderScenarioList();
