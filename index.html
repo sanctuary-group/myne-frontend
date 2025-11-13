@@ -588,7 +588,7 @@
                     <div class="radio-group">
                       <label class="radio-item">
                         <input type="radio" name="target" value="all" checked />
-                        友だち全員に配信する
+                        全員に配信する
                       </label>
                       <label class="radio-item">
                         <input type="radio" name="target" value="tags" />
@@ -885,14 +885,27 @@
 
             <div class="card">
               <h2 class="card-title">配信先設定</h2>
+              <div class="form-group">
+                <label class="form-label">配信対象 *</label>
+                <div class="radio-group">
+                  <label class="radio-item">
+                    <input type="radio" name="scenario-target" value="all" checked />
+                    全員に配信する
+                  </label>
+                  <label class="radio-item">
+                    <input type="radio" name="scenario-target" value="tags" />
+                    タグで絞り込んで配信する
+                  </label>
+                </div>
+              </div>
+
+              <!-- タグ選択エリア（タグで絞り込み選択時に表示） -->
               <div
                 id="scenario-tag-selection-area"
                 class="form-group"
+                style="display: none"
               >
-                <label class="form-label">配信先タグを選択 *</label>
-                <div class="form-description" style="margin-bottom: 8px;">
-                  タグで絞り込んで配信します
-                </div>
+                <label class="form-label">配信先タグを選択</label>
                 <div class="tag-selection-container">
                   <div
                     class="tag-selection-list"
@@ -1902,7 +1915,7 @@
 
     <!-- Scenario Preview Modal -->
     <div id="scenario-preview-modal" class="modal" style="display: none">
-      <div class="modal-content modal-preview-size">
+      <div class="modal-content modal-preview-size modal-preview-scenario">
         <div class="modal-header">
           <h2>ステップ配信プレビュー</h2>
           <button class="modal-close-btn" id="scenario-preview-close-btn">
@@ -1919,7 +1932,7 @@
                 <span class="preview-info-value" id="scenario-preview-name">-</span>
               </div>
               <div class="preview-info-item">
-                <span class="preview-info-label">配信対象タグ:</span>
+                <span class="preview-info-label">配信対象:</span>
                 <span class="preview-info-value" id="scenario-preview-tags">-</span>
               </div>
             </div>

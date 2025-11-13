@@ -1718,7 +1718,8 @@ function updateScenarioInLocalStorage(scenario) {
 function normalizeScenarioData(scenario) {
   if (!scenario) return scenario;
   const clone = JSON.parse(JSON.stringify(scenario));
-  clone.targetType = "tags";
+  // Keep targetType as is (don't force to "tags")
+  clone.targetType = clone.targetType || "all";
   clone.targetTagIds = Array.isArray(clone.targetTagIds)
     ? clone.targetTagIds
         .map((id) => parseInt(id, 10))
@@ -1931,7 +1932,7 @@ function getScenarioTargetSummary(scenario) {
   if (!scenario) return "未設定";
 
   if (scenario.targetType === "all") {
-    return "友だち全員";
+    return "全員";
   }
 
   const tagIds = Array.isArray(scenario.targetTagIds)
@@ -5061,10 +5062,30 @@ function initializeScenarioDetailPage() {
   initializeStepTimingModal();
 }
 
+// Handle scenario target type change (all or tags)
+function handleScenarioTargetChange(target) {
+  const tagSelectionArea = document.getElementById("scenario-tag-selection-area");
+
+  if (target === "tags") {
+    // タグで絞り込み選択時はタグ選択UIを表示
+    tagSelectionArea.style.display = "block";
+    renderScenarioTagSelectionList();
+    updateScenarioSelectedTagsCount();
+  } else {
+    // 全員の場合は非表示
+    tagSelectionArea.style.display = "none";
+  }
+
+  console.log("Scenario target changed to:", target);
+}
+
 function initializeScenarioTargetSettings() {
   if (!currentScenario) return;
 
-  currentScenario.targetType = "tags";
+  // Set default targetType if not exists
+  if (!currentScenario.targetType) {
+    currentScenario.targetType = "all";
+  }
   if (!Array.isArray(currentScenario.targetTagIds)) {
     currentScenario.targetTagIds = [];
   }
@@ -5075,8 +5096,28 @@ function initializeScenarioTargetSettings() {
   );
   currentScenario.targetTagIds = Array.from(selectedScenarioTags);
 
-  renderScenarioTagSelectionList();
-  updateScenarioSelectedTagsCount();
+  // Set radio button state
+  const radioAll = document.querySelector('input[name="scenario-target"][value="all"]');
+  const radioTags = document.querySelector('input[name="scenario-target"][value="tags"]');
+
+  if (currentScenario.targetType === "tags") {
+    if (radioTags) radioTags.checked = true;
+  } else {
+    if (radioAll) radioAll.checked = true;
+  }
+
+  // Add event listeners to radio buttons
+  const radios = document.querySelectorAll('input[name="scenario-target"]');
+  radios.forEach((radio) => {
+    radio.addEventListener("change", (e) => {
+      const value = e.target.value;
+      currentScenario.targetType = value;
+      handleScenarioTargetChange(value);
+    });
+  });
+
+  // Initialize UI based on targetType
+  handleScenarioTargetChange(currentScenario.targetType);
 }
 
 function renderScenarioTagSelectionList() {
@@ -5218,9 +5259,12 @@ function closeScenarioPreviewModal() {
 function showScenarioPreview() {
   if (!currentScenario) return;
 
-  if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
-    alert("配信先タグを1つ以上選択してください");
-    return;
+  // Validate tags only when targetType is "tags"
+  if (currentScenario.targetType === "tags") {
+    if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
+      alert("配信先タグを1つ以上選択してください");
+      return;
+    }
   }
 
   const modal = document.getElementById("scenario-preview-modal");
@@ -5233,15 +5277,20 @@ function showScenarioPreview() {
     scenarioNameElement.textContent = currentScenario.name || "(管理名なし)";
   }
 
+  // Display target (all or tags)
   const tagsElement = document.getElementById("scenario-preview-tags");
   if (tagsElement) {
-    const allTags = getAllTags();
-    const tagNames = currentScenario.targetTagIds
-      .map((id) => allTags.find((tag) => tag.id === id))
-      .filter(Boolean)
-      .map((tag) => tag.name);
-    tagsElement.textContent =
-      tagNames.length > 0 ? tagNames.join(", ") : "未選択";
+    if (currentScenario.targetType === "all") {
+      tagsElement.textContent = "全員";
+    } else {
+      const allTags = getAllTags();
+      const tagNames = currentScenario.targetTagIds
+        .map((id) => allTags.find((tag) => tag.id === id))
+        .filter(Boolean)
+        .map((tag) => tag.name);
+      tagsElement.textContent =
+        tagNames.length > 0 ? tagNames.join(", ") : "未選択";
+    }
   }
 
   const stepsContainer = document.getElementById("scenario-preview-steps");
@@ -5296,15 +5345,18 @@ function showScenarioPreview() {
 function saveScenarioChanges() {
   if (!currentScenario) return;
 
-  if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
-    alert("配信先タグを1つ以上選択してください");
-    return;
+  // Validate tags only when targetType is "tags"
+  if (currentScenario.targetType === "tags") {
+    if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
+      alert("配信先タグを1つ以上選択してください");
+      return;
+    }
   }
 
   const scenarioToSave = normalizeScenarioData({
     ...currentScenario,
-    targetType: "tags",
-    targetTagIds: Array.from(selectedScenarioTags),
+    targetType: currentScenario.targetType || "all",
+    targetTagIds: currentScenario.targetType === "tags" ? Array.from(selectedScenarioTags) : [],
   });
 
   updateScenarioInLocalStorage(scenarioToSave);
@@ -6420,7 +6472,7 @@ function showBroadcastPreview() {
   const deliveryTiming = document.querySelector(
     'input[name="deliveryTiming"]:checked'
   ).value;
-  let targetText = target === "all" ? "友だち全員" : "タグで絞り込み";
+  let targetText = target === "all" ? "全員" : "タグで絞り込み";
   if (target === "tags" && selectedBroadcastTags.size > 0) {
     const allTags = getAllTags();
     const selectedTagNames = Array.from(selectedBroadcastTags)
