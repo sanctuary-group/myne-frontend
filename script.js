@@ -1900,34 +1900,22 @@ function getScenarioDeliverySummary(scenario) {
     return "未設定";
   }
 
-  const immediateStep = scenario.steps.find(
-    (step) => !step.timing || step.timing === "immediate"
-  );
-  if (immediateStep) {
+  // 常にステップ1（steps[0]）のタイミングを表示
+  const firstStep = scenario.steps[0];
+
+  if (!firstStep.timing || firstStep.timing === "immediate") {
     return "開始直後";
   }
 
-  const scheduledSteps = scenario.steps
-    .filter((step) => step.timing === "scheduled")
-    .map((step) => ({
-      days: Number.isFinite(step.days) ? step.days : parseInt(step.days, 10),
-      time: step.time || "時間未設定",
-    }))
-    .filter((step) => !Number.isNaN(step.days));
-
-  if (scheduledSteps.length === 0) {
-    return "未設定";
+  if (firstStep.timing === "scheduled") {
+    const days = Number.isFinite(firstStep.days)
+      ? firstStep.days
+      : parseInt(firstStep.days, 10) || 0;
+    const time = firstStep.time || "時間未設定";
+    return `開始から${days}日後 ${time}`;
   }
 
-  scheduledSteps.sort((a, b) => {
-    if (a.days !== b.days) {
-      return a.days - b.days;
-    }
-    return (a.time || "").localeCompare(b.time || "");
-  });
-
-  const first = scheduledSteps[0];
-  return `開始から${first.days}日後 ${first.time}`;
+  return "未設定";
 }
 
 function getScenarioTargetSummary(scenario) {

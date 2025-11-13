@@ -436,8 +436,8 @@ body {
 .selected-scenario-info {
   margin-top: 16px;
   padding: 16px;
-  background: #f0f9ff;
-  border: 1px solid #bae6fd;
+  background: transparent;
+  border: 1px solid #d0d0d0;
   border-radius: 6px;
 }
 
