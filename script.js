@@ -2923,34 +2923,45 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
   const allTags = getAllTags();
   const userTagIds = getUserTags(userId);
 
+  // Display mode: Show only selected tags with edit button
   let tagsHtml = "";
+
   if (allTags.length === 0) {
-    tagsHtml =
-      '<div class="empty-state-small"><p>タグが作成されていません</p></div>';
-  } else {
+    // No tags exist in the system
     tagsHtml = `
-      <div class="tag-selection-list">
-        ${allTags
-          .map((tag) => {
-            const isTransparent = tag.color === "transparent";
-            const styleAttr = isTransparent
-              ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
-              : `background-color: ${tag.color};`;
-            return `
-            <label class="tag-checkbox-item">
-              <input type="checkbox" value="${tag.id}" ${
-              userTagIds.includes(tag.id) ? "checked" : ""
-            }>
-              <span class="tag-badge" style="${styleAttr}">${tag.name}</span>
-            </label>
-          `;
-          })
-          .join("")}
-      </div>
-      <div class="tags-save-button-container" style="margin-top: 16px;">
-        <button class="btn btn-primary" onclick="saveUserTagsFromBasicInfo(${userId})">保存</button>
+      <div class="empty-state-small">
+        <p>タグが作成されていません</p>
       </div>
     `;
+  } else {
+    // Ensure type compatibility for comparison
+    const selectedTags = allTags.filter((tag) =>
+      userTagIds.some(id => String(id) === String(tag.id))
+    );
+
+    if (selectedTags.length === 0) {
+      // Tags exist but none are selected
+      tagsHtml = `
+        <span style="color: #999;">タグが設定されていません</span>
+      `;
+    } else {
+      // Display selected tags in vertical layout
+      const selectedTagBadges = selectedTags
+        .map((tag) => {
+          const isTransparent = tag.color === "transparent";
+          const styleAttr = isTransparent
+            ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
+            : `background-color: ${tag.color};`;
+          return `<span class="tag-badge" style="${styleAttr}">${tag.name}</span>`;
+        })
+        .join("");
+
+      tagsHtml = `
+        <div id="user-tags-display-${userId}" style="display: flex; flex-direction: column; gap: 6px;">
+          ${selectedTagBadges}
+        </div>
+      `;
+    }
   }
 
   userInfoContent.innerHTML = `
@@ -2991,7 +3002,14 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
     </div>
     <div class="user-info-divider"></div>
     <div class="user-info-item">
-      <div class="user-info-label">タグ</div>
+      <div class="user-info-label" style="display: flex; align-items: center; gap: 8px;">
+        タグ
+        ${
+          allTags.length > 0
+            ? `<i class="fa-solid fa-pen" onclick="editUserTagsMode(${userId})" style="cursor: pointer; font-size: 12px; color: #888; opacity: 0.7;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'"></i>`
+            : ""
+        }
+      </div>
       <div class="user-info-value">
         ${tagsHtml}
       </div>
@@ -4769,6 +4787,65 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeStepMessagePreviewModal();
 });
 
+// ===== Refresh Tag Display =====
+function refreshTagDisplay(userId) {
+  const allTags = getAllTags();
+  const userTagIds = getUserTags(userId);
+
+  let tagsHtml = "";
+
+  if (allTags.length === 0) {
+    tagsHtml = `
+      <div class="empty-state-small">
+        <p>タグが作成されていません</p>
+      </div>
+    `;
+  } else {
+    // Ensure type compatibility for comparison
+    const selectedTags = allTags.filter((tag) =>
+      userTagIds.some(id => String(id) === String(tag.id))
+    );
+
+    if (selectedTags.length === 0) {
+      tagsHtml = `
+        <span style="color: #999;">タグが設定されていません</span>
+      `;
+    } else {
+      const selectedTagBadges = selectedTags
+        .map((tag) => {
+          const isTransparent = tag.color === "transparent";
+          const styleAttr = isTransparent
+            ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
+            : `background-color: ${tag.color};`;
+          return `<span class="tag-badge" style="${styleAttr}">${tag.name}</span>`;
+        })
+        .join("");
+
+      tagsHtml = `
+        <div id="user-tags-display-${userId}" style="display: flex; flex-direction: column; gap: 6px;">
+          ${selectedTagBadges}
+        </div>
+      `;
+    }
+  }
+
+  // Update tag display area
+  const userInfoItems = document.querySelectorAll(
+    "#individual-user-info .user-info-item"
+  );
+  const tagSection = Array.from(userInfoItems).find((item) => {
+    const label = item.querySelector(".user-info-label");
+    return label && label.textContent.trim().includes("タグ");
+  });
+
+  if (tagSection) {
+    const valueDiv = tagSection.querySelector(".user-info-value");
+    if (valueDiv) {
+      valueDiv.innerHTML = tagsHtml;
+    }
+  }
+}
+
 // ===== Save Tags from Basic Info =====
 function saveUserTagsFromBasicInfo(userId) {
   const checkboxes = document.querySelectorAll(
@@ -4778,18 +4855,88 @@ function saveUserTagsFromBasicInfo(userId) {
 
   checkboxes.forEach((checkbox) => {
     if (checkbox.checked) {
-      selectedTagIds.push(checkbox.value);
+      // Convert string to number to match tag ID type
+      const tagId = parseInt(checkbox.value, 10);
+      if (!isNaN(tagId)) {
+        selectedTagIds.push(tagId);
+      }
     }
   });
 
-  // Save to localStorage
-  localStorage.setItem(`user_${userId}_tags`, JSON.stringify(selectedTagIds));
+  // Save to localStorage using the existing saveUserTags function
+  saveUserTags(userId, selectedTagIds);
 
   // Show success message
   alert("タグを保存しました");
 
+  // Refresh tag display to show display mode
+  refreshTagDisplay(userId);
+
   // Refresh friends list to update tag badges
   loadIndividualPageUsers();
+}
+
+// ===== Edit User Tags Mode =====
+function editUserTagsMode(userId) {
+  const allTags = getAllTags();
+  const userTagIds = getUserTags(userId);
+
+  if (allTags.length === 0) {
+    alert("タグが作成されていません");
+    return;
+  }
+
+  // Build checkbox list HTML
+  const tagsCheckboxHtml = `
+    <div id="user-tags-edit-${userId}">
+      <div class="tag-selection-list">
+        ${allTags
+          .map((tag) => {
+            const isTransparent = tag.color === "transparent";
+            const styleAttr = isTransparent
+              ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
+              : `background-color: ${tag.color};`;
+            // Ensure type compatibility for comparison
+            const isChecked = userTagIds.some(id => String(id) === String(tag.id));
+            return `
+            <label class="tag-checkbox-item">
+              <input type="checkbox" value="${tag.id}" ${
+              isChecked ? "checked" : ""
+            }>
+              <span class="tag-badge" style="${styleAttr}">${tag.name}</span>
+            </label>
+          `;
+          })
+          .join("")}
+      </div>
+      <div class="tags-save-button-container" style="margin-top: 16px; display: flex; gap: 8px;">
+        <button class="btn btn-primary" onclick="saveUserTagsFromBasicInfo(${userId})">保存</button>
+        <button class="btn btn-secondary" onclick="cancelUserTagsEdit(${userId})">キャンセル</button>
+      </div>
+    </div>
+  `;
+
+  // Replace the tag display area with edit mode
+  const userInfoItems = document.querySelectorAll(
+    "#individual-user-info .user-info-item"
+  );
+  const tagSection = Array.from(userInfoItems).find((item) => {
+    const label = item.querySelector(".user-info-label");
+    return label && label.textContent.trim() === "タグ";
+  });
+
+  if (tagSection) {
+    const valueDiv = tagSection.querySelector(".user-info-value");
+    if (valueDiv) {
+      valueDiv.innerHTML = tagsCheckboxHtml;
+    }
+  }
+}
+
+// ===== Cancel User Tags Edit =====
+function cancelUserTagsEdit(userId) {
+  // Refresh tag display to go back to display mode
+  refreshTagDisplay(userId);
 }
 
 // ===== Scenario Detail Page =====
