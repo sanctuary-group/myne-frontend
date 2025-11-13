@@ -1772,10 +1772,12 @@ function renderScenarioList() {
 
   tbody.innerHTML = scenarios
     .map((scenario) => {
-      const statusClass = "status-active";
       const deliverySummary = getScenarioDeliverySummary(scenario);
       const targetSummary = getScenarioTargetSummary(scenario);
       const isDefault = defaultScenarioId === scenario.id;
+      // ステータスを初回メッセージ設定に基づいて判定
+      const statusText = isDefault ? "配信中" : "未配信";
+      const statusClass = isDefault ? "status-active" : "status-inactive";
       return `
       <tr data-scenario-id="${scenario.id}" data-scenario-name="${
         scenario.name
@@ -1792,7 +1794,7 @@ function renderScenarioList() {
         </td>
         <td>${escapeHtml(targetSummary)}</td>
         <td>${escapeHtml(deliverySummary)}</td>
-        <td><span class="status-badge ${statusClass}">配信中</span></td>
+        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
         <td>${scenario.createdAt}</td>
         <td>
           <button class="btn btn-outline btn-sm scenario-edit-btn" onclick="openScenarioFromList(${

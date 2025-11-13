@@ -887,8 +887,8 @@ body {
 }
 
 .status-inactive {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: #f0f0f0;
+  color: #666;
 }
 
 .status-progress {
