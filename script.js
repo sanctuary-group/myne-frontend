@@ -970,6 +970,9 @@ function initializeBroadcastForm() {
     scheduledDatetimeGroup.style.display = "none";
   }
 
+  // Initialize time select with 5-minute intervals
+  initializeBroadcastTimeSelect();
+
   // Add event listener for broadcast send button
   const sendBtn = document.getElementById("broadcast-send-btn");
   if (sendBtn) {
@@ -978,6 +981,79 @@ function initializeBroadcastForm() {
     sendBtn.parentNode.replaceChild(newSendBtn, sendBtn);
 
     newSendBtn.addEventListener("click", sendBroadcast);
+  }
+}
+
+// Update broadcast date minimum to today
+function updateBroadcastDateMin() {
+  const dateInput = document.getElementById("broadcast-date");
+  if (!dateInput) return;
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  dateInput.min = `${year}-${month}-${day}`;
+}
+
+// Initialize broadcast time select with 5-minute intervals
+function initializeBroadcastTimeSelect() {
+  const timeSelect = document.getElementById("broadcast-time");
+  const dateInput = document.getElementById("broadcast-date");
+  if (!timeSelect) return;
+
+  // Check if selected date is today
+  const now = new Date();
+  const selectedDate = dateInput ? dateInput.value : "";
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(
+    today.getMonth() + 1
+  ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  const isToday = selectedDate === todayStr;
+
+  // Calculate minimum time (current time + 5 minutes, rounded up to next 5-minute interval)
+  let minHour = 0;
+  let minMinute = 0;
+  if (isToday) {
+    const fiveMinutesLater = new Date(now.getTime() + 5 * 60 * 1000);
+    minHour = fiveMinutesLater.getHours();
+    minMinute = Math.ceil(fiveMinutesLater.getMinutes() / 5) * 5;
+    if (minMinute >= 60) {
+      minMinute = 0;
+      minHour += 1;
+    }
+  }
+
+  // Generate time options in 5-minute intervals
+  const options = [];
+  for (let hour = 0; hour < 24; hour++) {
+    for (let minute = 0; minute < 60; minute += 5) {
+      // Skip times before minimum time if today
+      if (
+        isToday &&
+        (hour < minHour || (hour === minHour && minute < minMinute))
+      ) {
+        continue;
+      }
+
+      const hourStr = String(hour).padStart(2, "0");
+      const minuteStr = String(minute).padStart(2, "0");
+      const timeValue = `${hourStr}:${minuteStr}`;
+      options.push(`<option value="${timeValue}">${timeValue}</option>`);
+    }
+  }
+
+  const currentValue = timeSelect.value;
+  timeSelect.innerHTML = options.join("");
+
+  // Restore previous value if still valid, otherwise set first option
+  if (
+    currentValue &&
+    options.some((opt) => opt.includes(`value="${currentValue}"`))
+  ) {
+    timeSelect.value = currentValue;
+  } else if (options.length > 0) {
+    timeSelect.value = options[0].match(/value="([^"]+)"/)[1];
   }
 }
 
@@ -1322,7 +1398,7 @@ navigateToPage = function (pageId) {
     case "step":
       loadScenariosFromLocalStorage();
       loadDefaultScenarioId();
-      renderDefaultScenarioCard();
+      initializeDefaultScenarioSelect();
       renderScenarioList();
       initializeScenarioModal();
       initializeScenarioEditModal();
@@ -1683,13 +1759,20 @@ function updateScenarioInLocalStorage(scenario) {
     scenarios.push(scenario);
   }
   saveScenariosToLocalStorage();
+
+  // Update default scenario select dropdown
+  if (document.getElementById("default-scenario-select")) {
+    initializeDefaultScenarioSelect();
+  }
+
   console.log("Scenario updated in LocalStorage:", scenario);
 }
 
 function normalizeScenarioData(scenario) {
   if (!scenario) return scenario;
   const clone = JSON.parse(JSON.stringify(scenario));
-  clone.targetType = "tags";
+  // Keep targetType as is (don't force to "tags")
+  clone.targetType = clone.targetType || "all";
   clone.targetTagIds = Array.isArray(clone.targetTagIds)
     ? clone.targetTagIds
         .map((id) => parseInt(id, 10))
@@ -1742,10 +1825,12 @@ function renderScenarioList() {
 
   tbody.innerHTML = scenarios
     .map((scenario) => {
-      const statusClass = "status-active";
       const deliverySummary = getScenarioDeliverySummary(scenario);
       const targetSummary = getScenarioTargetSummary(scenario);
       const isDefault = defaultScenarioId === scenario.id;
+      // ステータスを初回メッセージ設定に基づいて判定
+      const statusText = isDefault ? "配信中" : "未配信";
+      const statusClass = isDefault ? "status-active" : "status-inactive";
       return `
       <tr data-scenario-id="${scenario.id}" data-scenario-name="${
         scenario.name
@@ -1762,7 +1847,7 @@ function renderScenarioList() {
         </td>
         <td>${escapeHtml(targetSummary)}</td>
         <td>${escapeHtml(deliverySummary)}</td>
-        <td><span class="status-badge ${statusClass}">配信中</span></td>
+        <td><span class="status-badge ${statusClass}">${statusText}</span></td>
         <td>${scenario.createdAt}</td>
         <td>
           <button class="btn btn-outline btn-sm scenario-edit-btn" onclick="openScenarioFromList(${
@@ -1788,132 +1873,100 @@ function setDefaultScenario(scenarioId) {
   saveDefaultScenarioId();
 
   // UIを更新
-  renderDefaultScenarioCard();
+  initializeDefaultScenarioSelect();
   renderScenarioList();
 
   console.log("Default scenario set to ID:", scenarioId);
 }
 
-function renderDefaultScenarioCard() {
-  const cardContainer = document.getElementById("default-scenario-card");
-  if (!cardContainer) return;
+// Initialize default scenario select dropdown
+function initializeDefaultScenarioSelect() {
+  const select = document.getElementById("default-scenario-select");
+  if (!select) return;
 
-  // defaultScenarioIdに対応するシナリオを取得
-  const defaultScenario = scenarios.find((s) => s.id === defaultScenarioId);
+  const currentDefault = defaultScenarioId;
 
-  if (!defaultScenario) {
-    // 未設定の場合 - ドロップダウンを表示
-    const scenarioOptions = scenarios
-      .map((scenario) => {
-        const deliverySummary = getScenarioDeliverySummary(scenario);
-        const targetSummary = getScenarioTargetSummary(scenario);
-        return `
-        <div class="scenario-select-option" onclick="setDefaultScenario(${
-          scenario.id
-        })">
-          <div class="scenario-select-name">${escapeHtml(scenario.name)}</div>
-          <div class="scenario-select-details">
-            <span><i class="fa-solid fa-tags"></i> ${escapeHtml(
-              targetSummary
-            )}</span>
-            <span><i class="fa-solid fa-clock"></i> ${escapeHtml(
-              deliverySummary
-            )}</span>
-          </div>
-        </div>
-      `;
-      })
-      .join("");
+  // Generate options
+  let options = '<option value="">初回メッセージなし</option>';
+  scenarios.forEach((scenario) => {
+    const selected = scenario.id === currentDefault ? "selected" : "";
+    options += `<option value="${scenario.id}" ${selected}>${escapeHtml(
+      scenario.name
+    )}</option>`;
+  });
 
-    cardContainer.innerHTML = `
-      <div class="default-scenario-empty">
-        <div class="empty-state-content">
-          <i class="fa-solid fa-envelope-open-text" style="font-size: 48px; color: #00b900; margin-bottom: 16px;"></i>
-          <p class="empty-message">初回メッセージを選択してください</p>
-          <p class="empty-description">友だち追加時に送信されるメッセージを設定できます</p>
-        </div>
-        ${
-          scenarios.length > 0
-            ? `
-          <div class="scenario-selector">
-            <div class="scenario-select-label">
-              <i class="fa-solid fa-hand-pointer"></i> 以下からシナリオを選択
-            </div>
-            <div class="scenario-select-list">
-              ${scenarioOptions}
-            </div>
-          </div>
-        `
-            : `
-          <div class="empty-state-action">
-            <p style="color: #999; margin-bottom: 12px;">まずステップ配信を作成してください</p>
-            <button class="btn btn-primary" onclick="document.getElementById('scenario-new-btn').click()">
-              <i class="fa-solid fa-plus"></i> 新規作成
-            </button>
-          </div>
-        `
-        }
-      </div>
-    `;
+  select.innerHTML = options;
+
+  // Update info display
+  updateSelectedScenarioInfo();
+
+  // Add change event listener (remove old listener first)
+  const newSelect = select.cloneNode(true);
+  select.parentNode.replaceChild(newSelect, select);
+
+  // Dropdown change - only update preview, don't save
+  newSelect.addEventListener("change", (e) => {
+    updateSelectedScenarioInfo();
+  });
+
+  // Button click - save the changes (remove old listener first)
+  const setButton = document.getElementById("set-default-scenario-btn");
+  if (setButton) {
+    const newButton = setButton.cloneNode(true);
+    setButton.parentNode.replaceChild(newButton, setButton);
+
+    newButton.addEventListener("click", () => {
+      const select = document.getElementById("default-scenario-select");
+      if (!select) return;
+
+      const value = select.value;
+      defaultScenarioId = value ? parseInt(value, 10) : null;
+      saveDefaultScenarioId();
+      updateSelectedScenarioInfo();
+      renderScenarioList();
+
+      // Show success message
+      alert("設定しました");
+    });
+  }
+}
+
+// Update selected scenario info display
+function updateSelectedScenarioInfo() {
+  const infoContainer = document.getElementById("selected-scenario-info");
+  if (!infoContainer) return;
+
+  // Read from dropdown value for preview
+  const select = document.getElementById("default-scenario-select");
+  if (!select) return;
+
+  const selectedValue = select.value;
+  const previewScenarioId = selectedValue ? parseInt(selectedValue, 10) : null;
+
+  if (!previewScenarioId) {
+    infoContainer.style.display = "none";
     return;
   }
 
-  // 設定済みの場合
-  const deliverySummary = getScenarioDeliverySummary(defaultScenario);
-  const targetSummary = getScenarioTargetSummary(defaultScenario);
+  const selectedScenario = scenarios.find((s) => s.id === previewScenarioId);
+  if (!selectedScenario) {
+    infoContainer.style.display = "none";
+    return;
+  }
 
-  cardContainer.innerHTML = `
-    <div class="default-scenario-content">
-      <div class="default-scenario-info">
-        <div class="default-scenario-badge">
-          <i class="fa-solid fa-check-circle"></i> 設定中
-        </div>
-        <h3 class="default-scenario-name">${escapeHtml(
-          defaultScenario.name
-        )}</h3>
-        <div class="default-scenario-details">
-          <div class="detail-item">
-            <i class="fa-solid fa-tags"></i>
-            <span class="detail-label">配信対象:</span>
-            <span class="detail-value">${escapeHtml(targetSummary)}</span>
-          </div>
-          <div class="detail-item">
-            <i class="fa-solid fa-clock"></i>
-            <span class="detail-label">配信タイミング:</span>
-            <span class="detail-value">${escapeHtml(deliverySummary)}</span>
-          </div>
-        </div>
-      </div>
-      <div class="default-scenario-actions">
-        <button class="btn btn-outline btn-sm" onclick="showDefaultScenarioSelector()">
-          <i class="fa-solid fa-repeat"></i> 変更
-        </button>
-        <button class="btn btn-outline btn-sm" onclick="openScenarioFromList(${
-          defaultScenario.id
-        })">
-          <i class="fa-solid fa-pen"></i> 編集
-        </button>
-        <button class="btn btn-secondary btn-sm" onclick="clearDefaultScenario()">
-          <i class="fa-solid fa-times"></i> 解除
-        </button>
-      </div>
-    </div>
-  `;
-}
+  // Show info container
+  infoContainer.style.display = "block";
 
-function showDefaultScenarioSelector() {
-  // 一時的に初回メッセージをクリアしてドロップダウンを表示
-  const previousId = defaultScenarioId;
-  defaultScenarioId = null;
-  renderDefaultScenarioCard();
-}
+  // Update target info
+  const targetElement = document.getElementById("selected-scenario-target");
+  if (targetElement) {
+    targetElement.textContent = getScenarioTargetSummary(selectedScenario);
+  }
 
-function clearDefaultScenario() {
-  if (confirm("初回メッセージの設定を解除しますか？")) {
-    defaultScenarioId = null;
-    saveDefaultScenarioId();
-    renderDefaultScenarioCard();
-    renderScenarioList();
+  // Update timing info
+  const timingElement = document.getElementById("selected-scenario-timing");
+  if (timingElement) {
+    timingElement.textContent = getScenarioDeliverySummary(selectedScenario);
   }
 }
 
@@ -1926,41 +1979,29 @@ function getScenarioDeliverySummary(scenario) {
     return "未設定";
   }
 
-  const immediateStep = scenario.steps.find(
-    (step) => !step.timing || step.timing === "immediate"
-  );
-  if (immediateStep) {
+  // 常にステップ1（steps[0]）のタイミングを表示
+  const firstStep = scenario.steps[0];
+
+  if (!firstStep.timing || firstStep.timing === "immediate") {
     return "開始直後";
   }
 
-  const scheduledSteps = scenario.steps
-    .filter((step) => step.timing === "scheduled")
-    .map((step) => ({
-      days: Number.isFinite(step.days) ? step.days : parseInt(step.days, 10),
-      time: step.time || "時間未設定",
-    }))
-    .filter((step) => !Number.isNaN(step.days));
-
-  if (scheduledSteps.length === 0) {
-    return "未設定";
+  if (firstStep.timing === "scheduled") {
+    const days = Number.isFinite(firstStep.days)
+      ? firstStep.days
+      : parseInt(firstStep.days, 10) || 0;
+    const time = firstStep.time || "時間未設定";
+    return `開始から${days}日後 ${time}`;
   }
 
-  scheduledSteps.sort((a, b) => {
-    if (a.days !== b.days) {
-      return a.days - b.days;
-    }
-    return (a.time || "").localeCompare(b.time || "");
-  });
-
-  const first = scheduledSteps[0];
-  return `開始から${first.days}日後 ${first.time}`;
+  return "未設定";
 }
 
 function getScenarioTargetSummary(scenario) {
   if (!scenario) return "未設定";
 
   if (scenario.targetType === "all") {
-    return "友だち全員";
+    return "全員";
   }
 
   const tagIds = Array.isArray(scenario.targetTagIds)
@@ -2008,7 +2049,8 @@ function deleteScenario(id) {
 
   let confirmMessage = "このシナリオを削除しますか？";
   if (isDefaultScenario) {
-    confirmMessage = "このシナリオは初回メッセージに設定されています。\n削除すると初回メッセージの設定が解除されます。\n\n削除してもよろしいですか？";
+    confirmMessage =
+      "このシナリオは初回メッセージに設定されています。\n削除すると初回メッセージの設定が解除されます。\n\n削除してもよろしいですか？";
   }
 
   if (!confirm(confirmMessage)) return;
@@ -2021,7 +2063,7 @@ function deleteScenario(id) {
   if (isDefaultScenario) {
     defaultScenarioId = null;
     saveDefaultScenarioId();
-    renderDefaultScenarioCard();
+    initializeDefaultScenarioSelect();
   }
 
   renderScenarioList();
@@ -2923,34 +2965,45 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
   const allTags = getAllTags();
   const userTagIds = getUserTags(userId);
 
+  // Display mode: Show only selected tags with edit button
   let tagsHtml = "";
+
   if (allTags.length === 0) {
-    tagsHtml =
-      '<div class="empty-state-small"><p>タグが作成されていません</p></div>';
-  } else {
+    // No tags exist in the system
     tagsHtml = `
-      <div class="tag-selection-list">
-        ${allTags
-          .map((tag) => {
-            const isTransparent = tag.color === "transparent";
-            const styleAttr = isTransparent
-              ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
-              : `background-color: ${tag.color};`;
-            return `
-            <label class="tag-checkbox-item">
-              <input type="checkbox" value="${tag.id}" ${
-              userTagIds.includes(tag.id) ? "checked" : ""
-            }>
-              <span class="tag-badge" style="${styleAttr}">${tag.name}</span>
-            </label>
-          `;
-          })
-          .join("")}
-      </div>
-      <div class="tags-save-button-container" style="margin-top: 16px;">
-        <button class="btn btn-primary" onclick="saveUserTagsFromBasicInfo(${userId})">保存</button>
+      <div class="empty-state-small">
+        <p>タグが作成されていません</p>
       </div>
     `;
+  } else {
+    // Ensure type compatibility for comparison
+    const selectedTags = allTags.filter((tag) =>
+      userTagIds.some((id) => String(id) === String(tag.id))
+    );
+
+    if (selectedTags.length === 0) {
+      // Tags exist but none are selected
+      tagsHtml = `
+        <span style="color: #999;">タグが設定されていません</span>
+      `;
+    } else {
+      // Display selected tags in vertical layout
+      const selectedTagBadges = selectedTags
+        .map((tag) => {
+          const isTransparent = tag.color === "transparent";
+          const styleAttr = isTransparent
+            ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
+            : `background-color: ${tag.color};`;
+          return `<span class="tag-badge" style="${styleAttr}">${tag.name}</span>`;
+        })
+        .join("");
+
+      tagsHtml = `
+        <div id="user-tags-display-${userId}" style="display: flex; flex-direction: column; gap: 6px;">
+          ${selectedTagBadges}
+        </div>
+      `;
+    }
   }
 
   userInfoContent.innerHTML = `
@@ -2991,7 +3044,14 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
     </div>
     <div class="user-info-divider"></div>
     <div class="user-info-item">
-      <div class="user-info-label">タグ</div>
+      <div class="user-info-label" style="display: flex; align-items: center; gap: 8px;">
+        タグ
+        ${
+          allTags.length > 0
+            ? `<i class="fa-solid fa-pen" onclick="editUserTagsMode(${userId})" style="cursor: pointer; font-size: 12px; color: #888; opacity: 0.7;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'"></i>`
+            : ""
+        }
+      </div>
       <div class="user-info-value">
         ${tagsHtml}
       </div>
@@ -4769,6 +4829,65 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeStepMessagePreviewModal();
 });
 
+// ===== Refresh Tag Display =====
+function refreshTagDisplay(userId) {
+  const allTags = getAllTags();
+  const userTagIds = getUserTags(userId);
+
+  let tagsHtml = "";
+
+  if (allTags.length === 0) {
+    tagsHtml = `
+      <div class="empty-state-small">
+        <p>タグが作成されていません</p>
+      </div>
+    `;
+  } else {
+    // Ensure type compatibility for comparison
+    const selectedTags = allTags.filter((tag) =>
+      userTagIds.some((id) => String(id) === String(tag.id))
+    );
+
+    if (selectedTags.length === 0) {
+      tagsHtml = `
+        <span style="color: #999;">タグが設定されていません</span>
+      `;
+    } else {
+      const selectedTagBadges = selectedTags
+        .map((tag) => {
+          const isTransparent = tag.color === "transparent";
+          const styleAttr = isTransparent
+            ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
+            : `background-color: ${tag.color};`;
+          return `<span class="tag-badge" style="${styleAttr}">${tag.name}</span>`;
+        })
+        .join("");
+
+      tagsHtml = `
+        <div id="user-tags-display-${userId}" style="display: flex; flex-direction: column; gap: 6px;">
+          ${selectedTagBadges}
+        </div>
+      `;
+    }
+  }
+
+  // Update tag display area
+  const userInfoItems = document.querySelectorAll(
+    "#individual-user-info .user-info-item"
+  );
+  const tagSection = Array.from(userInfoItems).find((item) => {
+    const label = item.querySelector(".user-info-label");
+    return label && label.textContent.trim().includes("タグ");
+  });
+
+  if (tagSection) {
+    const valueDiv = tagSection.querySelector(".user-info-value");
+    if (valueDiv) {
+      valueDiv.innerHTML = tagsHtml;
+    }
+  }
+}
+
 // ===== Save Tags from Basic Info =====
 function saveUserTagsFromBasicInfo(userId) {
   const checkboxes = document.querySelectorAll(
@@ -4778,18 +4897,90 @@ function saveUserTagsFromBasicInfo(userId) {
 
   checkboxes.forEach((checkbox) => {
     if (checkbox.checked) {
-      selectedTagIds.push(checkbox.value);
+      // Convert string to number to match tag ID type
+      const tagId = parseInt(checkbox.value, 10);
+      if (!isNaN(tagId)) {
+        selectedTagIds.push(tagId);
+      }
     }
   });
 
-  // Save to localStorage
-  localStorage.setItem(`user_${userId}_tags`, JSON.stringify(selectedTagIds));
+  // Save to localStorage using the existing saveUserTags function
+  saveUserTags(userId, selectedTagIds);
 
   // Show success message
   alert("タグを保存しました");
 
+  // Refresh tag display to show display mode
+  refreshTagDisplay(userId);
+
   // Refresh friends list to update tag badges
   loadIndividualPageUsers();
+}
+
+// ===== Edit User Tags Mode =====
+function editUserTagsMode(userId) {
+  const allTags = getAllTags();
+  const userTagIds = getUserTags(userId);
+
+  if (allTags.length === 0) {
+    alert("タグが作成されていません");
+    return;
+  }
+
+  // Build checkbox list HTML
+  const tagsCheckboxHtml = `
+    <div id="user-tags-edit-${userId}">
+      <div class="tag-selection-list">
+        ${allTags
+          .map((tag) => {
+            const isTransparent = tag.color === "transparent";
+            const styleAttr = isTransparent
+              ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
+              : `background-color: ${tag.color};`;
+            // Ensure type compatibility for comparison
+            const isChecked = userTagIds.some(
+              (id) => String(id) === String(tag.id)
+            );
+            return `
+            <label class="tag-checkbox-item">
+              <input type="checkbox" value="${tag.id}" ${
+              isChecked ? "checked" : ""
+            }>
+              <span class="tag-badge" style="${styleAttr}">${tag.name}</span>
+            </label>
+          `;
+          })
+          .join("")}
+      </div>
+      <div class="tags-save-button-container" style="margin-top: 16px; display: flex; gap: 8px;">
+        <button class="btn btn-primary" onclick="saveUserTagsFromBasicInfo(${userId})">保存</button>
+        <button class="btn btn-secondary" onclick="cancelUserTagsEdit(${userId})">キャンセル</button>
+      </div>
+    </div>
+  `;
+
+  // Replace the tag display area with edit mode
+  const userInfoItems = document.querySelectorAll(
+    "#individual-user-info .user-info-item"
+  );
+  const tagSection = Array.from(userInfoItems).find((item) => {
+    const label = item.querySelector(".user-info-label");
+    return label && label.textContent.trim() === "タグ";
+  });
+
+  if (tagSection) {
+    const valueDiv = tagSection.querySelector(".user-info-value");
+    if (valueDiv) {
+      valueDiv.innerHTML = tagsCheckboxHtml;
+    }
+  }
+}
+
+// ===== Cancel User Tags Edit =====
+function cancelUserTagsEdit(userId) {
+  // Refresh tag display to go back to display mode
+  refreshTagDisplay(userId);
 }
 
 // ===== Scenario Detail Page =====
@@ -4943,10 +5134,32 @@ function initializeScenarioDetailPage() {
   initializeStepTimingModal();
 }
 
+// Handle scenario target type change (all or tags)
+function handleScenarioTargetChange(target) {
+  const tagSelectionArea = document.getElementById(
+    "scenario-tag-selection-area"
+  );
+
+  if (target === "tags") {
+    // タグで絞り込み選択時はタグ選択UIを表示
+    tagSelectionArea.style.display = "block";
+    renderScenarioTagSelectionList();
+    updateScenarioSelectedTagsCount();
+  } else {
+    // 全員の場合は非表示
+    tagSelectionArea.style.display = "none";
+  }
+
+  console.log("Scenario target changed to:", target);
+}
+
 function initializeScenarioTargetSettings() {
   if (!currentScenario) return;
 
-  currentScenario.targetType = "tags";
+  // Set default targetType if not exists
+  if (!currentScenario.targetType) {
+    currentScenario.targetType = "all";
+  }
   if (!Array.isArray(currentScenario.targetTagIds)) {
     currentScenario.targetTagIds = [];
   }
@@ -4957,8 +5170,32 @@ function initializeScenarioTargetSettings() {
   );
   currentScenario.targetTagIds = Array.from(selectedScenarioTags);
 
-  renderScenarioTagSelectionList();
-  updateScenarioSelectedTagsCount();
+  // Set radio button state
+  const radioAll = document.querySelector(
+    'input[name="scenario-target"][value="all"]'
+  );
+  const radioTags = document.querySelector(
+    'input[name="scenario-target"][value="tags"]'
+  );
+
+  if (currentScenario.targetType === "tags") {
+    if (radioTags) radioTags.checked = true;
+  } else {
+    if (radioAll) radioAll.checked = true;
+  }
+
+  // Add event listeners to radio buttons
+  const radios = document.querySelectorAll('input[name="scenario-target"]');
+  radios.forEach((radio) => {
+    radio.addEventListener("change", (e) => {
+      const value = e.target.value;
+      currentScenario.targetType = value;
+      handleScenarioTargetChange(value);
+    });
+  });
+
+  // Initialize UI based on targetType
+  handleScenarioTargetChange(currentScenario.targetType);
 }
 
 function renderScenarioTagSelectionList() {
@@ -5100,9 +5337,12 @@ function closeScenarioPreviewModal() {
 function showScenarioPreview() {
   if (!currentScenario) return;
 
-  if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
-    alert("配信先タグを1つ以上選択してください");
-    return;
+  // Validate tags only when targetType is "tags"
+  if (currentScenario.targetType === "tags") {
+    if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
+      alert("配信先タグを1つ以上選択してください");
+      return;
+    }
   }
 
   const modal = document.getElementById("scenario-preview-modal");
@@ -5115,15 +5355,20 @@ function showScenarioPreview() {
     scenarioNameElement.textContent = currentScenario.name || "(管理名なし)";
   }
 
+  // Display target (all or tags)
   const tagsElement = document.getElementById("scenario-preview-tags");
   if (tagsElement) {
-    const allTags = getAllTags();
-    const tagNames = currentScenario.targetTagIds
-      .map((id) => allTags.find((tag) => tag.id === id))
-      .filter(Boolean)
-      .map((tag) => tag.name);
-    tagsElement.textContent =
-      tagNames.length > 0 ? tagNames.join(", ") : "未選択";
+    if (currentScenario.targetType === "all") {
+      tagsElement.textContent = "全員";
+    } else {
+      const allTags = getAllTags();
+      const tagNames = currentScenario.targetTagIds
+        .map((id) => allTags.find((tag) => tag.id === id))
+        .filter(Boolean)
+        .map((tag) => tag.name);
+      tagsElement.textContent =
+        tagNames.length > 0 ? tagNames.join(", ") : "未選択";
+    }
   }
 
   const stepsContainer = document.getElementById("scenario-preview-steps");
@@ -5178,15 +5423,21 @@ function showScenarioPreview() {
 function saveScenarioChanges() {
   if (!currentScenario) return;
 
-  if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
-    alert("配信先タグを1つ以上選択してください");
-    return;
+  // Validate tags only when targetType is "tags"
+  if (currentScenario.targetType === "tags") {
+    if (!selectedScenarioTags || selectedScenarioTags.size === 0) {
+      alert("配信先タグを1つ以上選択してください");
+      return;
+    }
   }
 
   const scenarioToSave = normalizeScenarioData({
     ...currentScenario,
-    targetType: "tags",
-    targetTagIds: Array.from(selectedScenarioTags),
+    targetType: currentScenario.targetType || "all",
+    targetTagIds:
+      currentScenario.targetType === "tags"
+        ? Array.from(selectedScenarioTags)
+        : [],
   });
 
   updateScenarioInLocalStorage(scenarioToSave);
@@ -5752,51 +6003,84 @@ function handleStepAdd() {
 // ===== Broadcast Management Functions =====
 
 // Mock broadcast data
-const MOCK_BROADCASTS = [
-  {
-    id: 1,
-    title: "新商品のお知らせ",
-    target: "all",
-    targetText: "全員",
-    deliveryTiming: "immediate",
-    message: "いつもご利用ありがとうございます。新商品が入荷しました！",
-    createdAt: "2025-10-15",
-    status: "配信完了",
-  },
-  {
-    id: 2,
-    title: "セール情報",
-    target: "tags",
-    targetText: "VIP顧客",
-    selectedTags: [1],
-    deliveryTiming: "scheduled",
-    days: 1,
-    time: "10:00",
-    message: "VIPメンバー限定セールのお知らせです",
-    createdAt: "2025-10-10",
-    status: "配信予約中",
-  },
-  {
-    id: 3,
-    title: "秋のキャンペーン",
-    target: "all",
-    targetText: "全員",
-    deliveryTiming: "immediate",
-    message: "秋のキャンペーンを開始しました！",
-    createdAt: "2025-10-05",
-    status: "配信完了",
-  },
-  {
-    id: 4,
-    title: "9月の総括",
-    target: "all",
-    targetText: "全員",
-    deliveryTiming: "immediate",
-    message: "9月の活動報告をお送りします。",
-    createdAt: "2025-09-30",
-    status: "配信完了",
-  },
-];
+// Generate mock broadcasts with real-time scheduled dates for testing
+function generateMockBroadcasts() {
+  const now = new Date();
+  const today = now.toISOString().split("T")[0];
+
+  // Helper to format time as HH:MM
+  const formatTime = (date) => {
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
+  // テストケース1: 3分後（5分前ブロックのテスト用）
+  const threeMinutesLater = new Date(now.getTime() + 3 * 60 * 1000);
+
+  // テストケース2: 10分後（ブロック外、編集可能）
+  const tenMinutesLater = new Date(now.getTime() + 10 * 60 * 1000);
+
+  return [
+    {
+      id: 1,
+      title: "新商品のお知らせ",
+      target: "all",
+      targetText: "全員",
+      deliveryTiming: "immediate",
+      message: "いつもご利用ありがとうございます。新商品が入荷しました！",
+      createdAt: "2025-10-15",
+      status: "配信完了",
+    },
+    {
+      id: 2,
+      title: "限定セール開始のお知らせ",
+      target: "tags",
+      targetText: "VIP顧客",
+      selectedTags: [1],
+      deliveryTiming: "scheduled",
+      scheduledDate: today,
+      time: formatTime(threeMinutesLater),
+      message:
+        "本日より3日間限定！VIP会員様だけの特別セールを開催いたします。対象商品が最大50%OFF。この機会をお見逃しなく！",
+      createdAt: "2025-10-10",
+      status: "配信予約中",
+    },
+    {
+      id: 3,
+      title: "秋のキャンペーン",
+      target: "all",
+      targetText: "全員",
+      deliveryTiming: "immediate",
+      message: "秋のキャンペーンを開始しました！",
+      createdAt: "2025-10-05",
+      status: "配信完了",
+    },
+    {
+      id: 4,
+      title: "9月の総括",
+      target: "all",
+      targetText: "全員",
+      deliveryTiming: "immediate",
+      message: "9月の活動報告をお送りします。",
+      createdAt: "2025-09-30",
+      status: "配信完了",
+    },
+    {
+      id: 6,
+      title: "新商品入荷のご案内",
+      target: "all",
+      targetText: "全員",
+      deliveryTiming: "scheduled",
+      scheduledDate: today,
+      time: formatTime(tenMinutesLater),
+      message:
+        "お待たせいたしました！人気の新商品が本日入荷しました。数量限定となっておりますので、お早めにご来店ください。",
+      createdAt: "2025-11-05",
+      status: "配信予約中",
+    },
+  ];
+}
 
 // Mock scenario data
 const MOCK_SCENARIOS = [
@@ -5903,9 +6187,11 @@ const MOCK_SCENARIOS = [
 
 // Initialize mock broadcast data
 function initializeBroadcastData() {
-  if (!localStorage.getItem("mockBroadcasts")) {
-    localStorage.setItem("mockBroadcasts", JSON.stringify(MOCK_BROADCASTS));
-  }
+  // 常に最新のリアルタイムダミーデータを生成（テスト用）
+  localStorage.setItem(
+    "mockBroadcasts",
+    JSON.stringify(generateMockBroadcasts())
+  );
 }
 
 // Initialize mock scenario data
@@ -5991,10 +6277,21 @@ function renderBroadcastList() {
 
   tbody.innerHTML = broadcasts
     .map((broadcast) => {
-      const timingText =
-        broadcast.deliveryTiming === "immediate"
-          ? "すぐに配信"
-          : broadcast.days + "日後 " + broadcast.time;
+      let timingText = "";
+      if (broadcast.deliveryTiming === "immediate") {
+        timingText = "すぐに配信";
+      } else if (broadcast.scheduledDate) {
+        const date = new Date(broadcast.scheduledDate);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        timingText = `${year}/${month}/${day} ${broadcast.time}`;
+      } else if (broadcast.days !== undefined) {
+        // 旧データとの互換性
+        timingText = broadcast.days + "日後 " + broadcast.time;
+      } else {
+        timingText = "日時未設定";
+      }
       const statusClass =
         broadcast.status === "配信完了" ? "status-active" : "status-progress";
       return (
@@ -6014,7 +6311,9 @@ function renderBroadcastList() {
         broadcast.createdAt +
         '</td><td><button class="btn btn-outline btn-sm broadcast-edit-btn" onclick="editBroadcast(' +
         broadcast.id +
-        ')">編集</button> <button class="btn btn-secondary btn-sm" onclick="deleteBroadcast(' +
+        ')">' +
+        (broadcast.status === "配信完了" ? "コピー" : "編集") +
+        '</button> <button class="btn btn-secondary btn-sm" onclick="deleteBroadcast(' +
         broadcast.id +
         ')">削除</button></td></tr>'
       );
@@ -6036,6 +6335,30 @@ function createNewBroadcast() {
   ).checked = true;
   document.getElementById("tag-selection-area").style.display = "none";
   document.getElementById("scheduled-datetime-group").style.display = "none";
+
+  // Set default date to today
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  document.getElementById("broadcast-date").value = `${year}-${month}-${day}`;
+
+  // Update date minimum and time options
+  updateBroadcastDateMin();
+  initializeBroadcastTimeSelect();
+
+  // Add event listener for date change to update time options
+  const dateInput = document.getElementById("broadcast-date");
+  if (dateInput) {
+    // Remove existing listeners by cloning
+    const newDateInput = dateInput.cloneNode(true);
+    dateInput.parentNode.replaceChild(newDateInput, dateInput);
+
+    newDateInput.addEventListener("change", () => {
+      initializeBroadcastTimeSelect();
+    });
+  }
+
   selectedBroadcastTags.clear();
 }
 
@@ -6100,15 +6423,55 @@ function previewStepMessage(stepIndex, messageIndex) {
   modal.style.display = "flex";
 }
 
+// Check if broadcast can be edited or deleted based on scheduled time
+function canEditOrDeleteBroadcast(broadcast, action) {
+  // deliveryTiming が scheduled でない場合は制限なし
+  if (broadcast.deliveryTiming !== "scheduled" || !broadcast.scheduledDate) {
+    return { allowed: true };
+  }
+
+  // 配信日時を構築
+  const scheduledDateTime = new Date(
+    broadcast.scheduledDate + " " + broadcast.time
+  );
+  const now = new Date();
+  const fiveMinsBefore = new Date(scheduledDateTime.getTime() - 5 * 60 * 1000);
+
+  // 現在時刻が配信5分前～配信時刻までの間かチェック
+  if (now >= fiveMinsBefore && now < scheduledDateTime) {
+    const message =
+      action === "edit"
+        ? "配信5分前のため編集できません"
+        : "配信5分前のため削除できません";
+    return { allowed: false, message };
+  }
+
+  return { allowed: true };
+}
+
 // Edit broadcast
 function editBroadcast(id) {
   const broadcasts = getMockBroadcasts();
   const broadcast = broadcasts.find((b) => b.id === id);
   if (!broadcast) return;
-  currentBroadcastId = id;
+
+  // 配信予約中の場合、配信日時の前後5分間はブロック
+  if (broadcast.status === "配信予約中") {
+    const check = canEditOrDeleteBroadcast(broadcast, "edit");
+    if (!check.allowed) {
+      alert(check.message);
+      return;
+    }
+  }
+
+  // 配信完了の場合はコピーモード（新規作成として扱う）
+  const isCopyMode = broadcast.status === "配信完了";
+  currentBroadcastId = isCopyMode ? null : id;
+
   navigateToPage("broadcast-detail");
-  document.getElementById("broadcast-detail-title").textContent =
-    "一斉配信を編集";
+  document.getElementById("broadcast-detail-title").textContent = isCopyMode
+    ? "メッセージ登録"
+    : "一斉配信を編集";
   document.getElementById("broadcast-title").value = broadcast.title || "";
   document.getElementById("broadcast-message").value = broadcast.message || "";
   document.querySelector(
@@ -6126,17 +6489,45 @@ function editBroadcast(id) {
   ).checked = true;
   if (broadcast.deliveryTiming === "scheduled") {
     document.getElementById("scheduled-datetime-group").style.display = "block";
-    document.getElementById("broadcast-days").value = broadcast.days || 0;
+    document.getElementById("broadcast-date").value =
+      broadcast.scheduledDate || "";
     document.getElementById("broadcast-time").value = broadcast.time || "09:00";
+  }
+
+  // Update date minimum and time options
+  updateBroadcastDateMin();
+  initializeBroadcastTimeSelect();
+
+  // Add event listener for date change to update time options
+  const dateInput = document.getElementById("broadcast-date");
+  if (dateInput) {
+    // Remove existing listeners by cloning
+    const newDateInput = dateInput.cloneNode(true);
+    dateInput.parentNode.replaceChild(newDateInput, dateInput);
+
+    newDateInput.addEventListener("change", () => {
+      initializeBroadcastTimeSelect();
+    });
   }
 }
 
 // Delete broadcast
 function deleteBroadcast(id) {
+  const broadcasts = getMockBroadcasts();
+  const broadcast = broadcasts.find((b) => b.id === id);
+
+  // 配信予約中の場合、配信日時の前後5分間はブロック
+  if (broadcast && broadcast.status === "配信予約中") {
+    const check = canEditOrDeleteBroadcast(broadcast, "delete");
+    if (!check.allowed) {
+      alert(check.message);
+      return;
+    }
+  }
+
   if (!confirm("この一斉配信を削除しますか?")) return;
-  let broadcasts = getMockBroadcasts();
-  broadcasts = broadcasts.filter((b) => b.id !== id);
-  saveMockBroadcasts(broadcasts);
+  const updatedBroadcasts = broadcasts.filter((b) => b.id !== id);
+  saveMockBroadcasts(updatedBroadcasts);
   renderBroadcastList();
 }
 
@@ -6212,17 +6603,22 @@ function saveBroadcast() {
     targetText,
     selectedTags: target === "tags" ? Array.from(selectedBroadcastTags) : [],
     deliveryTiming,
-    days:
+    scheduledDate:
       deliveryTiming === "scheduled"
-        ? parseInt(document.getElementById("broadcast-days").value)
-        : 0,
+        ? document.getElementById("broadcast-date").value
+        : "",
     time:
       deliveryTiming === "scheduled"
         ? document.getElementById("broadcast-time").value
         : "09:00",
     message,
     createdAt: new Date().toISOString().split("T")[0],
-    status: deliveryTiming === "immediate" ? "配信完了" : "配信予約中",
+    // 新規作成・コピーの場合は常に配信予約中、編集の場合は配信タイミングで判断
+    status: currentBroadcastId
+      ? deliveryTiming === "immediate"
+        ? "配信完了"
+        : "配信予約中"
+      : "配信予約中",
   };
   let broadcasts = getMockBroadcasts();
   if (currentBroadcastId) {
@@ -6282,7 +6678,7 @@ function showBroadcastPreview() {
   const deliveryTiming = document.querySelector(
     'input[name="deliveryTiming"]:checked'
   ).value;
-  let targetText = target === "all" ? "友だち全員" : "タグで絞り込み";
+  let targetText = target === "all" ? "全員" : "タグで絞り込み";
   if (target === "tags" && selectedBroadcastTags.size > 0) {
     const allTags = getAllTags();
     const selectedTagNames = Array.from(selectedBroadcastTags)
@@ -6290,14 +6686,24 @@ function showBroadcastPreview() {
       .filter(Boolean);
     targetText = "タグで絞り込み (" + selectedTagNames.join(", ") + ")";
   }
-  let timingText =
-    deliveryTiming === "immediate"
-      ? "メッセージ登録後すぐに配信"
-      : "メッセージ登録から" +
-        document.getElementById("broadcast-days").value +
-        "日後の" +
-        document.getElementById("broadcast-time").value +
-        "に配信";
+  let timingText = "";
+  if (deliveryTiming === "immediate") {
+    timingText = "メッセージ登録後すぐに配信";
+  } else {
+    const dateValue = document.getElementById("broadcast-date").value;
+    const timeValue = document.getElementById("broadcast-time").value;
+    if (dateValue && timeValue) {
+      const date = new Date(dateValue);
+      const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+      const weekday = weekdays[date.getDay()];
+      timingText = `${year}年${month}月${day}日(${weekday}) ${timeValue} に配信`;
+    } else {
+      timingText = "配信日時を指定してください";
+    }
+  }
   document.getElementById("preview-title").textContent =
     title || "(タイトルなし)";
   document.getElementById("preview-target").textContent = targetText;
