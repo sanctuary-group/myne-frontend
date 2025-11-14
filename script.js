@@ -984,15 +984,53 @@ function initializeBroadcastForm() {
   }
 }
 
+// Update broadcast date minimum to today
+function updateBroadcastDateMin() {
+  const dateInput = document.getElementById("broadcast-date");
+  if (!dateInput) return;
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  dateInput.min = `${year}-${month}-${day}`;
+}
+
 // Initialize broadcast time select with 5-minute intervals
 function initializeBroadcastTimeSelect() {
   const timeSelect = document.getElementById("broadcast-time");
+  const dateInput = document.getElementById("broadcast-date");
   if (!timeSelect) return;
+
+  // Check if selected date is today
+  const now = new Date();
+  const selectedDate = dateInput ? dateInput.value : "";
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  const isToday = selectedDate === todayStr;
+
+  // Calculate minimum time (current time + 5 minutes, rounded up to next 5-minute interval)
+  let minHour = 0;
+  let minMinute = 0;
+  if (isToday) {
+    const fiveMinutesLater = new Date(now.getTime() + 5 * 60 * 1000);
+    minHour = fiveMinutesLater.getHours();
+    minMinute = Math.ceil(fiveMinutesLater.getMinutes() / 5) * 5;
+    if (minMinute >= 60) {
+      minMinute = 0;
+      minHour += 1;
+    }
+  }
 
   // Generate time options in 5-minute intervals
   const options = [];
   for (let hour = 0; hour < 24; hour++) {
     for (let minute = 0; minute < 60; minute += 5) {
+      // Skip times before minimum time if today
+      if (isToday && (hour < minHour || (hour === minHour && minute < minMinute))) {
+        continue;
+      }
+
       const hourStr = String(hour).padStart(2, "0");
       const minuteStr = String(minute).padStart(2, "0");
       const timeValue = `${hourStr}:${minuteStr}`;
@@ -1000,8 +1038,15 @@ function initializeBroadcastTimeSelect() {
     }
   }
 
+  const currentValue = timeSelect.value;
   timeSelect.innerHTML = options.join("");
-  timeSelect.value = "09:00"; // Set default value
+
+  // Restore previous value if still valid, otherwise set first option
+  if (currentValue && options.some(opt => opt.includes(`value="${currentValue}"`))) {
+    timeSelect.value = currentValue;
+  } else if (options.length > 0) {
+    timeSelect.value = options[0].match(/value="([^"]+)"/)[1];
+  }
 }
 
 // Handle broadcast delivery timing change
@@ -5950,51 +5995,97 @@ function handleStepAdd() {
 // ===== Broadcast Management Functions =====
 
 // Mock broadcast data
-const MOCK_BROADCASTS = [
-  {
-    id: 1,
-    title: "新商品のお知らせ",
-    target: "all",
-    targetText: "全員",
-    deliveryTiming: "immediate",
-    message: "いつもご利用ありがとうございます。新商品が入荷しました！",
-    createdAt: "2025-10-15",
-    status: "配信完了",
-  },
-  {
-    id: 2,
-    title: "セール情報",
-    target: "tags",
-    targetText: "VIP顧客",
-    selectedTags: [1],
-    deliveryTiming: "scheduled",
-    days: 1,
-    time: "10:00",
-    message: "VIPメンバー限定セールのお知らせです",
-    createdAt: "2025-10-10",
-    status: "配信予約中",
-  },
-  {
-    id: 3,
-    title: "秋のキャンペーン",
-    target: "all",
-    targetText: "全員",
-    deliveryTiming: "immediate",
-    message: "秋のキャンペーンを開始しました！",
-    createdAt: "2025-10-05",
-    status: "配信完了",
-  },
-  {
-    id: 4,
-    title: "9月の総括",
-    target: "all",
-    targetText: "全員",
-    deliveryTiming: "immediate",
-    message: "9月の活動報告をお送りします。",
-    createdAt: "2025-09-30",
-    status: "配信完了",
-  },
-];
+// Generate mock broadcasts with real-time scheduled dates for testing
+function generateMockBroadcasts() {
+  const now = new Date();
+  const today = now.toISOString().split("T")[0];
+
+  // Helper to format time as HH:MM
+  const formatTime = (date) => {
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${hours}:${minutes}`;
+  };
+
+  // テストケース1: 3分後（5分前ブロックのテスト用）
+  const threeMinutesLater = new Date(now.getTime() + 3 * 60 * 1000);
+
+  // テストケース2: 3分前（5分後ブロックのテスト用）
+  const threeMinutesAgo = new Date(now.getTime() - 3 * 60 * 1000);
+
+  // テストケース3: 10分後（ブロック外、編集可能）
+  const tenMinutesLater = new Date(now.getTime() + 10 * 60 * 1000);
+
+  return [
+    {
+      id: 1,
+      title: "新商品のお知らせ",
+      target: "all",
+      targetText: "全員",
+      deliveryTiming: "immediate",
+      message: "いつもご利用ありがとうございます。新商品が入荷しました！",
+      createdAt: "2025-10-15",
+      status: "配信完了",
+    },
+    {
+      id: 2,
+      title: "限定セール開始のお知らせ",
+      target: "tags",
+      targetText: "VIP顧客",
+      selectedTags: [1],
+      deliveryTiming: "scheduled",
+      scheduledDate: today,
+      time: formatTime(threeMinutesLater),
+      message: "本日より3日間限定！VIP会員様だけの特別セールを開催いたします。対象商品が最大50%OFF。この機会をお見逃しなく！",
+      createdAt: "2025-10-10",
+      status: "配信予約中",
+    },
+    {
+      id: 3,
+      title: "秋のキャンペーン",
+      target: "all",
+      targetText: "全員",
+      deliveryTiming: "immediate",
+      message: "秋のキャンペーンを開始しました！",
+      createdAt: "2025-10-05",
+      status: "配信完了",
+    },
+    {
+      id: 4,
+      title: "9月の総括",
+      target: "all",
+      targetText: "全員",
+      deliveryTiming: "immediate",
+      message: "9月の活動報告をお送りします。",
+      createdAt: "2025-09-30",
+      status: "配信完了",
+    },
+    {
+      id: 5,
+      title: "本日の営業時間変更について",
+      target: "all",
+      targetText: "全員",
+      deliveryTiming: "scheduled",
+      scheduledDate: today,
+      time: formatTime(threeMinutesAgo),
+      message: "本日は棚卸しのため、営業時間を18時までとさせていただきます。ご不便をおかけしますが、何卒ご了承ください。",
+      createdAt: "2025-11-01",
+      status: "配信予約中",
+    },
+    {
+      id: 6,
+      title: "新商品入荷のご案内",
+      target: "all",
+      targetText: "全員",
+      deliveryTiming: "scheduled",
+      scheduledDate: today,
+      time: formatTime(tenMinutesLater),
+      message: "お待たせいたしました！人気の新商品が本日入荷しました。数量限定となっておりますので、お早めにご来店ください。",
+      createdAt: "2025-11-05",
+      status: "配信予約中",
+    },
+  ];
+}
 
 // Mock scenario data
 const MOCK_SCENARIOS = [
@@ -6101,9 +6192,8 @@ const MOCK_SCENARIOS = [
 
 // Initialize mock broadcast data
 function initializeBroadcastData() {
-  if (!localStorage.getItem("mockBroadcasts")) {
-    localStorage.setItem("mockBroadcasts", JSON.stringify(MOCK_BROADCASTS));
-  }
+  // 常に最新のリアルタイムダミーデータを生成（テスト用）
+  localStorage.setItem("mockBroadcasts", JSON.stringify(generateMockBroadcasts()));
 }
 
 // Initialize mock scenario data
@@ -6254,7 +6344,22 @@ function createNewBroadcast() {
   const month = String(today.getMonth() + 1).padStart(2, "0");
   const day = String(today.getDate()).padStart(2, "0");
   document.getElementById("broadcast-date").value = `${year}-${month}-${day}`;
-  document.getElementById("broadcast-time").value = "09:00";
+
+  // Update date minimum and time options
+  updateBroadcastDateMin();
+  initializeBroadcastTimeSelect();
+
+  // Add event listener for date change to update time options
+  const dateInput = document.getElementById("broadcast-date");
+  if (dateInput) {
+    // Remove existing listeners by cloning
+    const newDateInput = dateInput.cloneNode(true);
+    dateInput.parentNode.replaceChild(newDateInput, dateInput);
+
+    newDateInput.addEventListener("change", () => {
+      initializeBroadcastTimeSelect();
+    });
+  }
 
   selectedBroadcastTags.clear();
 }
@@ -6320,11 +6425,47 @@ function previewStepMessage(stepIndex, messageIndex) {
   modal.style.display = "flex";
 }
 
+// Check if broadcast can be edited or deleted based on scheduled time
+function canEditOrDeleteBroadcast(broadcast, action) {
+  // deliveryTiming が scheduled でない場合は制限なし
+  if (broadcast.deliveryTiming !== "scheduled" || !broadcast.scheduledDate) {
+    return { allowed: true };
+  }
+
+  // 配信日時を構築
+  const scheduledDateTime = new Date(broadcast.scheduledDate + " " + broadcast.time);
+  const now = new Date();
+  const fiveMinsBefore = new Date(scheduledDateTime.getTime() - 5 * 60 * 1000);
+  const fiveMinsAfter = new Date(scheduledDateTime.getTime() + 5 * 60 * 1000);
+
+  // 現在時刻が配信日時の前後5分間内かチェック
+  if (now >= fiveMinsBefore && now <= fiveMinsAfter) {
+    let message;
+    if (now < scheduledDateTime) {
+      message = action === "edit" ? "開始五分前のため編集できません" : "開始五分前のため削除できません";
+    } else {
+      message = action === "edit" ? "配信開始後のため編集できません" : "配信開始後のため削除できません";
+    }
+    return { allowed: false, message };
+  }
+
+  return { allowed: true };
+}
+
 // Edit broadcast
 function editBroadcast(id) {
   const broadcasts = getMockBroadcasts();
   const broadcast = broadcasts.find((b) => b.id === id);
   if (!broadcast) return;
+
+  // 配信予約中の場合、配信日時の前後5分間はブロック
+  if (broadcast.status === "配信予約中") {
+    const check = canEditOrDeleteBroadcast(broadcast, "edit");
+    if (!check.allowed) {
+      alert(check.message);
+      return;
+    }
+  }
 
   // 配信完了の場合はコピーモード（新規作成として扱う）
   const isCopyMode = broadcast.status === "配信完了";
@@ -6354,14 +6495,41 @@ function editBroadcast(id) {
       broadcast.scheduledDate || "";
     document.getElementById("broadcast-time").value = broadcast.time || "09:00";
   }
+
+  // Update date minimum and time options
+  updateBroadcastDateMin();
+  initializeBroadcastTimeSelect();
+
+  // Add event listener for date change to update time options
+  const dateInput = document.getElementById("broadcast-date");
+  if (dateInput) {
+    // Remove existing listeners by cloning
+    const newDateInput = dateInput.cloneNode(true);
+    dateInput.parentNode.replaceChild(newDateInput, dateInput);
+
+    newDateInput.addEventListener("change", () => {
+      initializeBroadcastTimeSelect();
+    });
+  }
 }
 
 // Delete broadcast
 function deleteBroadcast(id) {
+  const broadcasts = getMockBroadcasts();
+  const broadcast = broadcasts.find((b) => b.id === id);
+
+  // 配信予約中の場合、配信日時の前後5分間はブロック
+  if (broadcast && broadcast.status === "配信予約中") {
+    const check = canEditOrDeleteBroadcast(broadcast, "delete");
+    if (!check.allowed) {
+      alert(check.message);
+      return;
+    }
+  }
+
   if (!confirm("この一斉配信を削除しますか?")) return;
-  let broadcasts = getMockBroadcasts();
-  broadcasts = broadcasts.filter((b) => b.id !== id);
-  saveMockBroadcasts(broadcasts);
+  const updatedBroadcasts = broadcasts.filter((b) => b.id !== id);
+  saveMockBroadcasts(updatedBroadcasts);
   renderBroadcastList();
 }
 
