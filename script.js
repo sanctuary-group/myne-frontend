@@ -993,14 +993,14 @@ function initializeBroadcastTimeSelect() {
   const options = [];
   for (let hour = 0; hour < 24; hour++) {
     for (let minute = 0; minute < 60; minute += 5) {
-      const hourStr = String(hour).padStart(2, '0');
-      const minuteStr = String(minute).padStart(2, '0');
+      const hourStr = String(hour).padStart(2, "0");
+      const minuteStr = String(minute).padStart(2, "0");
       const timeValue = `${hourStr}:${minuteStr}`;
       options.push(`<option value="${timeValue}">${timeValue}</option>`);
     }
   }
 
-  timeSelect.innerHTML = options.join('');
+  timeSelect.innerHTML = options.join("");
   timeSelect.value = "09:00"; // Set default value
 }
 
@@ -1836,8 +1836,10 @@ function initializeDefaultScenarioSelect() {
   // Generate options
   let options = '<option value="">初回メッセージなし</option>';
   scenarios.forEach((scenario) => {
-    const selected = scenario.id === currentDefault ? 'selected' : '';
-    options += `<option value="${scenario.id}" ${selected}>${escapeHtml(scenario.name)}</option>`;
+    const selected = scenario.id === currentDefault ? "selected" : "";
+    options += `<option value="${scenario.id}" ${selected}>${escapeHtml(
+      scenario.name
+    )}</option>`;
   });
 
   select.innerHTML = options;
@@ -1849,13 +1851,31 @@ function initializeDefaultScenarioSelect() {
   const newSelect = select.cloneNode(true);
   select.parentNode.replaceChild(newSelect, select);
 
-  newSelect.addEventListener('change', (e) => {
-    const value = e.target.value;
-    defaultScenarioId = value ? parseInt(value, 10) : null;
-    saveDefaultScenarioId();
+  // Dropdown change - only update preview, don't save
+  newSelect.addEventListener("change", (e) => {
     updateSelectedScenarioInfo();
-    renderScenarioList();
   });
+
+  // Button click - save the changes (remove old listener first)
+  const setButton = document.getElementById("set-default-scenario-btn");
+  if (setButton) {
+    const newButton = setButton.cloneNode(true);
+    setButton.parentNode.replaceChild(newButton, setButton);
+
+    newButton.addEventListener("click", () => {
+      const select = document.getElementById("default-scenario-select");
+      if (!select) return;
+
+      const value = select.value;
+      defaultScenarioId = value ? parseInt(value, 10) : null;
+      saveDefaultScenarioId();
+      updateSelectedScenarioInfo();
+      renderScenarioList();
+
+      // Show success message
+      alert("設定しました");
+    });
+  }
 }
 
 // Update selected scenario info display
@@ -1863,12 +1883,19 @@ function updateSelectedScenarioInfo() {
   const infoContainer = document.getElementById("selected-scenario-info");
   if (!infoContainer) return;
 
-  if (!defaultScenarioId) {
+  // Read from dropdown value for preview
+  const select = document.getElementById("default-scenario-select");
+  if (!select) return;
+
+  const selectedValue = select.value;
+  const previewScenarioId = selectedValue ? parseInt(selectedValue, 10) : null;
+
+  if (!previewScenarioId) {
     infoContainer.style.display = "none";
     return;
   }
 
-  const selectedScenario = scenarios.find((s) => s.id === defaultScenarioId);
+  const selectedScenario = scenarios.find((s) => s.id === previewScenarioId);
   if (!selectedScenario) {
     infoContainer.style.display = "none";
     return;
@@ -1889,7 +1916,6 @@ function updateSelectedScenarioInfo() {
     timingElement.textContent = getScenarioDeliverySummary(selectedScenario);
   }
 }
-
 
 function getScenarioDeliverySummary(scenario) {
   if (
@@ -1970,7 +1996,8 @@ function deleteScenario(id) {
 
   let confirmMessage = "このシナリオを削除しますか？";
   if (isDefaultScenario) {
-    confirmMessage = "このシナリオは初回メッセージに設定されています。\n削除すると初回メッセージの設定が解除されます。\n\n削除してもよろしいですか？";
+    confirmMessage =
+      "このシナリオは初回メッセージに設定されています。\n削除すると初回メッセージの設定が解除されます。\n\n削除してもよろしいですか？";
   }
 
   if (!confirm(confirmMessage)) return;
@@ -2898,7 +2925,7 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
   } else {
     // Ensure type compatibility for comparison
     const selectedTags = allTags.filter((tag) =>
-      userTagIds.some(id => String(id) === String(tag.id))
+      userTagIds.some((id) => String(id) === String(tag.id))
     );
 
     if (selectedTags.length === 0) {
@@ -4765,7 +4792,7 @@ function refreshTagDisplay(userId) {
   } else {
     // Ensure type compatibility for comparison
     const selectedTags = allTags.filter((tag) =>
-      userTagIds.some(id => String(id) === String(tag.id))
+      userTagIds.some((id) => String(id) === String(tag.id))
     );
 
     if (selectedTags.length === 0) {
@@ -4859,7 +4886,9 @@ function editUserTagsMode(userId) {
               ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
               : `background-color: ${tag.color};`;
             // Ensure type compatibility for comparison
-            const isChecked = userTagIds.some(id => String(id) === String(tag.id));
+            const isChecked = userTagIds.some(
+              (id) => String(id) === String(tag.id)
+            );
             return `
             <label class="tag-checkbox-item">
               <input type="checkbox" value="${tag.id}" ${
@@ -5054,7 +5083,9 @@ function initializeScenarioDetailPage() {
 
 // Handle scenario target type change (all or tags)
 function handleScenarioTargetChange(target) {
-  const tagSelectionArea = document.getElementById("scenario-tag-selection-area");
+  const tagSelectionArea = document.getElementById(
+    "scenario-tag-selection-area"
+  );
 
   if (target === "tags") {
     // タグで絞り込み選択時はタグ選択UIを表示
@@ -5087,8 +5118,12 @@ function initializeScenarioTargetSettings() {
   currentScenario.targetTagIds = Array.from(selectedScenarioTags);
 
   // Set radio button state
-  const radioAll = document.querySelector('input[name="scenario-target"][value="all"]');
-  const radioTags = document.querySelector('input[name="scenario-target"][value="tags"]');
+  const radioAll = document.querySelector(
+    'input[name="scenario-target"][value="all"]'
+  );
+  const radioTags = document.querySelector(
+    'input[name="scenario-target"][value="tags"]'
+  );
 
   if (currentScenario.targetType === "tags") {
     if (radioTags) radioTags.checked = true;
@@ -5346,7 +5381,10 @@ function saveScenarioChanges() {
   const scenarioToSave = normalizeScenarioData({
     ...currentScenario,
     targetType: currentScenario.targetType || "all",
-    targetTagIds: currentScenario.targetType === "tags" ? Array.from(selectedScenarioTags) : [],
+    targetTagIds:
+      currentScenario.targetType === "tags"
+        ? Array.from(selectedScenarioTags)
+        : [],
   });
 
   updateScenarioInLocalStorage(scenarioToSave);
@@ -6211,8 +6249,8 @@ function createNewBroadcast() {
   // Set default date to today
   const today = new Date();
   const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
   document.getElementById("broadcast-date").value = `${year}-${month}-${day}`;
   document.getElementById("broadcast-time").value = "09:00";
 
@@ -6306,7 +6344,8 @@ function editBroadcast(id) {
   ).checked = true;
   if (broadcast.deliveryTiming === "scheduled") {
     document.getElementById("scheduled-datetime-group").style.display = "block";
-    document.getElementById("broadcast-date").value = broadcast.scheduledDate || "";
+    document.getElementById("broadcast-date").value =
+      broadcast.scheduledDate || "";
     document.getElementById("broadcast-time").value = broadcast.time || "09:00";
   }
 }
