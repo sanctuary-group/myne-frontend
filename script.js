@@ -6223,7 +6223,9 @@ function renderBroadcastList() {
         broadcast.createdAt +
         '</td><td><button class="btn btn-outline btn-sm broadcast-edit-btn" onclick="editBroadcast(' +
         broadcast.id +
-        ')">編集</button> <button class="btn btn-secondary btn-sm" onclick="deleteBroadcast(' +
+        ')">' +
+        (broadcast.status === "配信完了" ? "コピー" : "編集") +
+        '</button> <button class="btn btn-secondary btn-sm" onclick="deleteBroadcast(' +
         broadcast.id +
         ')">削除</button></td></tr>'
       );
@@ -6323,10 +6325,14 @@ function editBroadcast(id) {
   const broadcasts = getMockBroadcasts();
   const broadcast = broadcasts.find((b) => b.id === id);
   if (!broadcast) return;
-  currentBroadcastId = id;
+
+  // 配信完了の場合はコピーモード（新規作成として扱う）
+  const isCopyMode = broadcast.status === "配信完了";
+  currentBroadcastId = isCopyMode ? null : id;
+
   navigateToPage("broadcast-detail");
   document.getElementById("broadcast-detail-title").textContent =
-    "一斉配信を編集";
+    isCopyMode ? "メッセージ登録" : "一斉配信を編集";
   document.getElementById("broadcast-title").value = broadcast.title || "";
   document.getElementById("broadcast-message").value = broadcast.message || "";
   document.querySelector(
@@ -6441,7 +6447,12 @@ function saveBroadcast() {
         : "09:00",
     message,
     createdAt: new Date().toISOString().split("T")[0],
-    status: deliveryTiming === "immediate" ? "配信完了" : "配信予約中",
+    // 新規作成・コピーの場合は常に配信予約中、編集の場合は配信タイミングで判断
+    status: currentBroadcastId
+      ? deliveryTiming === "immediate"
+        ? "配信完了"
+        : "配信予約中"
+      : "配信予約中",
   };
   let broadcasts = getMockBroadcasts();
   if (currentBroadcastId) {
