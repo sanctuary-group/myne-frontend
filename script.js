@@ -6015,11 +6015,15 @@ function generateMockBroadcasts() {
     return `${hours}:${minutes}`;
   };
 
-  // テストケース1: 3分後（5分前ブロックのテスト用）
-  const threeMinutesLater = new Date(now.getTime() + 3 * 60 * 1000);
+  // Helper to format date (YYYY-MM-DD)
+  const formatDate = (daysFromNow) => {
+    const date = new Date(now.getTime() + daysFromNow * 24 * 60 * 60 * 1000);
+    return date.toISOString().split("T")[0];
+  };
 
-  // テストケース2: 10分後（ブロック外、編集可能）
-  const tenMinutesLater = new Date(now.getTime() + 10 * 60 * 1000);
+  // 配信予約中の配信日を約1ヶ月後に設定
+  const scheduledDate1 = formatDate(28); // 28日後
+  const scheduledDate2 = formatDate(35); // 35日後
 
   return [
     {
@@ -6029,7 +6033,7 @@ function generateMockBroadcasts() {
       targetText: "全員",
       deliveryTiming: "immediate",
       message: "いつもご利用ありがとうございます。新商品が入荷しました！",
-      createdAt: "2025-10-15",
+      createdAt: today,
       status: "配信完了",
     },
     {
@@ -6039,11 +6043,11 @@ function generateMockBroadcasts() {
       targetText: "VIP顧客",
       selectedTags: [1],
       deliveryTiming: "scheduled",
-      scheduledDate: today,
-      time: formatTime(threeMinutesLater),
+      scheduledDate: scheduledDate1,
+      time: "10:00",
       message:
         "本日より3日間限定！VIP会員様だけの特別セールを開催いたします。対象商品が最大50%OFF。この機会をお見逃しなく！",
-      createdAt: "2025-10-10",
+      createdAt: today,
       status: "配信予約中",
     },
     {
@@ -6053,7 +6057,7 @@ function generateMockBroadcasts() {
       targetText: "全員",
       deliveryTiming: "immediate",
       message: "秋のキャンペーンを開始しました！",
-      createdAt: "2025-10-05",
+      createdAt: today,
       status: "配信完了",
     },
     {
@@ -6063,7 +6067,7 @@ function generateMockBroadcasts() {
       targetText: "全員",
       deliveryTiming: "immediate",
       message: "9月の活動報告をお送りします。",
-      createdAt: "2025-09-30",
+      createdAt: today,
       status: "配信完了",
     },
     {
@@ -6072,11 +6076,11 @@ function generateMockBroadcasts() {
       target: "all",
       targetText: "全員",
       deliveryTiming: "scheduled",
-      scheduledDate: today,
-      time: formatTime(tenMinutesLater),
+      scheduledDate: scheduledDate2,
+      time: "14:00",
       message:
         "お待たせいたしました！人気の新商品が本日入荷しました。数量限定となっておりますので、お早めにご来店ください。",
-      createdAt: "2025-11-05",
+      createdAt: today,
       status: "配信予約中",
     },
   ];
