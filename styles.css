@@ -3225,64 +3225,56 @@ input[type="datetime-local"]:focus {
 .preview-step-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
 .preview-step-item {
-  background: #f8f9fa;
+  background: #ffffff;
   border: 1px solid #e0e0e0;
-  border-left: 4px solid #00b900;
-  border-radius: 8px;
-  padding: 16px;
-  transition: box-shadow 0.2s;
+  border-left: 5px solid #00b900;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.preview-step-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
 }
 
 .preview-step-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #f0f0f0;
 }
 
 .preview-step-number {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   color: #00b900;
+  letter-spacing: 0.5px;
 }
 
 .preview-step-timing {
-  font-size: 13px;
-  color: #666;
-  background: #fff;
-  padding: 4px 12px;
-  border-radius: 12px;
-  border: 1px solid #e0e0e0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 6px 14px;
+  border-radius: 16px;
+  border: 1px solid #d0d0d0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .preview-step-body {
-  padding: 12px;
-  background: white;
-  border-radius: 6px;
-  border: 1px solid #f0f0f0;
-}
-
-.preview-step-message {
-  color: #333;
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 8px;
-  white-space: pre-wrap;
-}
-
-.preview-step-extra {
-  color: #666;
-  font-size: 12px;
-  font-style: italic;
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px dashed #e0e0e0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .preview-info {
@@ -3319,7 +3311,6 @@ input[type="datetime-local"]:focus {
   background: #fafafa;
   border-radius: 8px;
   padding: 20px;
-  min-height: 200px;
 }
 
 .message-preview-chat {

@@ -5386,15 +5386,26 @@ function showScenarioPreview() {
           let messagePreviewHtml =
             '<div class="empty-state-small"><p>メッセージが設定されていません</p></div>';
           if (messageCount > 0) {
-            const firstMessage = escapeHtml(messages[0].content || "");
-            const extraCount = messageCount - 1;
+            const messagesHtml = messages
+              .map(
+                (msg) => `
+              <div class="message message-sent">
+                <div class="message-content">
+                  <div class="message-text">${escapeHtml(
+                    msg.content || ""
+                  )}</div>
+                </div>
+              </div>
+            `
+              )
+              .join("");
+
             messagePreviewHtml = `
-            <div class="preview-step-message">${firstMessage}</div>
-            ${
-              extraCount > 0
-                ? `<div class="preview-step-extra">他${extraCount}件のメッセージ</div>`
-                : ""
-            }
+            <div class="message-preview-container">
+              <div class="message-preview-chat">
+                ${messagesHtml}
+              </div>
+            </div>
           `;
           }
 
