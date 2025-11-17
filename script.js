@@ -1058,7 +1058,11 @@ function initializeBroadcastTimeSelect() {
 }
 
 // Initialize step time select (5-minute intervals, with optional date restrictions)
-function initializeStepTimeSelect(selectId, daysInputId, defaultValue = "09:00") {
+function initializeStepTimeSelect(
+  selectId,
+  daysInputId,
+  defaultValue = "09:00"
+) {
   const timeSelect = document.getElementById(selectId);
   const daysInput = document.getElementById(daysInputId);
   if (!timeSelect) return;
@@ -1086,7 +1090,10 @@ function initializeStepTimeSelect(selectId, daysInputId, defaultValue = "09:00")
   for (let hour = 0; hour < 24; hour++) {
     for (let minute = 0; minute < 60; minute += 5) {
       // Skip times before minimum time if today
-      if (isToday && (hour < minHour || (hour === minHour && minute < minMinute))) {
+      if (
+        isToday &&
+        (hour < minHour || (hour === minHour && minute < minMinute))
+      ) {
         continue;
       }
 
@@ -1456,7 +1463,6 @@ navigateToPage = function (pageId) {
       initializeDefaultScenarioSelect();
       renderScenarioList();
       initializeScenarioModal();
-      initializeScenarioEditModal();
       break;
     case "data-management":
       initializeTagManagement();
@@ -1942,7 +1948,7 @@ function initializeDefaultScenarioSelect() {
   const currentDefault = defaultScenarioId;
 
   // Generate options
-  let options = '<option value="">初回メッセージなし</option>';
+  let options = '<option value="">配信するステップを選択</option>';
   scenarios.forEach((scenario) => {
     const selected = scenario.id === currentDefault ? "selected" : "";
     options += `<option value="${scenario.id}" ${selected}>${escapeHtml(
@@ -2219,244 +2225,6 @@ function updateTimingPreview() {
 
     previewDays.textContent = days;
     previewTime.textContent = time;
-  }
-}
-
-// Update timing preview function for edit modal
-function updateEditTimingPreview() {
-  const daysInput = document.getElementById("edit-scenario-days");
-  const timeInput = document.getElementById("edit-scenario-time");
-  const previewDays = document.getElementById("edit-preview-days");
-  const previewTime = document.getElementById("edit-preview-time");
-
-  if (daysInput && timeInput && previewDays && previewTime) {
-    const days = daysInput.value || "0";
-    const time = timeInput.value || "09:00";
-
-    previewDays.textContent = days;
-    previewTime.textContent = time;
-  }
-}
-
-// Scenario Edit Modal functionality
-let scenarioEditModalInitialized = false;
-let currentEditScenarioId = null;
-
-function initializeScenarioEditModal() {
-  if (scenarioEditModalInitialized) return;
-  scenarioEditModalInitialized = true;
-
-  const modal = document.getElementById("scenario-edit-modal");
-  const closeBtn = document.getElementById("scenario-edit-close-btn");
-  const cancelBtn = document.getElementById("scenario-edit-cancel-btn");
-  const saveBtn = document.getElementById("scenario-edit-save-btn");
-  const editDeliveryTimingRadios = document.querySelectorAll(
-    'input[name="editDeliveryTiming"]'
-  );
-
-  // Edit button event listeners
-  const editButtons = document.querySelectorAll(".scenario-edit-btn");
-  editButtons.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const scenarioRow = this.closest("tr");
-      if (scenarioRow) {
-        // Get scenario ID and find the scenario data
-        const scenarioId = scenarioRow.getAttribute("data-scenario-id");
-        const scenario = scenarios.find((s) => s.id == scenarioId);
-
-        if (scenario) {
-          // Navigate to scenario detail page instead of opening modal
-          showScenarioDetailPage(scenario);
-        } else {
-          // Fallback: create a scenario object from row attributes if not found in array
-          const fallbackScenario = {
-            id: scenarioId,
-            name: scenarioRow.getAttribute("data-scenario-name"),
-            createdAt: new Date().toLocaleDateString("ja-JP"),
-            steps: [],
-          };
-          showScenarioDetailPage(fallbackScenario);
-        }
-      }
-    });
-  });
-
-  // Close modal events
-  closeBtn.addEventListener("click", closeScenarioEditModal);
-  cancelBtn.addEventListener("click", closeScenarioEditModal);
-
-  // Close modal when clicking outside
-  modal.addEventListener("click", function (e) {
-    if (e.target === modal) {
-      closeScenarioEditModal();
-    }
-  });
-
-  // Delivery timing change handler
-  editDeliveryTimingRadios.forEach((radio) => {
-    radio.addEventListener("change", function () {
-      handleEditDeliveryTimingChange(this.value);
-    });
-  });
-
-  // Save scenario handler
-  saveBtn.addEventListener("click", handleScenarioUpdate);
-
-  // Initialize time select
-  initializeStepTimeSelect("edit-scenario-time", "edit-scenario-days", "09:00");
-
-  // Add input event listeners for real-time preview
-  const editDaysInput = document.getElementById("edit-scenario-days");
-  const editTimeInput = document.getElementById("edit-scenario-time");
-
-  if (editDaysInput) {
-    editDaysInput.addEventListener("input", function() {
-      updateEditTimingPreview();
-      // Update time select when days change (to restrict past times for 0 days)
-      initializeStepTimeSelect("edit-scenario-time", "edit-scenario-days", "09:00");
-    });
-  }
-  if (editTimeInput) {
-    editTimeInput.addEventListener("change", updateEditTimingPreview);
-  }
-}
-
-function openScenarioEditModal(scenarioCard) {
-  const modal = document.getElementById("scenario-edit-modal");
-
-  // Get scenario data from attributes
-  currentEditScenarioId = scenarioCard.getAttribute("data-scenario-id");
-  const scenarioName = scenarioCard.getAttribute("data-scenario-name");
-  const deliveryTiming = scenarioCard.getAttribute("data-delivery-timing");
-  const scheduledDays = scenarioCard.getAttribute("data-scheduled-days") || "0";
-  const scheduledTime =
-    scenarioCard.getAttribute("data-scheduled-time") || "09:00";
-
-  // Populate form with existing data
-  document.getElementById("edit-scenario-name").value = scenarioName;
-
-  // Set delivery timing
-  document.querySelector(
-    `input[name="editDeliveryTiming"][value="${deliveryTiming}"]`
-  ).checked = true;
-
-  // Initialize time select before setting value
-  initializeStepTimeSelect("edit-scenario-time", "edit-scenario-days", "09:00");
-
-  if (deliveryTiming === "scheduled") {
-    document.getElementById("edit-scenario-days").value = scheduledDays;
-    document.getElementById("edit-scenario-time").value = scheduledTime;
-    document.getElementById("edit-scheduled-group").style.display = "block";
-  } else {
-    document.getElementById("edit-scheduled-group").style.display = "none";
-  }
-
-  // Update preview
-  updateEditTimingPreview();
-
-  // Show modal
-  modal.style.display = "flex";
-
-  // Focus on scenario name input
-  setTimeout(() => {
-    document.getElementById("edit-scenario-name").focus();
-  }, 100);
-}
-
-function closeScenarioEditModal() {
-  const modal = document.getElementById("scenario-edit-modal");
-  modal.style.display = "none";
-  currentEditScenarioId = null;
-}
-
-function handleEditDeliveryTimingChange(timing) {
-  const scheduledGroup = document.getElementById("edit-scheduled-group");
-
-  if (timing === "scheduled") {
-    scheduledGroup.style.display = "block";
-    updateEditTimingPreview();
-  } else {
-    scheduledGroup.style.display = "none";
-  }
-}
-
-function handleScenarioUpdate() {
-  const scenarioName = document
-    .getElementById("edit-scenario-name")
-    .value.trim();
-  const deliveryTiming = document.querySelector(
-    'input[name="editDeliveryTiming"]:checked'
-  ).value;
-  const scheduledDays = document.getElementById("edit-scenario-days").value;
-  const scheduledTime = document.getElementById("edit-scenario-time").value;
-
-  // Validation
-  if (!scenarioName) {
-    alert("シナリオ名を入力してください");
-    return;
-  }
-
-  if (deliveryTiming === "scheduled") {
-    if (!scheduledDays || scheduledDays < 0 || scheduledDays > 30) {
-      alert("経過日数を0〜30日の範囲で指定してください");
-      return;
-    }
-    if (!scheduledTime) {
-      alert("配信時間を指定してください");
-      return;
-    }
-  }
-
-  // Update scenario object
-  const updatedScenario = {
-    id: currentEditScenarioId,
-    name: scenarioName,
-    deliveryTiming: deliveryTiming,
-    scheduledDays:
-      deliveryTiming === "scheduled" ? parseInt(scheduledDays) : null,
-    scheduledTime: deliveryTiming === "scheduled" ? scheduledTime : null,
-    updatedAt: new Date().toISOString(),
-  };
-
-  console.log("Updating scenario:", updatedScenario);
-
-  // Update the scenario card in the UI
-  updateScenarioCardInUI(updatedScenario);
-
-  // Show success message
-  let successMessage = `シナリオ「${scenarioName}」を更新しました！`;
-  if (deliveryTiming === "scheduled") {
-    successMessage += `\n配信タイミング: ステップ開始から${scheduledDays}日後の${scheduledTime}`;
-  }
-  alert(successMessage);
-
-  // Close modal
-  closeScenarioEditModal();
-
-  // Here you would typically send the data to the server
-}
-
-function updateScenarioCardInUI(scenario) {
-  const scenarioCard = document.querySelector(
-    `[data-scenario-id="${scenario.id}"]`
-  );
-  if (scenarioCard) {
-    // Update data attributes
-    scenarioCard.setAttribute("data-scenario-name", scenario.name);
-    scenarioCard.setAttribute("data-delivery-timing", scenario.deliveryTiming);
-
-    if (scenario.deliveryTiming === "scheduled") {
-      scenarioCard.setAttribute("data-scheduled-days", scenario.scheduledDays);
-      scenarioCard.setAttribute("data-scheduled-time", scenario.scheduledTime);
-    } else {
-      scenarioCard.removeAttribute("data-scheduled-days");
-      scenarioCard.removeAttribute("data-scheduled-time");
-    }
-
-    // Update visible elements
-    const nameElement = scenarioCard.querySelector(".scenario-header h3");
-
-    if (nameElement) nameElement.textContent = scenario.name;
   }
 }
 
@@ -5771,7 +5539,7 @@ function editStepTiming(index) {
     document.getElementById("step-days").value = step.days || 0;
     document.getElementById("step-time").value = step.time || "09:00";
     document.getElementById("step-scheduled-group").style.display = "block";
-    updateStepTimingPreview();
+    updateTimingPreview();
   } else {
     document.getElementById("step-scheduled-group").style.display = "none";
   }
@@ -5971,10 +5739,10 @@ function initializeStepTimingModal() {
   // Add event listener for days change to update time select
   const stepDaysInput = document.getElementById("step-days");
   if (stepDaysInput) {
-    stepDaysInput.addEventListener("input", function() {
+    stepDaysInput.addEventListener("input", function () {
       // Update time select when days change (to restrict past times for 0 days)
       initializeStepTimeSelect("step-time", "step-days", "09:00");
-      updateStepTimingPreview();
+      updateTimingPreview();
     });
   }
 
