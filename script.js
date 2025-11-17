@@ -1057,6 +1057,61 @@ function initializeBroadcastTimeSelect() {
   }
 }
 
+// Initialize step time select (5-minute intervals, with optional date restrictions)
+function initializeStepTimeSelect(selectId, daysInputId, defaultValue = "09:00") {
+  const timeSelect = document.getElementById(selectId);
+  const daysInput = document.getElementById(daysInputId);
+  if (!timeSelect) return;
+
+  // Check if days is 0 (same day delivery)
+  const days = daysInput ? parseInt(daysInput.value, 10) : null;
+  const isToday = days === 0;
+
+  // Calculate minimum time if today (current time + 5 minutes)
+  let minHour = 0;
+  let minMinute = 0;
+  if (isToday) {
+    const now = new Date();
+    const fiveMinutesLater = new Date(now.getTime() + 5 * 60 * 1000);
+    minHour = fiveMinutesLater.getHours();
+    minMinute = Math.ceil(fiveMinutesLater.getMinutes() / 5) * 5;
+    if (minMinute >= 60) {
+      minMinute = 0;
+      minHour += 1;
+    }
+  }
+
+  // Generate time options
+  const options = [];
+  for (let hour = 0; hour < 24; hour++) {
+    for (let minute = 0; minute < 60; minute += 5) {
+      // Skip times before minimum time if today
+      if (isToday && (hour < minHour || (hour === minHour && minute < minMinute))) {
+        continue;
+      }
+
+      const hourStr = String(hour).padStart(2, "0");
+      const minuteStr = String(minute).padStart(2, "0");
+      const timeValue = `${hourStr}:${minuteStr}`;
+      options.push(`<option value="${timeValue}">${timeValue}</option>`);
+    }
+  }
+
+  const currentValue = timeSelect.value;
+  timeSelect.innerHTML = options.join("");
+
+  if (
+    currentValue &&
+    options.some((opt) => opt.includes(`value="${currentValue}"`))
+  ) {
+    timeSelect.value = currentValue;
+  } else if (options.length > 0) {
+    timeSelect.value = options[0].match(/value="([^"]+)"/)[1];
+  } else {
+    timeSelect.value = defaultValue;
+  }
+}
+
 // Handle broadcast delivery timing change
 function handleBroadcastDeliveryTimingChange(timing) {
   const scheduledDatetimeGroup = document.getElementById(
@@ -2247,15 +2302,22 @@ function initializeScenarioEditModal() {
   // Save scenario handler
   saveBtn.addEventListener("click", handleScenarioUpdate);
 
+  // Initialize time select
+  initializeStepTimeSelect("edit-scenario-time", "edit-scenario-days", "09:00");
+
   // Add input event listeners for real-time preview
   const editDaysInput = document.getElementById("edit-scenario-days");
   const editTimeInput = document.getElementById("edit-scenario-time");
 
   if (editDaysInput) {
-    editDaysInput.addEventListener("input", updateEditTimingPreview);
+    editDaysInput.addEventListener("input", function() {
+      updateEditTimingPreview();
+      // Update time select when days change (to restrict past times for 0 days)
+      initializeStepTimeSelect("edit-scenario-time", "edit-scenario-days", "09:00");
+    });
   }
   if (editTimeInput) {
-    editTimeInput.addEventListener("input", updateEditTimingPreview);
+    editTimeInput.addEventListener("change", updateEditTimingPreview);
   }
 }
 
@@ -2277,6 +2339,9 @@ function openScenarioEditModal(scenarioCard) {
   document.querySelector(
     `input[name="editDeliveryTiming"][value="${deliveryTiming}"]`
   ).checked = true;
+
+  // Initialize time select before setting value
+  initializeStepTimeSelect("edit-scenario-time", "edit-scenario-days", "09:00");
 
   if (deliveryTiming === "scheduled") {
     document.getElementById("edit-scenario-days").value = scheduledDays;
@@ -5699,6 +5764,9 @@ function editStepTiming(index) {
     timingRadio.checked = true;
   }
 
+  // Initialize time select before setting value
+  initializeStepTimeSelect("step-time", "step-days", "09:00");
+
   if (step.timing === "scheduled") {
     document.getElementById("step-days").value = step.days || 0;
     document.getElementById("step-time").value = step.time || "09:00";
@@ -5897,6 +5965,19 @@ function initializeStepTimingModal() {
     });
   });
 
+  // Initialize time select
+  initializeStepTimeSelect("step-time", "step-days", "09:00");
+
+  // Add event listener for days change to update time select
+  const stepDaysInput = document.getElementById("step-days");
+  if (stepDaysInput) {
+    stepDaysInput.addEventListener("input", function() {
+      // Update time select when days change (to restrict past times for 0 days)
+      initializeStepTimeSelect("step-time", "step-days", "09:00");
+      updateStepTimingPreview();
+    });
+  }
+
   // Add step handler
   addBtn.addEventListener("click", handleStepAdd);
 }
@@ -5926,7 +6007,10 @@ function openStepTimingModal() {
     'input[name="stepDeliveryTiming"][value="immediate"]'
   ).checked = true;
   document.getElementById("step-days").value = "0";
-  document.getElementById("step-time").value = "09:00";
+
+  // Initialize time select before setting value
+  initializeStepTimeSelect("step-time", "step-days", "09:00");
+
   document.getElementById("step-scheduled-group").style.display = "none";
 
   // Reset button text
