@@ -1763,6 +1763,41 @@ function escapeHtml(text) {
   return div.innerHTML;
 }
 
+/**
+ * 全角文字幅を考慮してテキストを省略する
+ * 全角文字(日本語、中国語など)を2文字分、半角文字を1文字分としてカウント
+ * @param {string} text - 省略するテキスト
+ * @param {number} maxWidth - 最大全角文字幅 (デフォルト: 20)
+ * @returns {string} 省略されたテキスト(必要に応じて"..."付き)
+ */
+function truncateByFullWidth(text, maxWidth = 20) {
+  if (!text) return text;
+
+  let currentWidth = 0;
+  let truncatedText = '';
+
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+    const charCode = char.charCodeAt(0);
+
+    // 全角文字の判定: 日本語(ひらがな、カタカナ、漢字)、中国語、韓国語、全角記号
+    // 範囲: 0x3000-0x9FFF (CJK), 0xFF00-0xFFEF (全角形式)
+    const isFullWidth = (charCode >= 0x3000 && charCode <= 0x9FFF) ||
+                       (charCode >= 0xFF00 && charCode <= 0xFFEF);
+
+    const charWidth = isFullWidth ? 2 : 1;
+
+    if (currentWidth + charWidth > maxWidth) {
+      return truncatedText + '...';
+    }
+
+    truncatedText += char;
+    currentWidth += charWidth;
+  }
+
+  return truncatedText;
+}
+
 // Scenario Management
 let currentScenario = null;
 let scenarios = [];
@@ -2082,7 +2117,7 @@ function getScenarioTargetSummary(scenario) {
     return "タグ未選択";
   }
 
-  return tagNames.join(", ");
+  return truncateByFullWidth(tagNames.join(", "), 20);
 }
 
 function formatScenarioStepTiming(step) {
@@ -5200,7 +5235,7 @@ function showScenarioPreview() {
         .filter(Boolean)
         .map((tag) => tag.name);
       tagsElement.textContent =
-        tagNames.length > 0 ? tagNames.join(", ") : "未選択";
+        tagNames.length > 0 ? truncateByFullWidth(tagNames.join(", "), 20) : "未選択";
     }
   }
 
@@ -6462,7 +6497,7 @@ function saveBroadcast() {
     const selectedTagNames = Array.from(selectedBroadcastTags)
       .map((tagId) => allTags.find((t) => t.id === tagId)?.name)
       .filter(Boolean);
-    targetText = selectedTagNames.join(", ");
+    targetText = truncateByFullWidth(selectedTagNames.join(", "), 20);
   }
   const broadcastData = {
     title: title || "(タイトルなし)",
@@ -6551,7 +6586,7 @@ function showBroadcastPreview() {
     const selectedTagNames = Array.from(selectedBroadcastTags)
       .map((tagId) => allTags.find((t) => t.id === tagId)?.name)
       .filter(Boolean);
-    targetText = "タグで絞り込み (" + selectedTagNames.join(", ") + ")";
+    targetText = "タグで絞り込み (" + truncateByFullWidth(selectedTagNames.join(", "), 20) + ")";
   }
   let timingText = "";
   if (deliveryTiming === "immediate") {
