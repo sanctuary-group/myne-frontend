@@ -1770,7 +1770,7 @@ let scenarioHasUnsavedChanges = false;
 let selectedScenarioTags = new Set();
 let originalScenario = null;
 let isNewScenario = false;
-let defaultScenarioId = null; // 初回メッセージとして設定されたシナリオのID
+let defaultScenarioId = null; // 設定中のステップのID
 
 // LocalStorage functions for scenarios
 function saveScenariosToLocalStorage() {
@@ -1889,7 +1889,7 @@ function renderScenarioList() {
       const deliverySummary = getScenarioDeliverySummary(scenario);
       const targetSummary = getScenarioTargetSummary(scenario);
       const isDefault = defaultScenarioId === scenario.id;
-      // ステータスを初回メッセージ設定に基づいて判定
+      // ステータスを設定中のステップに基づいて判定
       const statusText = isDefault ? "配信中" : "未配信";
       const statusClass = isDefault ? "status-active" : "status-inactive";
       return `
@@ -1901,7 +1901,7 @@ function renderScenarioList() {
             <span>${escapeHtml(scenario.name)}</span>
             ${
               isDefault
-                ? '<span class="badge-default-mini"><i class="fa-solid fa-envelope"></i> 初回メッセージ</span>'
+                ? '<span class="badge-default-mini"><i class="fa-solid fa-envelope"></i> 設定中</span>'
                 : ""
             }
           </div>
@@ -2111,7 +2111,7 @@ function deleteScenario(id) {
   let confirmMessage = "このシナリオを削除しますか？";
   if (isDefaultScenario) {
     confirmMessage =
-      "このシナリオは初回メッセージに設定されています。\n削除すると初回メッセージの設定が解除されます。\n\n削除してもよろしいですか？";
+      "このステップは設定中のステップとして登録されています。\n削除すると設定が解除されます。\n\n削除してもよろしいですか？";
   }
 
   if (!confirm(confirmMessage)) return;
