@@ -1823,7 +1823,7 @@ function truncateByFullWidth(text, maxWidth = 20) {
   if (!text) return text;
 
   let currentWidth = 0;
-  let truncatedText = '';
+  let truncatedText = "";
 
   for (let i = 0; i < text.length; i++) {
     const char = text[i];
@@ -1831,13 +1831,14 @@ function truncateByFullWidth(text, maxWidth = 20) {
 
     // 全角文字の判定: 日本語(ひらがな、カタカナ、漢字)、中国語、韓国語、全角記号
     // 範囲: 0x3000-0x9FFF (CJK), 0xFF00-0xFFEF (全角形式)
-    const isFullWidth = (charCode >= 0x3000 && charCode <= 0x9FFF) ||
-                       (charCode >= 0xFF00 && charCode <= 0xFFEF);
+    const isFullWidth =
+      (charCode >= 0x3000 && charCode <= 0x9fff) ||
+      (charCode >= 0xff00 && charCode <= 0xffef);
 
     const charWidth = isFullWidth ? 2 : 1;
 
     if (currentWidth + charWidth > maxWidth) {
-      return truncatedText + '...';
+      return truncatedText + "...";
     }
 
     truncatedText += char;
@@ -2250,16 +2251,18 @@ function initializeScenarioModal() {
 }
 
 function openScenarioModal() {
-  const modal = document.getElementById("scenario-modal");
-  modal.style.display = "flex";
+  // モーダルを開かず、直接シナリオを作成して詳細画面へ遷移
+  const newScenario = {
+    id: Date.now(),
+    name: "新規ステップ",
+    createdAt: new Date().toLocaleDateString("ja-JP"),
+    steps: [],
+    targetType: "tags",
+    targetTagIds: [],
+  };
 
-  // Reset form
-  document.getElementById("scenario-name").value = "";
-
-  // Focus on scenario name input
-  setTimeout(() => {
-    document.getElementById("scenario-name").focus();
-  }, 100);
+  const normalizedScenario = normalizeScenarioData(newScenario);
+  showScenarioDetailPage(normalizedScenario, { isNew: true });
 }
 
 function closeScenarioModal() {
@@ -2678,7 +2681,11 @@ async function loadIndividualPageUsers(filter = "all") {
       .map((user) => {
         // システム表示名が設定されていない場合はLINE名を表示
         const displayName = getUserSystemDisplayName(user.id, user.user_name);
-        const avatar = displayName.charAt(0);
+        // user.id === 1 の場合はプロフィール画像を表示
+        const avatarContent =
+          user.id === 1
+            ? `<img src="images/takaku.jpg" alt="${displayName}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`
+            : displayName.charAt(0);
 
         const isUnread = getUserReadStatus(user.id) === "unread";
         const unreadIndicator = isUnread
@@ -2727,7 +2734,7 @@ async function loadIndividualPageUsers(filter = "all") {
         }" onclick="selectFriend(${user.id}, '${user.user_name}', '${
           user.uuid
         }', '${user.created_at}', this)">
-          <div class="friend-avatar">${avatar}</div>
+          <div class="friend-avatar">${avatarContent}</div>
           <div class="friend-info">
             <div class="friend-name">${displayName}</div>
             <div class="last-message">
@@ -2804,7 +2811,14 @@ async function selectFriend(userId, userName, uuid, createdAt, friendElement) {
   // Set user info - システム表示名が設定されていない場合はLINE名を表示
   const displayName = getUserSystemDisplayName(userId, userName);
   if (chatUserName) chatUserName.textContent = displayName;
-  if (chatAvatar) chatAvatar.textContent = displayName.charAt(0);
+  // userId === 1 の場合はプロフィール画像を表示
+  if (chatAvatar) {
+    if (userId === 1) {
+      chatAvatar.innerHTML = `<img src="images/takaku.jpg" alt="${displayName}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+    } else {
+      chatAvatar.textContent = displayName.charAt(0);
+    }
+  }
 
   // Show loading state
   if (chatMessages) {
@@ -2869,11 +2883,7 @@ function updateUserInfo(userId, userName, uuid, createdAt) {
 
   // 仮データ（後でAPIから取得する想定）
   const lineName = userName; // LINE名（仮）
-  const stepDeliveries = [
-    "ウェルカムシーケンス",
-    "商品紹介ステップ",
-    "フォローアップステップ",
-  ]; // 送信したステップ配信のタイトル（仮）
+  const stepDeliveries = ["ウェルカムシーケンス"]; // 送信したステップ配信のタイトル（仮）
   const systemDisplayName = getUserSystemDisplayName(userId, userName); // システム表示名
 
   // ステップ配信のタイトルリストHTML生成
@@ -5289,7 +5299,9 @@ function showScenarioPreview() {
         .filter(Boolean)
         .map((tag) => tag.name);
       tagsElement.textContent =
-        tagNames.length > 0 ? truncateByFullWidth(tagNames.join(", "), 20) : "未選択";
+        tagNames.length > 0
+          ? truncateByFullWidth(tagNames.join(", "), 20)
+          : "未選択";
     }
   }
 
@@ -5362,6 +5374,21 @@ function saveScenarioChanges() {
       alert("配信先タグを1つ以上選択してください");
       return;
     }
+  }
+
+  // 確認ポップアップを表示
+  let confirmMessage;
+  const firstStep = currentScenario.steps && currentScenario.steps[0];
+  if (!firstStep || firstStep.timing === "immediate") {
+    confirmMessage =
+      "配信タイミング：ステップ開始直後\n\nこの内容で配信しますか？";
+  } else {
+    const days = firstStep.days || 0;
+    const time = firstStep.time || "09:00";
+    confirmMessage = `配信タイミング：ステップ開始から${days}日後 ${time}\n\nこの内容で配信しますか？`;
+  }
+  if (!confirm(confirmMessage)) {
+    return;
   }
 
   const scenarioToSave = normalizeScenarioData({
@@ -6545,6 +6572,24 @@ function saveBroadcast() {
   const deliveryTiming = document.querySelector(
     'input[name="deliveryTiming"]:checked'
   ).value;
+
+  // 確認ポップアップを表示
+  let confirmMessage;
+  if (deliveryTiming === "immediate") {
+    confirmMessage =
+      "配信タイミング：メッセージ登録後すぐ\n\nこの内容で配信しますか？";
+  } else {
+    const scheduledDate = document.getElementById("broadcast-date").value;
+    const scheduledTime = document.getElementById("broadcast-time").value;
+    const dateObj = new Date(scheduledDate);
+    const formattedDate = `${dateObj.getFullYear()}年${
+      dateObj.getMonth() + 1
+    }月${dateObj.getDate()}日 ${scheduledTime}`;
+    confirmMessage = `配信タイミング：${formattedDate}\n\nこの内容で配信しますか？`;
+  }
+  if (!confirm(confirmMessage)) {
+    return;
+  }
   let targetText = target === "all" ? "全員" : "タグ絞り込み";
   if (target === "tags" && selectedBroadcastTags.size > 0) {
     const allTags = getAllTags();
@@ -6640,7 +6685,10 @@ function showBroadcastPreview() {
     const selectedTagNames = Array.from(selectedBroadcastTags)
       .map((tagId) => allTags.find((t) => t.id === tagId)?.name)
       .filter(Boolean);
-    targetText = "タグで絞り込み (" + truncateByFullWidth(selectedTagNames.join(", "), 20) + ")";
+    targetText =
+      "タグで絞り込み (" +
+      truncateByFullWidth(selectedTagNames.join(", "), 20) +
+      ")";
   }
   let timingText = "";
   if (deliveryTiming === "immediate") {
