@@ -1266,7 +1266,7 @@ body {
 
 .individual-layout {
   display: grid;
-  grid-template-columns: 280px 2fr 280px;
+  grid-template-columns: 240px 2fr 240px;
   gap: 10px;
   height: calc(100vh - 100px);
   background: transparent;

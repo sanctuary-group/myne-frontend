@@ -266,6 +266,55 @@ const MOCK_MESSAGES = {
   ],
 };
 
+// 一斉配信・ステップ配信の共通ダミーメッセージ（全ユーザー共通）
+const MOCK_DELIVERY_MESSAGES = [
+  // 一斉配信メッセージ
+  {
+    id: 1001,
+    sender: "admin",
+    content: "いつもご利用ありがとうございます。新商品が入荷しました！",
+    timestamp: "2025-10-14 09:00",
+    type: "broadcast",
+  },
+  {
+    id: 1002,
+    sender: "admin",
+    content: "秋のキャンペーンを開始しました！対象商品が最大30%OFF。",
+    timestamp: "2025-10-13 12:00",
+    type: "broadcast",
+  },
+  // ステップ配信メッセージ
+  {
+    id: 2001,
+    sender: "admin",
+    content: "ご登録ありがとうございます！定期的にお得な情報をお届けします。",
+    timestamp: "2025-10-12 10:00",
+    type: "step",
+  },
+  {
+    id: 2002,
+    sender: "admin",
+    content: "当店のおすすめ商品をご紹介します。人気No.1は製品Aです！",
+    timestamp: "2025-10-13 10:00",
+    type: "step",
+  },
+  // ユーザーからの返信メッセージ
+  {
+    id: 3001,
+    sender: "user",
+    content: "新商品の情報ありがとうございます！詳しく教えてください。",
+    timestamp: "2025-10-14 10:30",
+    type: "individual",
+  },
+  {
+    id: 3002,
+    sender: "user",
+    content: "キャンペーン商品を購入したいです。",
+    timestamp: "2025-10-13 15:00",
+    type: "individual",
+  },
+];
+
 // LocalStorageからデータを読み込むか、初期データを設定
 function initializeMockData() {
   if (!localStorage.getItem("mockFriends")) {
@@ -2705,13 +2754,20 @@ async function loadIndividualPageUsers(filter = "all") {
 
 // Fetch messages for a specific user
 async function fetchMessages(userId) {
-  // モックデータを返す
-  const messages = getMockMessages(userId);
-  return messages.map((msg) => ({
+  // 個別メッセージを取得
+  const individualMessages = getMockMessages(userId);
+
+  // 配信メッセージと統合
+  const allMessages = [...individualMessages, ...MOCK_DELIVERY_MESSAGES];
+
+  // 時系列でソート（古い順）
+  allMessages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+  return allMessages.map((msg) => ({
     id: msg.id,
     user_id: userId,
     message: msg.content,
-    is_from_admin: msg.sender === "admin",
+    is_from_user: msg.sender === "user",
     created_at: msg.timestamp,
   }));
 }
@@ -3317,26 +3373,24 @@ function renderTagList(tags) {
 
 // Get all tags from localStorage
 function getAllTags() {
-  // モックデータと統合
-  const mockTags = getMockTags();
-  const customTags = localStorage.getItem("line_tags");
-  const parsedCustomTags = customTags ? JSON.parse(customTags) : [];
+  // LocalStorageからタグを取得
+  const savedTags = localStorage.getItem("line_tags");
 
-  // モックタグとカスタムタグをマージ（IDの重複を避ける）
-  const existingIds = mockTags.map((t) => t.id);
-  const filteredCustomTags = parsedCustomTags.filter(
-    (t) => !existingIds.includes(t.id)
-  );
+  // 初回起動時のみMOCK_TAGSを使用
+  if (!savedTags) {
+    // 初回はMOCK_TAGSを保存して返す
+    localStorage.setItem("line_tags", JSON.stringify(MOCK_TAGS));
+    return MOCK_TAGS;
+  }
 
-  return [...mockTags, ...filteredCustomTags];
+  // 2回目以降はLocalStorageから取得
+  return JSON.parse(savedTags);
 }
 
 // Save tags to localStorage
 function saveTags(tags) {
-  // モックタグを除外してカスタムタグのみ保存
-  const mockTagIds = MOCK_TAGS.map((t) => t.id);
-  const customTags = tags.filter((t) => !mockTagIds.includes(t.id));
-  localStorage.setItem("line_tags", JSON.stringify(customTags));
+  // すべてのタグを保存（デモデータも削除可能に）
+  localStorage.setItem("line_tags", JSON.stringify(tags));
 }
 
 // Get user tags from localStorage
@@ -3626,7 +3680,7 @@ function initializeUserTagSelection(userId) {
     tagSelectionContainer.innerHTML = `
       <div class="empty-state-small">
         <p>タグが作成されていません</p>
-        <p style="font-size: 12px; margin-top: 8px;">情報管理 > タグ管理 からタグを作成してください</p>
+        <p style="font-size: 12px; margin-top: 8px;">友だち情報管理 > タグ管理 からタグを作成してください</p>
       </div>
     `;
     if (saveButtonContainer) {
@@ -3891,7 +3945,7 @@ function initializeBroadcastTagSelection() {
     tagSelectionList.innerHTML = `
       <div class="empty-state-small">
         <p>タグが作成されていません</p>
-        <p style="font-size: 12px; margin-top: 8px;">情報管理 > タグ管理 からタグを作成してください</p>
+        <p style="font-size: 12px; margin-top: 8px;">友だち情報管理 > タグ管理 からタグを作成してください</p>
       </div>
     `;
     return;
@@ -5078,7 +5132,7 @@ function renderScenarioTagSelectionList() {
     tagSelectionList.innerHTML = `
       <div class="empty-state-small">
         <p>タグが作成されていません</p>
-        <p style="font-size: 12px; margin-top: 8px;">情報管理 > タグ管理 からタグを作成してください</p>
+        <p style="font-size: 12px; margin-top: 8px;">友だち情報管理 > タグ管理 からタグを作成してください</p>
       </div>
     `;
     updateScenarioSelectedTagsCount();
