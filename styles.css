@@ -1020,9 +1020,45 @@ body {
   justify-content: flex-start;
 }
 
-#settings-save-cancel-group {
+#settings-save-cancel-group,
+#line-settings-save-cancel-group {
   display: flex;
   gap: 10px;
+}
+
+/* File Input Wrapper */
+.file-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-input-hidden {
+  display: none;
+}
+
+.file-select-btn {
+  flex-shrink: 0;
+  padding: 4px 12px;
+  font-size: 13px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.file-select-btn:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.file-select-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.file-name-display {
+  color: #999;
+  font-size: 14px;
 }
 
 /* Step Delivery */

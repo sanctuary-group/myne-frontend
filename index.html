@@ -1418,6 +1418,90 @@
               </div>
             </div>
           </div>
+
+          <div class="card">
+            <h2 class="card-title">LINEアカウント設定</h2>
+            <div class="form-group">
+              <label class="form-label">名前</label>
+              <input
+                type="text"
+                id="line-account-name"
+                class="form-input"
+                value="名前を入力"
+                disabled
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label">プロフィール画像</label>
+              <div class="file-input-wrapper">
+                <input
+                  type="file"
+                  id="line-profile-image"
+                  class="file-input-hidden"
+                  accept="image/*"
+                  disabled
+                />
+                <button
+                  type="button"
+                  id="line-profile-image-btn"
+                  class="file-select-btn"
+                  disabled
+                >
+                  ファイルを選択
+                </button>
+                <span id="line-profile-image-name" class="file-name-display"
+                  >画像を選択</span
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">背景画像</label>
+              <div class="file-input-wrapper">
+                <input
+                  type="file"
+                  id="line-background-image"
+                  class="file-input-hidden"
+                  accept="image/*"
+                  disabled
+                />
+                <button
+                  type="button"
+                  id="line-background-image-btn"
+                  class="file-select-btn"
+                  disabled
+                >
+                  ファイルを選択
+                </button>
+                <span id="line-background-image-name" class="file-name-display"
+                  >画像を選択</span
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ステータスメッセージ</label>
+              <input
+                type="text"
+                id="line-status-message"
+                class="form-input"
+                value=""
+                placeholder="ステータスメッセージを入力"
+                disabled
+              />
+            </div>
+            <div class="settings-actions">
+              <button id="line-settings-edit-btn" class="btn btn-outline">
+                編集
+              </button>
+              <div id="line-settings-save-cancel-group" style="display: none">
+                <button id="line-settings-cancel-btn" class="btn btn-outline">
+                  キャンセル
+                </button>
+                <button id="line-settings-save-btn" class="btn btn-primary">
+                  保存
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </main>
     </div>

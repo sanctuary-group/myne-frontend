@@ -1286,7 +1286,7 @@ function initializeSettings() {
       saveCancelGroup.style.display = "none";
 
       // Show success message (simplified)
-      alert("設定を保存しました");
+      alert("アカウント設定を保存しました");
     });
   }
 
@@ -1302,6 +1302,121 @@ function initializeSettings() {
       passwordInput.disabled = true;
 
       // ボタンの表示を切り替え
+      editBtn.style.display = "inline-block";
+      saveCancelGroup.style.display = "none";
+    });
+  }
+}
+
+// LINE Settings functionality
+function initializeLineSettings() {
+  const nameInput = document.getElementById("line-account-name");
+  const profileImageInput = document.getElementById("line-profile-image");
+  const backgroundImageInput = document.getElementById("line-background-image");
+  const statusMessageInput = document.getElementById("line-status-message");
+  const editBtn = document.getElementById("line-settings-edit-btn");
+  const saveCancelGroup = document.getElementById(
+    "line-settings-save-cancel-group"
+  );
+  const saveBtn = document.getElementById("line-settings-save-btn");
+  const cancelBtn = document.getElementById("line-settings-cancel-btn");
+
+  // ファイル選択ボタンと表示用要素
+  const profileImageBtn = document.getElementById("line-profile-image-btn");
+  const profileImageName = document.getElementById("line-profile-image-name");
+  const backgroundImageBtn = document.getElementById("line-background-image-btn");
+  const backgroundImageName = document.getElementById("line-background-image-name");
+
+  // 元の値を保存する変数
+  let originalName = "";
+  let originalStatusMessage = "";
+
+  // ファイル選択ボタンのクリックイベント
+  if (profileImageBtn) {
+    profileImageBtn.addEventListener("click", function () {
+      profileImageInput.click();
+    });
+  }
+  if (backgroundImageBtn) {
+    backgroundImageBtn.addEventListener("click", function () {
+      backgroundImageInput.click();
+    });
+  }
+
+  // ファイル選択時の表示更新
+  if (profileImageInput) {
+    profileImageInput.addEventListener("change", function () {
+      if (this.files && this.files[0]) {
+        profileImageName.textContent = this.files[0].name;
+      } else {
+        profileImageName.textContent = "画像を選択";
+      }
+    });
+  }
+  if (backgroundImageInput) {
+    backgroundImageInput.addEventListener("change", function () {
+      if (this.files && this.files[0]) {
+        backgroundImageName.textContent = this.files[0].name;
+      } else {
+        backgroundImageName.textContent = "画像を選択";
+      }
+    });
+  }
+
+  // 編集ボタンのクリックイベント
+  if (editBtn) {
+    editBtn.addEventListener("click", function () {
+      originalName = nameInput.value;
+      originalStatusMessage = statusMessageInput.value;
+
+      nameInput.disabled = false;
+      profileImageInput.disabled = false;
+      backgroundImageInput.disabled = false;
+      statusMessageInput.disabled = false;
+      if (profileImageBtn) profileImageBtn.disabled = false;
+      if (backgroundImageBtn) backgroundImageBtn.disabled = false;
+
+      editBtn.style.display = "none";
+      saveCancelGroup.style.display = "flex";
+    });
+  }
+
+  // 保存ボタンのクリックイベント
+  if (saveBtn) {
+    saveBtn.addEventListener("click", function () {
+      console.log("Saving LINE settings...");
+
+      nameInput.disabled = true;
+      profileImageInput.disabled = true;
+      backgroundImageInput.disabled = true;
+      statusMessageInput.disabled = true;
+      if (profileImageBtn) profileImageBtn.disabled = true;
+      if (backgroundImageBtn) backgroundImageBtn.disabled = true;
+
+      editBtn.style.display = "inline-block";
+      saveCancelGroup.style.display = "none";
+
+      alert("LINEアカウント設定を保存しました");
+    });
+  }
+
+  // キャンセルボタンのクリックイベント
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", function () {
+      nameInput.value = originalName;
+      statusMessageInput.value = originalStatusMessage;
+      profileImageInput.value = "";
+      backgroundImageInput.value = "";
+      if (profileImageName) profileImageName.textContent = "画像を選択";
+      if (backgroundImageName) backgroundImageName.textContent = "画像を選択";
+
+      nameInput.disabled = true;
+      profileImageInput.disabled = true;
+      backgroundImageInput.disabled = true;
+      statusMessageInput.disabled = true;
+      if (profileImageBtn) profileImageBtn.disabled = true;
+      if (backgroundImageBtn) backgroundImageBtn.disabled = true;
+
       editBtn.style.display = "inline-block";
       saveCancelGroup.style.display = "none";
     });
@@ -1529,6 +1644,7 @@ navigateToPage = function (pageId) {
       break;
     case "settings":
       initializeSettings();
+      initializeLineSettings();
       break;
     case "dashboard":
       // Update stats from actual data, then animate
