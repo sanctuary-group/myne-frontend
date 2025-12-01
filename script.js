@@ -1312,8 +1312,6 @@ function initializeSettings() {
 function initializeLineSettings() {
   const nameInput = document.getElementById("line-account-name");
   const profileImageInput = document.getElementById("line-profile-image");
-  const backgroundImageInput = document.getElementById("line-background-image");
-  const statusMessageInput = document.getElementById("line-status-message");
   const editBtn = document.getElementById("line-settings-edit-btn");
   const saveCancelGroup = document.getElementById(
     "line-settings-save-cancel-group"
@@ -1324,22 +1322,14 @@ function initializeLineSettings() {
   // ファイル選択ボタンと表示用要素
   const profileImageBtn = document.getElementById("line-profile-image-btn");
   const profileImageName = document.getElementById("line-profile-image-name");
-  const backgroundImageBtn = document.getElementById("line-background-image-btn");
-  const backgroundImageName = document.getElementById("line-background-image-name");
 
   // 元の値を保存する変数
   let originalName = "";
-  let originalStatusMessage = "";
 
   // ファイル選択ボタンのクリックイベント
   if (profileImageBtn) {
     profileImageBtn.addEventListener("click", function () {
       profileImageInput.click();
-    });
-  }
-  if (backgroundImageBtn) {
-    backgroundImageBtn.addEventListener("click", function () {
-      backgroundImageInput.click();
     });
   }
 
@@ -1353,28 +1343,15 @@ function initializeLineSettings() {
       }
     });
   }
-  if (backgroundImageInput) {
-    backgroundImageInput.addEventListener("change", function () {
-      if (this.files && this.files[0]) {
-        backgroundImageName.textContent = this.files[0].name;
-      } else {
-        backgroundImageName.textContent = "画像を選択";
-      }
-    });
-  }
 
   // 編集ボタンのクリックイベント
   if (editBtn) {
     editBtn.addEventListener("click", function () {
       originalName = nameInput.value;
-      originalStatusMessage = statusMessageInput.value;
 
       nameInput.disabled = false;
       profileImageInput.disabled = false;
-      backgroundImageInput.disabled = false;
-      statusMessageInput.disabled = false;
       if (profileImageBtn) profileImageBtn.disabled = false;
-      if (backgroundImageBtn) backgroundImageBtn.disabled = false;
 
       editBtn.style.display = "none";
       saveCancelGroup.style.display = "flex";
@@ -1388,10 +1365,7 @@ function initializeLineSettings() {
 
       nameInput.disabled = true;
       profileImageInput.disabled = true;
-      backgroundImageInput.disabled = true;
-      statusMessageInput.disabled = true;
       if (profileImageBtn) profileImageBtn.disabled = true;
-      if (backgroundImageBtn) backgroundImageBtn.disabled = true;
 
       editBtn.style.display = "inline-block";
       saveCancelGroup.style.display = "none";
@@ -1404,18 +1378,12 @@ function initializeLineSettings() {
   if (cancelBtn) {
     cancelBtn.addEventListener("click", function () {
       nameInput.value = originalName;
-      statusMessageInput.value = originalStatusMessage;
       profileImageInput.value = "";
-      backgroundImageInput.value = "";
       if (profileImageName) profileImageName.textContent = "画像を選択";
-      if (backgroundImageName) backgroundImageName.textContent = "画像を選択";
 
       nameInput.disabled = true;
       profileImageInput.disabled = true;
-      backgroundImageInput.disabled = true;
-      statusMessageInput.disabled = true;
       if (profileImageBtn) profileImageBtn.disabled = true;
-      if (backgroundImageBtn) backgroundImageBtn.disabled = true;
 
       editBtn.style.display = "inline-block";
       saveCancelGroup.style.display = "none";
