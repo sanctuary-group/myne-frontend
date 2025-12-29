@@ -491,6 +491,9 @@ function setupEventListeners() {
       accountSelect.value = savedAccount;
     }
 
+    // localStorageから保存された名前でオプションを更新
+    updateAccountSelectOptions();
+
     accountSelect.addEventListener("change", handleAccountChange);
   }
 
@@ -566,13 +569,39 @@ function handleAccountChange(e) {
   navigateToPage(currentPage);
 }
 
-function getAccountName(accountId) {
-  const accountNames = {
-    account1: "メインアカウント",
-    account2: "サブアカウント",
-    account3: "テストアカウント",
+// アカウント名をlocalStorageに保存
+function saveAccountName(accountId, name) {
+  localStorage.setItem(`account_name_${accountId}`, name);
+}
+
+// localStorageからアカウント名を取得
+function getStoredAccountName(accountId) {
+  const storedName = localStorage.getItem(`account_name_${accountId}`);
+  if (storedName) return storedName;
+
+  const defaultNames = {
+    account1: "アカウントA",
+    account2: "アカウントB",
+    account3: "アカウントC",
   };
-  return accountNames[accountId] || accountId;
+  return defaultNames[accountId] || accountId;
+}
+
+// ヘッダーのセレクトボックスを更新
+function updateAccountSelectOptions() {
+  const accountSelect = document.getElementById("account-select");
+  if (!accountSelect) return;
+
+  ["account1", "account2", "account3"].forEach((accountId) => {
+    const option = accountSelect.querySelector(`option[value="${accountId}"]`);
+    if (option) {
+      option.textContent = getStoredAccountName(accountId);
+    }
+  });
+}
+
+function getAccountName(accountId) {
+  return getStoredAccountName(accountId);
 }
 
 function handleLogout() {
@@ -1326,6 +1355,13 @@ function initializeLineSettings() {
   // 元の値を保存する変数
   let originalName = "";
 
+  // 現在のアカウントの名前をlocalStorageから読み込んで表示
+  if (nameInput) {
+    const currentStoredName = getStoredAccountName(currentAccount);
+    nameInput.value = currentStoredName;
+    originalName = currentStoredName;
+  }
+
   // ファイル選択ボタンのクリックイベント
   if (profileImageBtn) {
     profileImageBtn.addEventListener("click", function () {
@@ -1361,7 +1397,20 @@ function initializeLineSettings() {
   // 保存ボタンのクリックイベント
   if (saveBtn) {
     saveBtn.addEventListener("click", function () {
-      console.log("Saving LINE settings...");
+      const newName = nameInput.value.trim();
+
+      if (!newName) {
+        alert("名前を入力してください");
+        return;
+      }
+
+      // 現在のアカウントの名前をlocalStorageに保存
+      saveAccountName(currentAccount, newName);
+
+      // ヘッダーのセレクトボックスを更新
+      updateAccountSelectOptions();
+
+      console.log(`Saving LINE settings for ${currentAccount}: ${newName}`);
 
       nameInput.disabled = true;
       profileImageInput.disabled = true;
