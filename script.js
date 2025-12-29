@@ -379,7 +379,7 @@ let allFilteredUsers = []; // Store all filtered users for pagination
 
 // Friend list management pagination
 let currentFriendListPage = 1;
-const friendListPerPage = 20;
+const friendListPerPage = 50;
 let totalFriendListPages = 1;
 let allFriendListUsers = []; // Store all users for pagination
 
@@ -1759,14 +1759,27 @@ handleLogin = function (e) {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  // Validate inputs
-  if (!validateRequired(email) || !validateRequired(password)) {
+  // 両方未入力チェック
+  if (!validateRequired(email) && !validateRequired(password)) {
     showError("メールアドレスとパスワードを入力してください");
     return;
   }
 
+  // メールアドレスのみ未入力チェック
+  if (!validateRequired(email)) {
+    showError("メールアドレスを入力してください");
+    return;
+  }
+
+  // メールアドレス形式チェック
   if (!validateEmail(email)) {
-    showError("有効なメールアドレスを入力してください");
+    showError("メールアドレスの形式が正しくありません");
+    return;
+  }
+
+  // パスワード未入力チェック
+  if (!validateRequired(password)) {
+    showError("パスワードを入力してください");
     return;
   }
 
