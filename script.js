@@ -371,6 +371,18 @@ let pendingVerificationEmail = null; // 認証待ちのメールアドレス
 let pendingResetEmail = null; // パスワードリセット待ちのメールアドレス
 let currentBroadcastStatusFilter = "配信予約中"; // Current broadcast status filter
 
+// Friends list pagination (1:1 chat)
+let currentFriendsPage = 1;
+const friendsPerPage = 20;
+let totalFriendsPages = 1;
+let allFilteredUsers = []; // Store all filtered users for pagination
+
+// Friend list management pagination
+let currentFriendListPage = 1;
+const friendListPerPage = 20;
+let totalFriendListPages = 1;
+let allFriendListUsers = []; // Store all users for pagination
+
 // DOM Elements
 const loginContainer = document.getElementById("login-container");
 const signupContainer = document.getElementById("signup-container");
@@ -1261,6 +1273,18 @@ function initializeIndividualSupport() {
       }
     });
   });
+
+  // Pagination buttons
+  const prevBtn = document.getElementById("friends-prev-btn");
+  const nextBtn = document.getElementById("friends-next-btn");
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", goToPrevFriendsPage);
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", goToNextFriendsPage);
+  }
 }
 
 function filterFriends(searchTerm) {
@@ -2756,7 +2780,7 @@ async function fetchUsers() {
 }
 
 // Load users and display in individual page
-async function loadIndividualPageUsers(filter = "all") {
+async function loadIndividualPageUsers(filter = "all", resetPage = true) {
   const friendsListContainer = document.querySelector(
     "#individual-page .friends-list"
   );
@@ -2764,6 +2788,11 @@ async function loadIndividualPageUsers(filter = "all") {
   if (!friendsListContainer) {
     console.error("Friends list container not found");
     return;
+  }
+
+  // Reset to page 1 when filter changes
+  if (resetPage) {
+    currentFriendsPage = 1;
   }
 
   // Show loading state
@@ -2797,6 +2826,7 @@ async function loadIndividualPageUsers(filter = "all") {
     if (users.length === 0) {
       friendsListContainer.innerHTML =
         '<div style="padding: 20px; text-align: center;">友だちが見つかりません</div>';
+      updateFriendsPagination(0);
       return;
     }
 
@@ -2810,7 +2840,18 @@ async function loadIndividualPageUsers(filter = "all") {
       })
     );
 
-    friendsListContainer.innerHTML = usersWithLastMessage
+    // Store all users for pagination
+    allFilteredUsers = usersWithLastMessage;
+
+    // Calculate pagination
+    totalFriendsPages = Math.ceil(allFilteredUsers.length / friendsPerPage);
+
+    // Get users for current page
+    const startIndex = (currentFriendsPage - 1) * friendsPerPage;
+    const endIndex = startIndex + friendsPerPage;
+    const pageUsers = allFilteredUsers.slice(startIndex, endIndex);
+
+    friendsListContainer.innerHTML = pageUsers
       .map((user) => {
         // システム表示名が設定されていない場合はLINE名を表示
         const displayName = getUserSystemDisplayName(user.id, user.user_name);
@@ -2885,11 +2926,132 @@ async function loadIndividualPageUsers(filter = "all") {
       `;
       })
       .join("");
+
+    // Update pagination UI
+    updateFriendsPagination(allFilteredUsers.length);
   } catch (error) {
     console.error("Error loading users:", error);
     friendsListContainer.innerHTML =
       '<div style="padding: 20px; text-align: center; color: red;">エラーが発生しました</div>';
   }
+}
+
+// Update friends pagination UI
+function updateFriendsPagination(totalUsers) {
+  const prevBtn = document.getElementById("friends-prev-btn");
+  const nextBtn = document.getElementById("friends-next-btn");
+  const currentPageSpan = document.getElementById("friends-current-page");
+
+  if (!prevBtn || !nextBtn || !currentPageSpan) return;
+
+  // Update current page display
+  currentPageSpan.textContent = currentFriendsPage;
+
+  // Update button states
+  prevBtn.disabled = currentFriendsPage <= 1;
+  nextBtn.disabled = currentFriendsPage >= totalFriendsPages || totalUsers === 0;
+}
+
+// Navigate to previous page
+function goToPrevFriendsPage() {
+  if (currentFriendsPage > 1) {
+    currentFriendsPage--;
+    renderFriendsPage();
+  }
+}
+
+// Navigate to next page
+function goToNextFriendsPage() {
+  if (currentFriendsPage < totalFriendsPages) {
+    currentFriendsPage++;
+    renderFriendsPage();
+  }
+}
+
+// Render current page of friends (without re-fetching data)
+function renderFriendsPage() {
+  const friendsListContainer = document.querySelector(
+    "#individual-page .friends-list"
+  );
+
+  if (!friendsListContainer || allFilteredUsers.length === 0) return;
+
+  const startIndex = (currentFriendsPage - 1) * friendsPerPage;
+  const endIndex = startIndex + friendsPerPage;
+  const pageUsers = allFilteredUsers.slice(startIndex, endIndex);
+
+  friendsListContainer.innerHTML = pageUsers
+    .map((user) => {
+      const displayName = getUserSystemDisplayName(user.id, user.user_name);
+      const avatarContent =
+        user.id === 1
+          ? `<img src="images/takaku.jpg" alt="${displayName}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`
+          : displayName.charAt(0);
+
+      const isUnread = getUserReadStatus(user.id) === "unread";
+      const unreadIndicator = isUnread
+        ? '<span class="unread-indicator"></span>'
+        : "";
+      const userBookmarked = isBookmarked(user.id);
+      const bookmarkIconHTML = userBookmarked
+        ? '<i class="friend-bookmark-icon fa-solid fa-bookmark"></i>'
+        : "";
+
+      let lastMessageContent = "";
+      let lastMessageTime = "";
+
+      if (user.latestMessage) {
+        lastMessageContent =
+          user.latestMessage.message.length > 30
+            ? user.latestMessage.message.substring(0, 30) + "..."
+            : user.latestMessage.message;
+
+        const lastMessageDate = new Date(user.latestMessage.created_at);
+        const today = new Date();
+        const isToday =
+          lastMessageDate.toDateString() === today.toDateString();
+
+        if (isToday) {
+          lastMessageTime = lastMessageDate.toLocaleString("ja-JP", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+        } else {
+          lastMessageTime = lastMessageDate.toLocaleString("ja-JP", {
+            month: "2-digit",
+            day: "2-digit",
+          });
+        }
+      } else {
+        lastMessageContent = "まだやりとりがありません";
+      }
+
+      return `
+      <div class="friend-item" data-user-id="${
+        user.id
+      }" onclick="selectFriend(${user.id}, '${user.user_name}', '${
+        user.uuid
+      }', '${user.created_at}', this)">
+        <div class="friend-avatar">${avatarContent}</div>
+        <div class="friend-info">
+          <div class="friend-name">${displayName}</div>
+          <div class="last-message">
+            <span class="message-preview">${lastMessageContent}</span>
+          </div>
+        </div>
+        ${
+          lastMessageTime
+            ? `<div class="friend-time">${lastMessageTime}</div>`
+            : ""
+        }
+        ${bookmarkIconHTML}
+        ${unreadIndicator}
+      </div>
+    `;
+    })
+    .join("");
+
+  updateFriendsPagination(allFilteredUsers.length);
 }
 
 // Fetch messages for a specific user
@@ -4602,14 +4764,33 @@ function initializeFriendListManagement() {
     });
   }
 
+  // Pagination buttons
+  const prevBtn = document.getElementById("friend-list-prev-btn");
+  const nextBtn = document.getElementById("friend-list-next-btn");
+
+  if (prevBtn && !prevBtn.dataset.initialized) {
+    prevBtn.dataset.initialized = "true";
+    prevBtn.addEventListener("click", goToPrevFriendListPage);
+  }
+
+  if (nextBtn && !nextBtn.dataset.initialized) {
+    nextBtn.dataset.initialized = "true";
+    nextBtn.addEventListener("click", goToNextFriendListPage);
+  }
+
   // Initial render
   renderFriendListTable();
 }
 
 // Render friend list table
-async function renderFriendListTable(searchTerm = "") {
+async function renderFriendListTable(searchTerm = "", resetPage = true) {
   const tbody = document.getElementById("friend-list-tbody");
   if (!tbody) return;
+
+  // Reset to page 1 when search term changes
+  if (resetPage) {
+    currentFriendListPage = 1;
+  }
 
   // Show loading state
   tbody.innerHTML =
@@ -4632,14 +4813,26 @@ async function renderFriendListTable(searchTerm = "") {
     if (filteredUsers.length === 0) {
       tbody.innerHTML =
         '<tr><td colspan="5" style="text-align: center; padding: 20px;">友だちが見つかりません</td></tr>';
+      updateFriendListPagination(0);
       return;
     }
+
+    // Store all users for pagination
+    allFriendListUsers = filteredUsers;
+
+    // Calculate pagination
+    totalFriendListPages = Math.ceil(allFriendListUsers.length / friendListPerPage);
+
+    // Get users for current page
+    const startIndex = (currentFriendListPage - 1) * friendListPerPage;
+    const endIndex = startIndex + friendListPerPage;
+    const pageUsers = allFriendListUsers.slice(startIndex, endIndex);
 
     // Get all tags
     const allTags = getAllTags();
 
     // Render table rows
-    tbody.innerHTML = filteredUsers
+    tbody.innerHTML = pageUsers
       .map((user) => {
         const formattedDate = new Date(user.created_at).toLocaleString(
           "ja-JP",
@@ -4685,11 +4878,99 @@ async function renderFriendListTable(searchTerm = "") {
       `;
       })
       .join("");
+
+    // Update pagination UI
+    updateFriendListPagination(allFriendListUsers.length);
   } catch (error) {
     console.error("Error loading friend list:", error);
     tbody.innerHTML =
       '<tr><td colspan="4" style="text-align: center; padding: 20px; color: red;">エラーが発生しました</td></tr>';
   }
+}
+
+// Update friend list pagination UI
+function updateFriendListPagination(totalUsers) {
+  const prevBtn = document.getElementById("friend-list-prev-btn");
+  const nextBtn = document.getElementById("friend-list-next-btn");
+  const currentPageSpan = document.getElementById("friend-list-current-page");
+
+  if (!prevBtn || !nextBtn || !currentPageSpan) return;
+
+  // Update current page display
+  currentPageSpan.textContent = currentFriendListPage;
+
+  // Update button states
+  prevBtn.disabled = currentFriendListPage <= 1;
+  nextBtn.disabled = currentFriendListPage >= totalFriendListPages || totalUsers === 0;
+}
+
+// Navigate to previous page (friend list management)
+function goToPrevFriendListPage() {
+  if (currentFriendListPage > 1) {
+    currentFriendListPage--;
+    renderFriendListPageOnly();
+  }
+}
+
+// Navigate to next page (friend list management)
+function goToNextFriendListPage() {
+  if (currentFriendListPage < totalFriendListPages) {
+    currentFriendListPage++;
+    renderFriendListPageOnly();
+  }
+}
+
+// Render current page of friend list (without re-fetching data)
+function renderFriendListPageOnly() {
+  const tbody = document.getElementById("friend-list-tbody");
+  if (!tbody || allFriendListUsers.length === 0) return;
+
+  const startIndex = (currentFriendListPage - 1) * friendListPerPage;
+  const endIndex = startIndex + friendListPerPage;
+  const pageUsers = allFriendListUsers.slice(startIndex, endIndex);
+
+  const allTags = getAllTags();
+
+  tbody.innerHTML = pageUsers
+    .map((user) => {
+      const formattedDate = new Date(user.created_at).toLocaleString("ja-JP", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      const systemDisplayName = getUserSystemDisplayName(user.id, user.user_name);
+
+      const userTagIds = getUserTags(user.id);
+      const userTags = allTags.filter((tag) => userTagIds.includes(tag.id));
+      const tagsHtml =
+        userTags.length > 0
+          ? userTags
+              .map((tag) => {
+                const isTransparent = tag.color === "transparent";
+                const styleAttr = isTransparent
+                  ? "background-color: transparent; border: 1px solid #ddd; color: #333;"
+                  : `background-color: ${tag.color};`;
+                return `<span class="tag-badge" style="${styleAttr}">${tag.name}</span>`;
+              })
+              .join(" ")
+          : '<span style="color: #999;">タグなし</span>';
+
+      return `
+      <tr class="friend-list-row">
+        <td class="friend-list-name">${user.user_name}</td>
+        <td class="friend-list-system-name">${systemDisplayName}</td>
+        <td class="friend-list-uuid">${user.uuid}</td>
+        <td class="friend-list-tags">${tagsHtml}</td>
+        <td class="friend-list-date">${formattedDate}</td>
+      </tr>
+    `;
+    })
+    .join("");
+
+  updateFriendListPagination(allFriendListUsers.length);
 }
 
 // ===== Memo Functions =====
