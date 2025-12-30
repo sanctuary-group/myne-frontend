@@ -847,7 +847,7 @@ function handlePasswordReset(e) {
   }
 
   if (!validateEmail(email)) {
-    showPasswordResetError("有効なメールアドレスを入力してください");
+    showPasswordResetError("メールアドレスの形式が正しくありません");
     return;
   }
 
@@ -935,8 +935,18 @@ function handleNewPassword(e) {
   const newPasswordBtn = document.getElementById("new-password-btn");
 
   // Validate inputs
-  if (!validateRequired(newPassword) || !validateRequired(confirmPassword)) {
+  if (!validateRequired(newPassword) && !validateRequired(confirmPassword)) {
+    showNewPasswordError("新しいパスワードとパスワード確認を入力してください");
+    return;
+  }
+
+  if (!validateRequired(newPassword)) {
     showNewPasswordError("新しいパスワードを入力してください");
+    return;
+  }
+
+  if (!validateRequired(confirmPassword)) {
+    showNewPasswordError("パスワード確認を入力してください");
     return;
   }
 
